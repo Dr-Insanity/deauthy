@@ -86,13 +86,13 @@ class deauthy:
             pos = 1
             sleep(5)
             for ifaces in if_nameindex():
-                print(f"\n{white}[{yellow}{pos}{white}] {white}{ifaces[1]}\r")
+                print(f"\n{white}[{yellow}{pos}{white}] {white}{ifaces[1]}\b")
                 pos += 1
             spinner.stop()
             spinner.succeed(f"{light_green} Done")
             return pos
         ifaces = gather_ifaces()
-        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {white}({yellow}1{red}-{yellow}{ifaces}{white})")
+        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue}){white}")
 
     class Appearance:
 
