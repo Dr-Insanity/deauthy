@@ -86,7 +86,7 @@ class deauthy:
             pos = 1
             sleep(5)
             for ifaces in if_nameindex():
-                print(f"\n{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
+                print(f"\n{white}[{yellow}{pos}{white}] {white}{ifaces[1]}\r")
                 pos += 1
             spinner.stop()
             spinner.succeed(f"{light_green} Done")
