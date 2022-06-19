@@ -28,7 +28,7 @@ from time import sleep
 # Namespaces are one honking great idea -- let's do more of those!
 
 white       = Fore.WHITE
-light_white = Fore.LIGHTWHITE_EX
+light_white = Fore.LIGHTBLACK_EX
 red         = Fore.RED
 yellow      = Fore.YELLOW
 light_green = Fore.LIGHTGREEN_EX
