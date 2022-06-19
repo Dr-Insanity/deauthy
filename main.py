@@ -79,7 +79,7 @@ class deauthy:
     def prompt_for_ifaces():
         clear()
 
-        @Halo(text=f'{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces\n', spinner='dots')
+        @Halo(text=f'{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots')
         def gather_ifaces():
             pos = 1
             for ifaces in if_nameindex():
