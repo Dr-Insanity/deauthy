@@ -1,6 +1,10 @@
-from os import system
+from os import geteuid
+from socket import if_nameindex
 from colorama import init, Fore, Back, Style
 from subprocess import DEVNULL, STDOUT, check_call
+from termcolor import colored
+from sys import exit
+from halo import Halo
 
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
@@ -22,8 +26,14 @@ from subprocess import DEVNULL, STDOUT, check_call
 # If the implementation is easy to explain, it may be a good idea.
 # Namespaces are one honking great idea -- let's do more of those!
 
-def DeAuThY():
-    return Fore.WHITE + "[" + Fore.RED + "D" + Fore.YELLOW + "e" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "u" + Fore.CYAN + "T" + Fore.BLUE + "h" + Fore.RED + "Y" + Fore.WHITE + "]"
+white       = Fore.WHITE
+red         = Fore.RED
+yellow      = Fore.YELLOW
+light_green = Fore.LIGHTGREEN_EX
+magenta     = Fore.MAGENTA
+cyan        = Fore.CYAN
+blue        = Fore.BLUE
+light_blue  = Fore.LIGHTBLUE_EX
 
 # config here
 class Config:
@@ -39,22 +49,47 @@ class Config:
         } 
     STATION = "8C:F5:A3:38:CC:73" # aka client mac address, the device you wish to deauthenticate
 
-def wut():
-    return Fore.WHITE + "[" + Fore.RED + "!" + Fore.WHITE + "]"
+def has_root():
+    return geteuid() == 0
 
-def huh():
-    return Fore.WHITE + "[" + Fore.LIGHTBLUE_EX + "?" + Fore.WHITE + "]"
+def clear():
+    check_call(["clear"])
 
-def hey():
-    return Fore.WHITE + "[" + Fore.LIGHTGREEN_EX + "+" + Fore.WHITE + "]"
 
 class deauthy:
-    """Main class for the methods"""
+    """Main class"""
+
+    @property
+    def DeAuThY():
+        """Prefix for most output coming from DeAuthy"""
+        return white + "[" + red + "D" + yellow + "e" + light_green + "A" + magenta + "u" + cyan + "T" + blue + "h" + red + "Y" + white + "]"
+
+    def inform(msg: str):
+        d_hey = white + "[" + light_green + "+" + white + "] "
+        print(deauthy.DeAuThY + d_hey + msg)
+
+    def prompt(question: str):
+        d_huh = white + "[" + light_blue + "?" + white + "] "
+        reply = input(deauthy.DeAuThY + d_huh + f"{question}> {red}")
+        return reply
+
+    def tell_issue(msg: str):
+        d_wut = white + "[" + red + "!" + white + "] "
+        print(deauthy.DeAuThY + d_wut + msg)
+
+    def prompt_for_ifaces():
+        clear()
+        pos = 1
+        with Halo(text=f'{deauthy.DeAuThY}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots'):
+            for ifaces in if_nameindex():
+                deauthy.inform()
+                print(f"{white}[{yellow}{pos}{white}] {white}{ifaces}")
+                pos += 1
 
     class Appearance:
 
         def printBanner():
-            print(Fore.RED + """
+            print(red + """
 
 ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
 ██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝
@@ -62,7 +97,7 @@ class deauthy:
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
 ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝                             
-            """ + Fore.LIGHTGREEN_EX + """
+            """ + light_green + """
 Time to kick off some assholes from yer net""")
             return True
 
@@ -93,7 +128,7 @@ Time to kick off some assholes from yer net""")
             out = check_call(["airmon-ng", "start", f"{Config.iface_no_mon}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class InterfaceMode:
-        def switch(mode: str):
+        def switch(card: str, mode: str):
             """
             Accepts either "monitor" or "managed"
             """
@@ -120,10 +155,11 @@ def main():
             deauthy.InterfaceMode.switch("managed")
             return
     
-    print(f"{DeAuThY()}{hey()} Hey! Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    deauthy.inform("Hey! Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
 
+    deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch("monitor")
-    method = input(f"{DeAuThY()}{huh()} Use given ESSID or the list of BSSIDs (BSSID / ESSID)> ")
+    method = deauthy.prompt("Use given ESSID or the list of BSSIDs (BSSID / ESSID)")
     if method == "BSSID":
         try:
             do_bssid_method()
@@ -135,6 +171,9 @@ def main():
         return
 
 try:
+    if not has_root():
+        deauthy.tell_issue("Please run as Root... Quitting!!")
+        exit(1)
     deauthy.Appearance.printBanner()
     main()
 except KeyboardInterrupt:
