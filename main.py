@@ -1,7 +1,7 @@
 from os import geteuid
 from socket import if_nameindex
 from colorama import init, Fore, Back, Style
-from subprocess import DEVNULL, STDOUT, check_call
+from subprocess import DEVNULL, STDOUT, check_call, Popen
 from termcolor import colored
 from sys import exit
 from halo import Halo
@@ -35,6 +35,9 @@ magenta     = Fore.MAGENTA
 cyan        = Fore.CYAN
 blue        = Fore.BLUE
 light_blue  = Fore.LIGHTBLUE_EX
+bold = '\033[1m'
+underline = '\033[4m'
+end = '\033[0m'
 
 # config here
 class Config:
@@ -65,28 +68,35 @@ class deauthy:
         return white + "[" + red + "D" + yellow + "e" + light_green + "A" + magenta + "u" + cyan + "T" + blue + "h" + red + "Y" + white + "]"
 
     def inform(msg: str):
-        d_hey = white + "[" + light_green + "+" + white + "] "
+        d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end} "
         print(deauthy.DeAuThY() + d_hey + msg)
 
     def prompt(question: str, ending_color=white):
-        d_huh = white + "[" + light_blue + "?" + white + "] "
-        reply = input(deauthy.DeAuThY() + d_huh + f"{question}{white}> {ending_color}")
+        d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end} "
+        reply = input(deauthy.DeAuThY() + d_huh + f"{question}{white}{bold}>{end} {ending_color}")
         return reply
 
     def tell_issue(msg: str):
-        d_wut = white + "[" + red + "!" + white + "] "
+        d_wut = white + f"{bold}[" + red + "!" + white + f"]{end} "
         print(deauthy.DeAuThY() + d_wut + msg)
+
+    def Chipset_Support_Check():
+        deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
+        for chipset_name in ["Atheros AR92", "Ralink RT3070", "Ralink RT3572", "Realtek 8187L", "Realtek RTL8812AU", "Atheros AR93"]:
+            out = Popen(["lspci", "|grep", "vfbngfnghhg"], stdout=DEVNULL, stderr=STDOUT)
+            print(str(out))
+
 
     def prompt_for_ifaces():
         clear()
         def gather_ifaces():
             pos = 1
             for ifaces in if_nameindex():
-                print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}\b")
+                print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
                 pos += 1
             return pos-1
         ifaces = gather_ifaces()
-        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
+        method = deauthy.prompt(f"Which {bold}wireless{end} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
 
     class Appearance:
 
