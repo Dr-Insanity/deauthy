@@ -79,17 +79,11 @@ class deauthy:
 
     def prompt_for_ifaces():
         clear()
-
-        spinner = Halo(spinner='dots')
         def gather_ifaces():
-            spinner.start()
             pos = 1
-            sleep(5)
             for ifaces in if_nameindex():
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}\b")
                 pos += 1
-            spinner.stop()
-            spinner.clear()
             return pos
         ifaces = gather_ifaces()
         method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
