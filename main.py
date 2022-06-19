@@ -96,7 +96,7 @@ class deauthy:
                 pos += 1
             return pos-1
         ifaces = gather_ifaces()
-        method = deauthy.prompt(f"Which {bold}wireless{end} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
+        method = deauthy.prompt(f"{light_white}Which {bold}wireless{end} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
 
     class Appearance:
 
