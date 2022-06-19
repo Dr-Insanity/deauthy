@@ -30,7 +30,7 @@ from time import sleep
 white       = Fore.WHITE
 light_white = Fore.LIGHTBLACK_EX
 red         = Fore.RED
-yellow      = Fore.YELLOW
+yellow      = Fore.LIGHTYELLOW_EX
 light_green = Fore.LIGHTGREEN_EX
 magenta     = Fore.MAGENTA
 cyan        = Fore.CYAN
