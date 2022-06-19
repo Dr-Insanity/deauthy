@@ -92,7 +92,7 @@ class deauthy:
             spinner.clear()
             return pos
         ifaces = gather_ifaces()
-        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})")
+        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
 
     class Appearance:
 
