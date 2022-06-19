@@ -89,7 +89,6 @@ class deauthy:
 
 
     def prompt_for_ifaces():
-        clear()
         def gather_ifaces():
             pos = 1
             for ifaces in if_nameindex():
@@ -102,6 +101,7 @@ class deauthy:
     class Appearance:
 
         def printBanner():
+            clear()
             print(red + """
 
 ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
