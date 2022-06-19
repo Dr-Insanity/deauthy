@@ -28,6 +28,7 @@ from time import sleep
 # Namespaces are one honking great idea -- let's do more of those!
 
 white       = Fore.WHITE
+light_white = Fore.LIGHTWHITE_EX
 red         = Fore.RED
 yellow      = Fore.YELLOW
 light_green = Fore.LIGHTGREEN_EX
@@ -68,16 +69,16 @@ class deauthy:
         return white + "[" + red + "D" + yellow + "e" + light_green + "A" + magenta + "u" + cyan + "T" + blue + "h" + red + "Y" + white + "]"
 
     def inform(msg: str):
-        d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end} "
+        d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end}{light_white} "
         print(deauthy.DeAuThY() + d_hey + msg)
 
     def prompt(question: str, ending_color=white):
-        d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end} "
+        d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
         reply = input(deauthy.DeAuThY() + d_huh + f"{question}{white}{bold}>{end} {ending_color}")
         return reply
 
     def tell_issue(msg: str):
-        d_wut = white + f"{bold}[" + red + "!" + white + f"]{end} "
+        d_wut = white + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
         print(deauthy.DeAuThY() + d_wut + msg)
 
     def Chipset_Support_Check():
