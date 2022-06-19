@@ -87,8 +87,9 @@ class deauthy:
             for ifaces in if_nameindex():
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
                 pos += 1
-        gather_ifaces()
-        method = deauthy.prompt("Which wire interface should be put into monitor mode? Enter corresponding number")
+                return pos
+        ifaces = gather_ifaces()
+        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {white}({yellow}1{red}-{yellow}{ifaces}{white})")
 
     class Appearance:
 
