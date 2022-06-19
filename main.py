@@ -59,28 +59,27 @@ def clear():
 class deauthy:
     """Main class"""
 
-    @property
     def DeAuThY():
         """Prefix for most output coming from DeAuthy"""
         return white + "[" + red + "D" + yellow + "e" + light_green + "A" + magenta + "u" + cyan + "T" + blue + "h" + red + "Y" + white + "]"
 
     def inform(msg: str):
         d_hey = white + "[" + light_green + "+" + white + "] "
-        print(deauthy.DeAuThY + d_hey + msg)
+        print(deauthy.DeAuThY() + d_hey + msg)
 
     def prompt(question: str):
         d_huh = white + "[" + light_blue + "?" + white + "] "
-        reply = input(deauthy.DeAuThY + d_huh + f"{question}> {red}")
+        reply = input(deauthy.DeAuThY() + d_huh + f"{question}> {red}")
         return reply
 
     def tell_issue(msg: str):
         d_wut = white + "[" + red + "!" + white + "] "
-        print(deauthy.DeAuThY + d_wut + msg)
+        print(deauthy.DeAuThY() + d_wut + msg)
 
     def prompt_for_ifaces():
         clear()
         pos = 1
-        with Halo(text=f'{deauthy.DeAuThY}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots'):
+        with Halo(text=f'{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots'):
             for ifaces in if_nameindex():
                 deauthy.inform()
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces}")
