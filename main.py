@@ -74,7 +74,7 @@ class deauthy:
 
     def prompt(question: str, ending_color=light_white):
         d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
-        reply = input(deauthy.DeAuThY() + d_huh + f"{question}{bold}>{end} {ending_color}")
+        reply = input(deauthy.DeAuThY() + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
         return reply
 
     def tell_issue(msg: str):
