@@ -80,7 +80,7 @@ class deauthy:
     def prompt_for_ifaces():
         clear()
         def gather_ifaces():
-            spinner = Halo(text=f'{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots')
+            spinner = Halo(text=f'\r{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots', )
             pos = 1
             spinner.start()
             sleep(5)
