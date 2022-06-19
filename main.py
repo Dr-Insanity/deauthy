@@ -80,7 +80,7 @@ class deauthy:
     def prompt_for_ifaces():
         clear()
 
-        spinner = Halo(text='', spinner='dots')
+        spinner = Halo(spinner='dots')
         def gather_ifaces():
             spinner.start()
             pos = 1
