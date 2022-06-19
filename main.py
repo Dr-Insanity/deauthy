@@ -66,13 +66,13 @@ class deauthy:
 
     def DeAuThY():
         """Prefix for most output coming from DeAuthy"""
-        return white + "[" + red + "D" + yellow + "e" + light_green + "A" + magenta + "u" + cyan + "T" + blue + "h" + red + "Y" + white + "]"
+        return white + "[" + red + "D" + yellow + "E" + light_green + "A" + magenta + "U" + cyan + "T" + blue + "H" + red + "Y" + white + "]"
 
     def inform(msg: str):
         d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end}{light_white} "
         print(deauthy.DeAuThY() + d_hey + msg)
 
-    def prompt(question: str, ending_color=white):
+    def prompt(question: str, ending_color=light_white):
         d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
         reply = input(deauthy.DeAuThY() + d_huh + f"{question}{white}{bold}>{end} {ending_color}")
         return reply
