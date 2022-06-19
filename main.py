@@ -81,7 +81,6 @@ class deauthy:
         pos = 1
         with Halo(text=f'{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots'):
             for ifaces in if_nameindex():
-                deauthy.inform()
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces}")
                 pos += 1
 
