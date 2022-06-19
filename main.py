@@ -68,9 +68,9 @@ class deauthy:
         d_hey = white + "[" + light_green + "+" + white + "] "
         print(deauthy.DeAuThY() + d_hey + msg)
 
-    def prompt(question: str):
+    def prompt(question: str, ending_color=white):
         d_huh = white + "[" + light_blue + "?" + white + "] "
-        reply = input(deauthy.DeAuThY() + d_huh + f"{question}> {red}")
+        reply = input(deauthy.DeAuThY() + d_huh + f"{question}{white}> {ending_color}")
         return reply
 
     def tell_issue(msg: str):
@@ -89,10 +89,10 @@ class deauthy:
                 print(f"\n{white}[{yellow}{pos}{white}] {white}{ifaces[1]}\b")
                 pos += 1
             spinner.stop()
-            spinner.succeed(f"{light_green} Done")
+            spinner.clear()
             return pos
         ifaces = gather_ifaces()
-        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue}){white}")
+        method = deauthy.prompt(f"Which wire interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})")
 
     class Appearance:
 
