@@ -5,6 +5,7 @@ from subprocess import DEVNULL, STDOUT, check_call
 from termcolor import colored
 from sys import exit
 from halo import Halo
+from time import sleep
 
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
@@ -82,6 +83,7 @@ class deauthy:
             spinner = Halo(text=f'{deauthy.DeAuThY()}{white}[{light_green}+{white}] Listing network interfaces', spinner='dots')
             pos = 1
             spinner.start()
+            sleep(5)
             for ifaces in if_nameindex():
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
                 pos += 1
