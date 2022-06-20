@@ -114,15 +114,17 @@ class deauthy:
                 exit(1)
 
     def prompt_for_ifaces():
+        cards = []
         def gather_ifaces():
             pos = 1
             for ifaces in if_nameindex():
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
+                cards.append(str(pos))
                 pos += 1
             return pos-1
         ifaces = gather_ifaces()
         try:
-            method = deauthy.prompt(f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
+            method = deauthy.prompt(f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", cards, yellow)
         except KeyboardInterrupt:
             print(" ")
             deauthy.inform(f"{light_green}{bold}Goodbye!\n{end}Exiting...")
@@ -175,9 +177,9 @@ Time to kick off some assholes from yer net""")
             Accepts either "monitor" or "managed"
             """
             def managed():
-                out = check_call(["airmon-ng", "stop", f"{Config.iface_no_mon}mon"], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["airmon-ng", "stop", f"{card}mon"], stdout=DEVNULL, stderr=STDOUT)
             def monitor():
-                out = check_call(["airmon-ng", "start", f"{Config.iface_no_mon}"], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["airmon-ng", "start", f"{card}"], stdout=DEVNULL, stderr=STDOUT)
             modes = {
                 "managed":managed,
                 "monitor":monitor,
@@ -199,10 +201,12 @@ def main():
     
     deauthy.inform(f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     deauthy.Chipset_Support_Check()
+    deauthy.inform(f"{white}Running as {light_green}{bold}Root{end}")
+    deauthy.inform(f"{bold}{light_green}Chipset is supported!{end}")
     deauthy.inform(f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     deauthy.prompt_for_ifaces()
-    deauthy.InterfaceMode.switch("monitor")
-    method = deauthy.prompt("Use given ESSID or the list of BSSIDs (BSSID / ESSID)")
+    deauthy.InterfaceMode.switch(card="", mode="monitor")
+    method = deauthy.prompt(question="Use given ESSID or the list of BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
     if method == "BSSID":
         try:
             do_bssid_method()
