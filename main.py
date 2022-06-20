@@ -99,7 +99,7 @@ class deauthy:
     def Chipset_Support_Check():
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
-            out = check_output(f"lspci | grep {chipset_name}", stdout=DEVNULL, stderr=STDOUT, shell=True)
+            out = check_output(f"lspci | grep {chipset_name}", shell=True)
             print(str(out))
             if out.stdout is None:
                 deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
