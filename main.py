@@ -1,9 +1,9 @@
-from os import geteuid
+from os import geteuid, execv
 from socket import if_nameindex
 from colorama import init, Fore, Back, Style
 from subprocess import DEVNULL, STDOUT, check_call, Popen
 from termcolor import colored
-from sys import exit
+from sys import exit, argv
 from halo import Halo
 from time import sleep
 
@@ -60,6 +60,11 @@ def has_root():
 def clear():
     check_call(["clear"])
 
+class CommandHandler:
+    supported_commands_debian_based_distros = [
+        "ifconfig",
+        "ls",
+    ]
 
 class deauthy:
     """Main class"""
@@ -72,10 +77,19 @@ class deauthy:
         d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end}{light_white} "
         print(deauthy.DeAuThY() + d_hey + msg)
 
-    def prompt(question: str, ending_color=light_white):
+    def prompt(question: str, allowed_replies: list[str], ending_color=white):
         d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
         reply = input(deauthy.DeAuThY() + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
-        return reply
+        if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
+            check_call(reply)
+            return None
+        elif reply.lower() in allowed_replies:
+            return reply
+        else:
+            deauthy.tell_issue(f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
+            deauthy.inform(f"{light_green}{bold}Restarting " + red + "D" + yellow + "E" + light_green + "A" + magenta + "U" + cyan + "T" + blue + "H" + red + "Y")
+            sleep(2) # enough time to read above line
+            execv(argv[0], argv)
 
     def tell_issue(msg: str):
         d_wut = white + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
@@ -168,7 +182,7 @@ def main():
             deauthy.InterfaceMode.switch("managed")
             return
     
-    deauthy.inform(f"{bold}{light_green} Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    deauthy.inform(f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     deauthy.inform(f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch("monitor")
@@ -185,7 +199,7 @@ def main():
 
 try:
     if not has_root():
-        deauthy.tell_issue("Please run as Root... Quitting!!")
+        deauthy.tell_issue(f"{bold}{red}Please run as Root... Quitting!!{end}")
         exit(1)
     deauthy.Appearance.printBanner()
     main()
