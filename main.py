@@ -97,8 +97,8 @@ class deauthy:
 
     def Chipset_Support_Check():
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
-        for chipset_name in ["Atheros AR92", "Ralink RT3070", "Ralink RT3572", "Realtek 8187L", "Realtek RTL8812AU", "Atheros AR93"]:
-            out = Popen(["lspci", "| grep", f'''"{chipset_name}"'''], stdout=DEVNULL, stderr=STDOUT)
+        for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
+            out = Popen(["lspci", "|grep", f'{chipset_name}'], stdout=DEVNULL, stderr=STDOUT)
             if out.stdout is None:
                 deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
                 deauthy.tell_issue(f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
