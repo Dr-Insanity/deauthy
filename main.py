@@ -103,7 +103,7 @@ class deauthy:
                 out = check_output(f"lspci | grep {chipset_name}", shell=True)
                 if chipset_name in out.decode():
                     put = out.decode('utf8', 'strict')
-                    print(put)
+                    return True
             except CalledProcessError:
                 deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
                 deauthy.tell_issue(f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
