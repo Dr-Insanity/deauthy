@@ -168,7 +168,7 @@ def main():
             deauthy.InterfaceMode.switch("managed")
             return
     
-    deauthy.inform("Hey! Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    deauthy.inform(f"{bold}{light_green} Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     deauthy.inform(f"{light_white}----===={bold}{white}[{end}{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)]{light_white}====----")
     deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch("monitor")
