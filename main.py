@@ -3,7 +3,7 @@ from socket import if_nameindex
 from colorama import init, Fore, Back, Style
 from subprocess import DEVNULL, STDOUT, check_call, Popen
 from termcolor import colored
-from sys import exit, argv
+from sys import exit, executable
 from halo import Halo
 from time import sleep
 
@@ -89,7 +89,7 @@ class deauthy:
             deauthy.tell_issue(f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
             deauthy.inform(f"{light_green}{bold}Restarting " + red + "D" + yellow + "E" + light_green + "A" + magenta + "U" + cyan + "T" + blue + "H" + red + "Y")
             sleep(2) # enough time to read above line
-            execv(argv[0], argv)
+            execv(executable, ['python3'])
 
     def tell_issue(msg: str):
         d_wut = white + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
