@@ -83,7 +83,8 @@ class deauthy:
         reply = input(deauthy.DeAuThY() + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
         if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
             check_call(reply)
-            return None
+            reply = deauthy.prompt(question, allowed_replies, ending_color)
+            return reply
         elif reply.lower() in allowed_replies:
             return reply
         else:
