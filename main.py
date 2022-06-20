@@ -98,17 +98,18 @@ class deauthy:
     def Chipset_Support_Check():
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["Atheros AR92", "Ralink RT3070", "Ralink RT3572", "Realtek 8187L", "Realtek RTL8812AU", "Atheros AR93"]:
-            out = Popen(["lspci", "|grep", "vfbngfnghhg"], stdout=DEVNULL, stderr=STDOUT)
+            out = Popen(["lspci", "|grep", chipset_name], stdout=DEVNULL, stderr=STDOUT)
             if out.stdout is None:
-                deauthy.tell_issue(f"{red}{bold} I'm so sorry!")
-                deauthy.tell_issue(f"{red}{bold} It seems your chipset is NOT SUPPORTED :/")
-                deauthy.tell_issue(f"{red}{bold} If you are very certain your chipset supports monitor mode and packet injection")
-                deauthy.tell_issue(f"{red}{bold} Please contribute to the project here by making an issue")
-                deauthy.tell_issue(f"{red}{bold} Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
+                deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
+                deauthy.tell_issue(f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
+                deauthy.tell_issue(f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
+                deauthy.tell_issue(f"{red}{bold}Please contribute to the project here by making an issue")
+                deauthy.tell_issue(f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
                 deauthy.inform(f"{red}{bold}Goodbye!\n{end}Exiting...")
                 exit(1)
-            put = out.stdout.read().decode('utf8', 'strict')
-            print(put)
+            elif not out.stdout is None:
+                put = out.stdout.read().decode('utf8', 'strict')
+                print(put)
 
 
     def prompt_for_ifaces():
