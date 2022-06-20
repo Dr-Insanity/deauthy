@@ -100,7 +100,7 @@ class deauthy:
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
             out = check_output(f"lspci | grep {chipset_name}", shell=True)
-            print(str(out))
+            print(out.decode())
             if out.stdout is None:
                 deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
                 deauthy.tell_issue(f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
@@ -109,8 +109,8 @@ class deauthy:
                 deauthy.tell_issue(f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
                 deauthy.inform(f"{red}{bold}Goodbye!\n{end}Exiting...")
                 exit(1)
-            elif not out.stdout is None:
-                put = out.stdout.read().decode('utf8', 'strict')
+            elif not out is None:
+                put = out.decode('utf8', 'strict')
                 print(put)
 
 
