@@ -43,6 +43,7 @@ end         = '\033[0m'
 
 # config here
 class Config:
+    prefix = f"!"
     iface_no_mon = "wlo1"
     iface_mon = "wlo1mon"
     ESSID = {"Internet":11} # <ESSID>:<It's channel>
@@ -67,14 +68,17 @@ class CommandHandler:
         "ls",
     ]
     own_commands = [
-        "!help",
+        f"{Config.prefix}help",
     ]
 
     class Own_Cmds:
         def d_help():
             print(f"""{white}{bold}[{end}{light_green}basic help page{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
 {light_white}- {light_green}help {light_white}-- {white}Views this message.
-""")
+""")    
+        handle_own_cmd = {
+            f"{Config.prefix}help":d_help
+        }
 
 class deauthy:
     """Main class"""
@@ -93,6 +97,10 @@ class deauthy:
         if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
             print(end)
             check_call(reply)
+            reply = deauthy.prompt(question, allowed_replies, ending_color)
+            return reply
+        elif reply in CommandHandler.own_commands:
+            CommandHandler.Own_Cmds.handle_own_cmd[reply]
             reply = deauthy.prompt(question, allowed_replies, ending_color)
             return reply
         elif reply.lower() in allowed_replies:
@@ -213,7 +221,7 @@ def main():
     deauthy.inform(f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     deauthy.Chipset_Support_Check()
     deauthy.inform(f"{white}Running as {light_green}{bold}Root{end}")
-    deauthy.inform(f"{bold}{light_green}Chipset is supported!{end}")
+    deauthy.inform(f"{bold}{white}Chipset is {light_green}supported!{end}")
     deauthy.inform(f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch(card="", mode="monitor")
@@ -230,7 +238,7 @@ def main():
 
 try:
     if not has_root():
-        deauthy.tell_issue(f"{bold}{red}Please run as Root... Quitting!!{end}")
+        deauthy.tell_issue(f"{bold}{red}Run it as root...{end}")
         exit(1)
     deauthy.Appearance.printBanner()
     main()
