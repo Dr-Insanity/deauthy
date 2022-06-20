@@ -73,9 +73,9 @@ class deauthy:
         """Prefix for most output coming from DeAuthy"""
         return white + "[" + red + "D" + yellow + "E" + light_green + "A" + magenta + "U" + cyan + "T" + blue + "H" + red + "Y" + white + "]"
 
-    def inform(msg: str):
+    def inform(msg: str, entire_color=light_white):
         d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end}{light_white} "
-        print(deauthy.DeAuThY() + d_hey + msg)
+        print(deauthy.DeAuThY() + d_hey + entire_color + msg)
 
     def prompt(question: str, allowed_replies: list[str], ending_color=white):
         d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
@@ -114,7 +114,7 @@ class deauthy:
             method = deauthy.prompt(f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
         except KeyboardInterrupt:
             print(" ")
-            deauthy.inform(f"{light_green}{bold} Goodbye!\nExiting...")
+            deauthy.inform(f"{light_green}{bold}Goodbye!\n{end}Exiting...")
             exit(0)
     class Appearance:
 
@@ -187,6 +187,7 @@ def main():
             return
     
     deauthy.inform(f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    deauthy.Chipset_Support_Check()
     deauthy.inform(f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch("monitor")
