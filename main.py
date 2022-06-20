@@ -100,8 +100,7 @@ class deauthy:
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
             out = check_output(f"lspci | grep {chipset_name}", shell=True)
-            print(out.decode())
-            if out.stdout is None:
+            if chipset_name not in out.decode():
                 deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
                 deauthy.tell_issue(f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
                 deauthy.tell_issue(f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
