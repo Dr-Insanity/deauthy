@@ -36,9 +36,9 @@ magenta     = Fore.MAGENTA
 cyan        = Fore.CYAN
 blue        = Fore.BLUE
 light_blue  = Fore.LIGHTBLUE_EX
-bold = '\033[1m'
-underline = '\033[4m'
-end = '\033[0m'
+bold        = '\033[1m'
+underline   = '\033[4m'
+end         = '\033[0m'
 
 # config here
 class Config:
@@ -169,7 +169,7 @@ def main():
             return
     
     deauthy.inform("Hey! Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
-
+    deauthy.inform(f"{light_white}----===={bold}{white}[{end}{red}Choose a wireless interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)]{light_white}====----")
     deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch("monitor")
     method = deauthy.prompt("Use given ESSID or the list of BSSIDs (BSSID / ESSID)")
