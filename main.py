@@ -69,15 +69,53 @@ class CommandHandler:
     ]
     own_commands = [
         f"{Config.prefix}help",
+        f"{Config.prefix}about",
+        f"{Config.prefix}repo",
     ]
 
     class Own_Cmds:
         def d_help():
-            print(f"""{white}{bold}[{end}{light_green}basic help page{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
+            print(
+                f"""
+{white}{bold}[{end}DeAuthy commands{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
 {light_white}- {light_green}help {light_white}-- {white}Views this message.
-""")    
+{light_white}- {light_green}repo {light_white}-- {white}Displays the link to deauthy's Github repository.
+{light_white}- {light_green}about {light_white}-- {white}Displays information about the project.
+                """)
+
+        def d_about():
+            print(
+                f"""{white}{bold}
+DeAuthy{end} {white}version: {light_white}Private Repository Version
+{white}
+Note: {light_white}Version numbers are gonna be set once this project is released.
+{white}{bold}
+Author:{end} {light_green}Dr-Insanity {white}(On Github)
+
+{bold}{red}Disclaimer{end}{white}:{red}
+I do not condone illegal activities.
+I discourage non-ethical use of my application.
+I only developed this program.
+Anything that you do with this application is not done by 
+me and therefore you're the only one responsible for any 
+damage you cause.
+By using this application, you fully understood and agreed 
+with what I just said and you understand you're on your
+own when you're charged or in a lawsuit, unless you got others rooting for you. 
+It won't be me.{end}
+                """)
+
+        def d_repo():
+            print(
+                f"""{white}{bold}
+DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy
+{end}
+                """)
+
         handle_own_cmd = {
-            f"{Config.prefix}help":d_help
+            f"{Config.prefix}help":d_help,
+            f"{Config.prefix}about":d_about,
+            f"{Config.prefix}repo":d_repo,
         }
 
 class deauthy:
