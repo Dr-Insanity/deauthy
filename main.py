@@ -169,7 +169,7 @@ def main():
             return
     
     deauthy.inform(f"{bold}{light_green} Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
-    deauthy.inform(f"{light_white}----===={bold}{white}[{end}{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)]{light_white}====----")
+    deauthy.inform(f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch("monitor")
     method = deauthy.prompt("Use given ESSID or the list of BSSIDs (BSSID / ESSID)")
