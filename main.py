@@ -66,6 +66,15 @@ class CommandHandler:
         "ifconfig",
         "ls",
     ]
+    own_commands = [
+        "!help",
+    ]
+
+    class Own_Cmds:
+        def d_help():
+            print(f"""{white}{bold}[{end}{light_green}basic help page{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
+{light_white}- {light_green}help {light_white}-- {white}Views this message.
+""")
 
 class deauthy:
     """Main class"""
@@ -82,6 +91,7 @@ class deauthy:
         d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
         reply = input(deauthy.DeAuThY() + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
         if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
+            print(end)
             check_call(reply)
             reply = deauthy.prompt(question, allowed_replies, ending_color)
             return reply
