@@ -110,8 +110,11 @@ class deauthy:
                 pos += 1
             return pos-1
         ifaces = gather_ifaces()
-        method = deauthy.prompt(f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
-
+        try:
+            method = deauthy.prompt(f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", yellow)
+        except KeyboardInterrupt:
+            deauthy.inform(f"{light_green}{bold} Goodbye!\nExiting...")
+            exit(0)
     class Appearance:
 
         def printBanner():
