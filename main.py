@@ -99,7 +99,8 @@ class deauthy:
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["Atheros AR92", "Ralink RT3070", "Ralink RT3572", "Realtek 8187L", "Realtek RTL8812AU", "Atheros AR93"]:
             out = Popen(["lspci", "|grep", "vfbngfnghhg"], stdout=DEVNULL, stderr=STDOUT)
-            print(str(out))
+            put = out.stdout.read().decode('utf8', 'strict')
+            print(put)
 
 
     def prompt_for_ifaces():
