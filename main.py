@@ -2,7 +2,7 @@ from os import geteuid, execv
 from socket import if_nameindex
 from tabnanny import check
 from colorama import init, Fore, Back, Style
-from subprocess import DEVNULL, STDOUT, check_call, check_output
+from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 from termcolor import colored
 from sys import exit, executable, argv
 from halo import Halo
@@ -99,8 +99,12 @@ class deauthy:
     def Chipset_Support_Check():
         deauthy.inform("Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
-            out = check_output(f"lspci | grep {chipset_name}", shell=True)
-            if chipset_name not in out.decode():
+            try:
+                out = check_output(f"lspci | grep {chipset_name}", shell=True)
+                if chipset_name in out.decode():
+                    put = out.decode('utf8', 'strict')
+                    print(put)
+            except CalledProcessError:
                 deauthy.tell_issue(f"{red}{bold}I'm so sorry!")
                 deauthy.tell_issue(f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
                 deauthy.tell_issue(f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
@@ -108,10 +112,6 @@ class deauthy:
                 deauthy.tell_issue(f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
                 deauthy.inform(f"{red}{bold}Goodbye!\n{end}Exiting...")
                 exit(1)
-            elif not out is None:
-                put = out.decode('utf8', 'strict')
-                print(put)
-
 
     def prompt_for_ifaces():
         def gather_ifaces():
