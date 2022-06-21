@@ -7,6 +7,7 @@ from termcolor import colored
 from sys import exit, executable, argv
 from halo import Halo
 from time import sleep
+from configparser import ConfigParser
 
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
@@ -41,6 +42,10 @@ bold        = '\033[1m'
 underline   = '\033[4m'
 end         = '\033[0m'
 
+conf = ConfigParser(empty_lines_in_values=False)
+conf.read("config/config.ini")
+print(conf['Deauthy Configuration']['Main App Configuration'])
+exit(0)
 # config here
 class Config:
     prefix = f"!"
