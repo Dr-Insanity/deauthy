@@ -44,7 +44,7 @@ end         = '\033[0m'
 
 conf = ConfigParser(empty_lines_in_values=False)
 conf.read("config/config.ini")
-print(conf['Deauthy Configuration']['Main App Configuration'])
+print(conf['Deauthy Configuration']['supported_chipsets'])
 exit(0)
 # config here
 class Config:
