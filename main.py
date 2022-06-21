@@ -44,8 +44,11 @@ end         = '\033[0m'
 
 conf = ConfigParser(empty_lines_in_values=False)
 conf.read("config/config.ini")
-print(conf['Deauthy Configuration']['supported_chipsets'])
-exit(0)
+e = list(conf['Main']['supported_chipsets'])
+
+for i in e:
+    print(i)
+
 # config here
 class Config:
     prefix = f"!"
