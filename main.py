@@ -87,7 +87,7 @@ class deauthy:
             return pos-1
         ifaces = gather_ifaces()
         try:
-            method = Terminal.prompt(self=Terminal, question=f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", cards, yellow)
+            method = Terminal.prompt(self=Terminal, question=f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", allowed_replies=cards, ending_color=yellow)
             selected_card = interfaces[method]
             return selected_card
         except KeyboardInterrupt:
