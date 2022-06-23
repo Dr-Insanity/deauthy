@@ -29,20 +29,19 @@ class Terminal:
     - `DeAuThY`
     """
 
-    def __init__(self):
-        self.white       = Fore.WHITE
-        self.light_white = Fore.LIGHTBLACK_EX
-        self.red         = Fore.RED
-        self.yellow      = Fore.LIGHTYELLOW_EX
-        self.light_green = Fore.LIGHTGREEN_EX
-        self.magenta     = Fore.MAGENTA
-        self.cyan        = Fore.CYAN
-        self.blue        = Fore.BLUE
-        self.light_blue  = Fore.LIGHTBLUE_EX
-        self.bold        = '\033[1m'
-        self.underline   = '\033[4m'
-        self.end         = '\033[0m'
-        self.deAuThY = self.white + "[" + self.red + "D" + self.yellow + "E" + self.light_green + "A" + self.magenta + "U" + self.cyan + "T" + self.blue + "H" + self.red + "Y" + self.white + "]"
+    White       = Fore.WHITE
+    Light_white = Fore.LIGHTBLACK_EX
+    Red         = Fore.RED
+    Yellow      = Fore.LIGHTYELLOW_EX
+    Light_green = Fore.LIGHTGREEN_EX
+    Magenta     = Fore.MAGENTA
+    Cyan        = Fore.CYAN
+    Blue        = Fore.BLUE
+    Light_blue  = Fore.LIGHTBLUE_EX
+    Bold        = '\033[1m'
+    Underline   = '\033[4m'
+    End         = '\033[0m'
+    DeAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
 
     def tell_issue(self, msg: str):
         d_wut = self.white + f"{self.bold}[" + self.red + "!" + self.white + f"]{self.end}{self.light_white} "
@@ -73,56 +72,3 @@ class Terminal:
                 self.tell_issue(f"{self.red}That's not a valid {self.bold}{self.red}reply{self.end}{self.red} :/")
                 reply = self.prompt(question=question, allowed_replies=allowed_replies)
                 return reply
-
-    @property
-    def End(self):
-        return self.end
-
-    @property
-    def Bold(self):
-        return self.bold
-
-    @property
-    def White(self):
-        return self.white
-
-    @property
-    def Light_green(self):
-        return self.light_green
-
-    @property
-    def Red(self):
-        return self.red
-
-    @property
-    def Light_white(self):
-        return self.light_white
-
-    @property
-    def Yellow(self):
-        return self.yellow
-
-    @property
-    def Light_blue(self):
-        return self.light_blue
-
-    @property
-    def Magenta(self):
-        return self.magenta
-
-    @property
-    def Cyan(self):
-        return self.cyan
-
-    @property
-    def Blue(self):
-        return self.blue
-
-    @property
-    def Underline(self):
-        return self.underline
-
-    @property
-    def DeAuThY(self):
-        deauthy = self.deAuThY
-        return deauthy
