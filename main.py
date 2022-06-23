@@ -10,6 +10,7 @@ from assets.terminal import Terminal
 from configparser import ConfigParser
 
 red         = Terminal.Red
+cyan        = Terminal.Cyan
 blue        = Terminal.Blue
 white       = Terminal.White
 bold        = Terminal.Bold
@@ -172,7 +173,7 @@ def main():
     deauthy.Chipset_Support_Check()
     Terminal.inform(self=Terminal, msg=f"{white}Running as {light_green}{bold}Root{end}")
     Terminal.inform(self=Terminal, msg=f"{bold}{white}Chipset is {light_green}supported!{end}")
-    Terminal.inform(self=Terminal, msg=f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
+    Terminal.inform(self=Terminal, msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     cardname = deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch(card=Interface(cardname), mode="monitor")
     method = Terminal.prompt(self=Terminal, question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
