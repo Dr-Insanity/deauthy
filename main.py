@@ -7,6 +7,9 @@ from termcolor import colored
 from sys import exit, executable, argv
 from halo import Halo
 from time import sleep
+from json import loads
+from assets.deauthy_types import BSSID, ESSID
+from assets.commandhandler import CommandHandler
 from configparser import ConfigParser
 
 # Beautiful is better than ugly.
@@ -42,19 +45,21 @@ bold        = '\033[1m'
 underline   = '\033[4m'
 end         = '\033[0m'
 
-conf = ConfigParser(empty_lines_in_values=False)
-conf.read("config/config.ini")
-e = list(conf['Main']['supported_chipsets'])
-
-for i in e:
-    print(i)
-
 # config here
 class Config:
-    prefix = f"!"
-    iface_no_mon = "wlo1"
-    iface_mon = "wlo1mon"
-    ESSID = {"Internet":11} # <ESSID>:<It's channel>
+    """Deauthy Configuration
+    
+    ## Attributes
+    - `test`
+    """
+
+    class ESSID_Based_Approach_Configuration:
+        def __init__(self, essid: str):
+            self.ESSID = essid
+
+        @property
+        def ESSID(self):
+            ESSID = {"Internet":11} # <ESSID>:<It's channel>
     BSSIDs = {
         "28:C7:CE:4E:AF:B0":1,  # <BSSID>:<It's channel>
         "28:c7:ce:4e:af:bf":1,  # <BSSID>:<It's channel>
@@ -69,62 +74,6 @@ def has_root():
 
 def clear():
     check_call(["clear"])
-
-class CommandHandler:
-    supported_commands_debian_based_distros = [
-        "ifconfig",
-        "ls",
-    ]
-    own_commands = [
-        f"{Config.prefix}help",
-        f"{Config.prefix}about",
-        f"{Config.prefix}repo",
-    ]
-
-    class Own_Cmds:
-        def d_help():
-            print(
-                f"""
-{white}{bold}[{end}DeAuthy commands{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
-{light_white}- {light_green}help {light_white}-- {white}Views this message.
-{light_white}- {light_green}repo {light_white}-- {white}Displays the link to deauthy's Github repository.
-{light_white}- {light_green}about {light_white}-- {white}Displays information about the project.
-                """)
-
-        def d_about():
-            print(
-                f"""{white}{bold}
-DeAuthy{end} {white}version: {light_white}Private Repository Version
-{white}
-Note: {light_white}Version numbers are gonna be set once this project is released.
-{white}{bold}
-Author:{end} {light_green}Dr-Insanity {white}(On Github)
-
-{bold}{red}Disclaimer{end}{white}:{red}
-I do not condone illegal activities.
-I discourage non-ethical use of my application.
-I only developed this program.
-Anything that you do with this application is not done by 
-me and therefore you're the only one responsible for any 
-damage you cause.
-By using this application, you fully understood and agreed 
-with what I just said and you understand you're on your
-own when you're charged or in a lawsuit, unless you got others rooting for you. 
-It won't be me.{end}
-                """)
-
-        def d_repo():
-            print(
-                f"""{white}{bold}
-DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy
-{end}
-                """)
-
-        handle_own_cmd = {
-            f"{Config.prefix}help":d_help,
-            f"{Config.prefix}about":d_about,
-            f"{Config.prefix}repo":d_repo,
-        }
 
 class deauthy:
     """Main class"""
@@ -180,20 +129,28 @@ class deauthy:
 
     def prompt_for_ifaces():
         cards = []
+        interfaces = {} # type: dict[str, str]
         def gather_ifaces():
             pos = 1
             for ifaces in if_nameindex():
                 print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
                 cards.append(str(pos))
+                interfaces[str(pos)] = ifaces[1]
                 pos += 1
             return pos-1
         ifaces = gather_ifaces()
         try:
             method = deauthy.prompt(f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", cards, yellow)
+            selected_card = interfaces[method]
+            return selected_card
         except KeyboardInterrupt:
             print(" ")
             deauthy.inform(f"{light_green}{bold}Goodbye!\n{end}Exiting...")
             exit(0)
+        except KeyError:
+            print(" ")
+            deauthy.inform(f"{red}{bold}Hey! {end}{red}That's not a valid interface! >:(\n{red}{bold}AGAIN!")
+            deauthy.prompt_for_ifaces()
     class Appearance:
 
         def printBanner():
@@ -210,7 +167,7 @@ class deauthy:
 Time to kick off some assholes from yer net""")
             return True
 
-    class BSSID:
+    class BSSID_METHOD:
         def deauth(bSSID: str):
             """"""
             channel = Config.BSSIDs[bSSID]
@@ -220,7 +177,7 @@ Time to kick off some assholes from yer net""")
             except KeyboardInterrupt:
                 deauthy.InterfaceMode.switch("managed")
                 return
-    class ESSID:
+    class ESSID_METHOD:
         def deauth(eSSID: str):
             """"""
             channel = Config.ESSID[eSSID]
@@ -257,7 +214,7 @@ Time to kick off some assholes from yer net""")
 def main():
     def do_bssid_method():
         for bssid, channel in Config.BSSIDs.items():
-            deauthy.BSSID.deauth(bssid)
+            deauthy.BSSID_METHOD.deauth(bssid)
         try:
             do_bssid_method()
         except KeyboardInterrupt:
@@ -269,7 +226,7 @@ def main():
     deauthy.inform(f"{white}Running as {light_green}{bold}Root{end}")
     deauthy.inform(f"{bold}{white}Chipset is {light_green}supported!{end}")
     deauthy.inform(f"{red}Choose a {bold}{red}wireless{end}{red} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
-    deauthy.prompt_for_ifaces()
+    cards = deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch(card="", mode="monitor")
     method = deauthy.prompt(question="Use given ESSID or the list of BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
     if method == "BSSID":
@@ -279,7 +236,7 @@ def main():
             deauthy.InterfaceMode.switch("managed")
             return
     if method == "ESSID":
-        deauthy.ESSID.deauth(Config.ESSID)
+        deauthy.ESSID_METHOD.deauth(Config.ESSID)
         return
 
 try:
