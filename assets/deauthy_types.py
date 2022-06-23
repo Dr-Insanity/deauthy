@@ -1,6 +1,12 @@
 class ESSID:
     """The ESSID of a wireless network.
-    ### Attributes
+
+    Parameters
+    ----------
+    Same as attributes
+
+    Attributes
+    ----------
     - `value` str - The name of the network.
     - `channel` int - The channel this One and ONLY AP is streaming on.
     """
@@ -24,7 +30,13 @@ class ESSID:
 class BSSID:
     """
     A (set of) BSSID(s) belonging to a wireless network
-    ### Attributes
+
+    Parameters
+    ----------
+    Same as attributes
+
+    Attributes
+    ----------
     - `bssids` dict - A set of BSSIDs and their channels, in a dict.
     - `essid` ESSID - The ESSID of a wireless network, can be None.
     """
@@ -46,13 +58,22 @@ class BSSID:
         return essid
 
 class Interface:
-    """A wireless interface, better known as NIC (Network Interface Card)"""
+    """A wireless interface, better known as NIC (Network Interface Card)
+    
+    Parameters
+    ----------
+    same as Attributes
+
+    Attributes
+    ----------
+    - `name` str - The name of this wireless interface (i.e. wlan0 or wlo0)
+    """
 
     def __init__(self, name: str):
-        self.name = name
+        self.Name = name
 
     @property
-    def name(self) -> str:
-        """The name of this wireless interface (i.e. wlan0)"""
-        name = self.name
+    def name(self):
+        """The name of this wireless interface (i.e. wlan0 or wlo0)"""
+        name = self.Name
         return name
