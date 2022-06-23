@@ -6,7 +6,7 @@ from sys import exit, executable, argv
 from halo import Halo
 from json import loads
 from assets.deauthy_types import BSSID, ESSID, Interface
-from assets.commandhandler import CommandHandler
+import assets.commandhandler
 from assets.terminal import Terminal
 from configparser import ConfigParser
 
