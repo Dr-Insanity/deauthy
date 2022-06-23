@@ -70,5 +70,5 @@ class Terminal:
                 return reply
             else:
                 self.tell_issue(self, msg=f"{self.Red}That's not a valid {self.Bold}{self.Red}reply{self.End}{self.Red} :/")
-                reply = self.prompt(question=question, allowed_replies=allowed_replies)
+                reply = self.prompt(self, question=question, allowed_replies=allowed_replies)
                 return reply
