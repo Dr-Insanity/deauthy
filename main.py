@@ -21,6 +21,8 @@ end         = Terminal.End
 light_blue  = Terminal.Light_blue
 underline   = Terminal.Underline
 
+current_wiface = f""
+
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
 # Simple is better than complex.
@@ -123,7 +125,7 @@ Time to kick off some assholes from yer net""")
             try:
                 out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
             except KeyboardInterrupt:
-                deauthy.InterfaceMode.switch("managed")
+                deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
                 return
     class ESSID_METHOD:
         def deauth(eSSID: str):
@@ -133,13 +135,13 @@ Time to kick off some assholes from yer net""")
             try:
                 out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
             except KeyboardInterrupt:
-                deauthy.InterfaceMode.switch("managed")
+                deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
                 return
 
     class ChannelSys:
         def hopper(channel_number: int):
             """Hop to a different channel"""
-            out = check_call(["airmon-ng", "start", f"{Config.iface_no_mon}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+            out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class InterfaceMode:
         def switch(card: Interface, mode: str):
@@ -174,7 +176,7 @@ def main():
         try:
             do_bssid_method()
         except KeyboardInterrupt:
-            deauthy.InterfaceMode.switch("managed")
+            deauthy.InterfaceMode.switch(card=Interface(cardname), mode="managed")
             return
     
     Terminal.inform(self=Terminal, msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
@@ -194,7 +196,7 @@ def main():
                 Terminal.prompt(self=Terminal, question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
             do_bssid_method()
         except KeyboardInterrupt:
-            deauthy.InterfaceMode.switch("managed")
+            deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
             return
     elif method == "ESSID":
         deauthy.ESSID_METHOD.deauth(Config.ESSID)
@@ -207,4 +209,4 @@ try:
     deauthy.Appearance.printBanner()
     main()
 except KeyboardInterrupt:
-    deauthy.InterfaceMode.switch("managed")
+    quit(0)
