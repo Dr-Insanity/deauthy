@@ -69,6 +69,6 @@ class Terminal:
             if allowed_replies[0].lower() == "any":
                 return reply
             else:
-                self.tell_issue(f"{self.Red}That's not a valid {self.Bold}{self.Red}reply{self.End}{self.Red} :/")
+                self.tell_issue(msg=f"{self.Red}That's not a valid {self.Bold}{self.Red}reply{self.End}{self.Red} :/")
                 reply = self.prompt(question=question, allowed_replies=allowed_replies)
                 return reply
