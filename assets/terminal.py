@@ -1,4 +1,3 @@
-from assets.terminal import TermColors as Term_Colors
 from assets.commandhandler import CommandHandler
 from colorama import Fore
 from os import execv
@@ -30,7 +29,7 @@ class Terminal:
     - `DeAuThY`
     """
 
-    def __init__(self) -> Term_Colors:
+    def __init__(self):
         self.white       = Fore.WHITE
         self.light_white = Fore.LIGHTBLACK_EX
         self.red         = Fore.RED
