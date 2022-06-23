@@ -1,5 +1,18 @@
-from main import white, bold, end, light_green, light_white, red
+from terminal import Terminal
+
 prefix = f"!"
+
+red         = Terminal.Red
+blue        = Terminal.Blue
+white       = Terminal.White
+bold        = Terminal.Bold
+yellow      = Terminal.Yellow
+light_green = Terminal.Light_green
+light_white = Terminal.Light_white
+end         = Terminal.End
+light_blue  = Terminal.Light_blue
+underline   = Terminal.Underline
+
 class CommandHandler:
     """A class made to handle Deauthy's own commands as well as SOME linux commands."""
     supported_commands_debian_based_distros = [

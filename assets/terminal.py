@@ -11,8 +11,23 @@ class Terminal:
     A class for DeAuthy's colors in the terminal and formatting, such as ``bold`` and ``end``
 
     Attributes
-    -------
-    • ``
+    ----------
+    - `tell_issue()`
+    - `inform()`
+    - `prompt()`
+    - `End`
+    - `Bold`
+    - `White`
+    - `Light_green`
+    - `Red`
+    - `Light_white`
+    - `Yellow`
+    - `Light_Blue`
+    - `Magenta`
+    - `Cyan`
+    - `Blue`
+    - `Underline`
+    - `DeAuThY`
     """
 
     def __init__(self) -> Term_Colors:
