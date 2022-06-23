@@ -168,7 +168,7 @@ def main():
             deauthy.InterfaceMode.switch("managed")
             return
     
-    Terminal.inform(f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     deauthy.Chipset_Support_Check()
     Terminal.inform(f"{white}Running as {light_green}{bold}Root{end}")
     Terminal.inform(f"{bold}{white}Chipset is {light_green}supported!{end}")
