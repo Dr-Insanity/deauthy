@@ -52,7 +52,7 @@ class Terminal:
         print(self.deAuThY + d_hey + entire_color + msg)
 
     def prompt(self, question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
-        d_huh = self.White + f"{self.Bold}[" + self.Light_blue + "?" + self.white + f"]{self.End}{self.Light_white} "
+        d_huh = self.White + f"{self.Bold}[" + self.Light_blue + "?" + self.White + f"]{self.End}{self.Light_white} "
         reply = input(self.deAuThY + d_huh + f"{self.Light_white}{question}{self.Bold}>{self.End} {ending_color}")
         if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
             print(self.End)
