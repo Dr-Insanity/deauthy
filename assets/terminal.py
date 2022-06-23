@@ -41,7 +41,7 @@ class Terminal:
     Bold        = '\033[1m'
     Underline   = '\033[4m'
     End         = '\033[0m'
-    DeAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
+    deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
 
     def tell_issue(self, msg: str):
         d_wut = self.White + f"{self.Bold}[" + self.Red + "!" + self.White + f"]{self.End}{self.Light_white} "
