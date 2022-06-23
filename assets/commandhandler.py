@@ -1,4 +1,4 @@
-from terminal import Terminal
+from assets.terminal import Terminal
 
 prefix = f"!"
 
