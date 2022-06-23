@@ -147,11 +147,17 @@ Time to kick off some assholes from yer net""")
             Accepts either "monitor" or "managed"
             """
             def managed():
-                print(card)
                 out = check_call(["airmon-ng", "stop", f"{card.name}mon"], stdout=DEVNULL, stderr=STDOUT)
             def monitor():
-                print(card)
+                spinner = Halo(f"Putting {card.name} into monitor mode...")
+                spinner.start()
                 out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
+                if out != 1:
+                    spinner.succeed(f"{card.name} is now in monitor mode")
+                else:
+                    spinner.fail(f"Could not put {card.name} in monitor mode\nQUITING!{end}")
+                
+                
             modes = {
                 "managed":managed,
                 "monitor":monitor,
