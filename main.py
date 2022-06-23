@@ -147,8 +147,10 @@ Time to kick off some assholes from yer net""")
             Accepts either "monitor" or "managed"
             """
             def managed():
+                print(card)
                 out = check_call(["airmon-ng", "stop", f"{card}mon"], stdout=DEVNULL, stderr=STDOUT)
             def monitor():
+                print(card)
                 out = check_call(["airmon-ng", "start", f"{card}"], stdout=DEVNULL, stderr=STDOUT)
             modes = {
                 "managed":managed,
