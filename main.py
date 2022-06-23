@@ -142,16 +142,16 @@ Time to kick off some assholes from yer net""")
             out = check_call(["airmon-ng", "start", f"{Config.iface_no_mon}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class InterfaceMode:
-        def switch(card: str, mode: str):
+        def switch(card: Interface, mode: str):
             """
             Accepts either "monitor" or "managed"
             """
             def managed():
                 print(card)
-                out = check_call(["airmon-ng", "stop", f"{card}mon"], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["airmon-ng", "stop", f"{card.name}mon"], stdout=DEVNULL, stderr=STDOUT)
             def monitor():
                 print(card)
-                out = check_call(["airmon-ng", "start", f"{card}"], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
             modes = {
                 "managed":managed,
                 "monitor":monitor,
