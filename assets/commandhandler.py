@@ -1,17 +1,17 @@
-from assets.terminal import *
+from colorama import Fore
 
 prefix = f"!"
 
-red         = Terminal.Red
-blue        = Terminal.Blue
-white       = Terminal.White
-bold        = Terminal.Bold
-yellow      = Terminal.Yellow
-light_green = Terminal.Light_green
-light_white = Terminal.Light_white
-end         = Terminal.End
-light_blue  = Terminal.Light_blue
-underline   = Terminal.Underline
+red         = Fore.RED
+blue        = Fore.BLUE
+white       = Fore.WHITE
+bold        = '\033[1m'
+yellow      = Fore.LIGHTYELLOW_EX
+light_green = Fore.LIGHTGREEN_EX
+light_white = Fore.LIGHTBLACK_EX
+end         = '\033[0m'
+light_blue  = Fore.LIGHTBLUE_EX
+underline   = '\033[4m'
 
 class CommandHandler:
     """A class made to handle Deauthy's own commands as well as SOME linux commands."""
