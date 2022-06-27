@@ -51,7 +51,7 @@ class Dependencies:
             except ImportError:
                 Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
                 Terminal.inform(f"Attempting to install them!")
-                self.install()
+                self.install(self)
                 return False
 
     def remove(self):
