@@ -29,11 +29,11 @@ def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -
     if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
         print(Fore.End)
         check_call(reply)
-        reply = Fore.prompt(question, allowed_replies, ending_color)
+        reply = prompt(question, allowed_replies, ending_color)
         return reply
     elif reply in CommandHandler.own_commands:
         CommandHandler.Own_Cmds.handle_own_cmd[reply]()
-        reply = Fore.prompt(question, allowed_replies, ending_color)
+        reply = prompt(question, allowed_replies, ending_color)
         return reply
     elif reply.lower() in allowed_replies:
         return reply
@@ -100,7 +100,7 @@ It won't be me.{end}""")
             print(f"{white}{bold}DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy{end}")
 
         def d_remove():
-            res = Fore.prompt(f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
+            res = prompt(f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
             if res.lower() == "y":
                 from deauthy.auto_installer import Dependencies
                 Dependencies.remove(Dependencies)
