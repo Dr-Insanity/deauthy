@@ -75,7 +75,7 @@ class Dependencies:
                     out = check_output(f"pip uninstall {dep} --yes --user", shell=True)
                     if "PermissionError: [Errno 13]" in out.decode():
                         spinner.fail(text=f"{Terminal.Red}{Terminal.Bold}Failed deinstallation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
-                        failed_pkgs +=1
+                        failed_pkgs += 1
                     elif f"Successfully uninstalled {dep}" in out.decode():
                         spinner.succeed(text=f"{Terminal.Light_green}Successfully uninstalled {Terminal.White}{dep}{Terminal.End}")
                         current_pkg += 1
