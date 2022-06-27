@@ -41,6 +41,7 @@ class Terminal:
     Bold        = '\033[1m'
     Underline   = '\033[4m'
     End         = '\033[0m'
+    Warning     = f"{Yellow}{Bold}[{Red}warning{Yellow}]{End}"
     deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
     
     def tell_issue(self, msg: str):
