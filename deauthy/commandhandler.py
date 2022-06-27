@@ -16,18 +16,18 @@ underline   = '\033[4m'
 deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
 
 def tell_issue(msg: str):
-    d_wut = Fore.White + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
+    d_wut = white + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
     print(deAuThY + d_wut + msg)
 
-def inform(msg: str, entire_color=Fore.LIGHTBLACK_EX):
-    d_hey = Fore.White + f"{Fore.Bold}[" + Fore.Light_green + "+" + Fore.White + f"]{Fore.End}{Fore.Light_white} "
-    print(Fore.deAuThY + d_hey + entire_color + msg)
+def inform(msg: str, entire_color=white):
+    d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end}{light_white} "
+    print(deAuThY + d_hey + entire_color + msg)
 
-def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
-    d_huh = Fore.WHITE + f"{Fore.Bold}[" + Fore.LIGHTBLUE_EX + "?" + Fore.WHITE + f"]{Fore.End}{Fore.Light_white} "
-    reply = input(Fore.deAuThY + d_huh + f"{Fore.Light_white}{question}{Fore.Bold}>{Fore.End} {ending_color}")
+def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
+    d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
+    reply = input(deAuThY + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
     if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
-        print(Fore.End)
+        print(end)
         check_call(reply)
         reply = prompt(question, allowed_replies, ending_color)
         return reply
@@ -41,7 +41,7 @@ def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -
         if allowed_replies[0].lower() == "any":
             return reply
         else:
-            tell_issue(msg=f"{Fore.Red}That's not a valid {Fore.Bold}{Fore.Red}reply{Fore.End}{Fore.Red} :/")
+            tell_issue(msg=f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
             reply = prompt(question=question, allowed_replies=allowed_replies)
             return reply
 
@@ -100,12 +100,12 @@ It won't be me.{end}""")
             print(f"{white}{bold}DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy{end}")
 
         def d_remove():
-            res = prompt(f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
+            res = prompt(f"{white}Are you very sure you want to do this? ({light_green}Y{white}/{red}N{white})", ["y", "n"], ending_color=red)
             if res.lower() == "y":
                 from deauthy.auto_installer import Dependencies
                 Dependencies.remove(Dependencies)
             if res.lower() == "n":
-                print(f"{Fore.WHITE}Cancelled.")
+                print(f"{white}Cancelled.")
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
