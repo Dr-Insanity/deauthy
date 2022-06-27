@@ -1,4 +1,6 @@
 from colorama import Fore
+from deauthy.auto_installer import Dependencies
+from deauthy.terminal import Terminal
 
 prefix = f"!"
 
@@ -24,6 +26,7 @@ class CommandHandler:
         f"{prefix}about",
         f"{prefix}repo",
         f"{prefix}announcement",
+        f"{prefix}remove",
     ]
 
     class Own_Cmds:
@@ -39,7 +42,8 @@ You can keep an eye on the Testing branch, but I don't recommend cloning it, sin
 {light_white}- {light_green}disclaimer {light_white}-- {white}Displays a disclaiemr for DeAuthy.
 {light_white}- {light_green}repo {light_white}-- {white}Displays the link to deauthy's Github repository.
 {light_white}- {light_green}about {light_white}-- {white}Displays information about the project.
-{light_white}- {light_green}announcements {light_white}-- {white}Displays important note(s) that are very recommended to read.""")
+{light_white}- {light_green}announcements {light_white}-- {white}Displays important note(s) that are very recommended to read.
+{light_white}- {light_green}remove {light_white}-- {white}Attempts to remove DeAuthy's dependencies that are not from the standard python library.""")
 
         def d_about():
             print(f"""{white}{bold}
@@ -65,10 +69,17 @@ It won't be me.{end}""")
         def d_repo():
             print(f"{white}{bold}DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy{end}")
 
+        def d_remove():
+            res = Terminal.prompt(Terminal, f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
+            if res.lower() == "y":
+                Dependencies.remove(Dependencies)
+            if res.lower() == "n":
+                print(f"{Fore.WHITE}Cancelled.")
         handle_own_cmd = {
             f"{prefix}help":d_help,
             f"{prefix}about":d_about,
             f"{prefix}repo":d_repo,
             f"{prefix}announcements":d_announcements,
             f"{prefix}disclaimer":d_disclaimer,
+            f"{prefix}remove":d_remove,
         }

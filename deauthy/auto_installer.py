@@ -14,8 +14,7 @@ class Dependencies:
             out = check_output(f"pip install {dep} --upgrade --no-warn-conflicts --no-warn-script-location", shell=True)
 
     def installed(self):
-        """Ensures the installation of DeAuthy's dependencies.
-
+        """Ensures the installation of DeAuthy's dependencies.\n
         Returns
         -------
         - `True` - All required dependencies are installed.
