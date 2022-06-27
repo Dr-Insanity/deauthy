@@ -1,5 +1,4 @@
 from colorama import Fore
-from deauthy.auto_installer import Dependencies
 from subprocess import check_call
 
 prefix = f"!"
@@ -103,6 +102,7 @@ It won't be me.{end}""")
         def d_remove():
             res = Fore.prompt(f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
             if res.lower() == "y":
+                from deauthy.auto_installer import Dependencies
                 Dependencies.remove(Dependencies)
             if res.lower() == "n":
                 print(f"{Fore.WHITE}Cancelled.")
