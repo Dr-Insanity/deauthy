@@ -1,4 +1,5 @@
 from deauthy.auto_installer import Dependencies
+Dependencies.remove(Dependencies)
 Dependencies.installed(self=Dependencies)
 from socket import if_nameindex
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
