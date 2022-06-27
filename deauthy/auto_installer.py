@@ -1,6 +1,5 @@
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 from deauthy.terminal import Terminal
-from halo import Halo
 
 class Dependencies:
     """
@@ -56,7 +55,6 @@ class Dependencies:
                 self.install()
                 return False
 
-    
     def remove(self):
         """A class method for removing all DeAuthy's dependencies, if that is really wanted. 
         These dependencies may also be used by other python applications. 
@@ -68,6 +66,7 @@ class Dependencies:
         - ``True`` - Deinstallation of DeAuthy's dependencies was successful.
         - ``False`` - Failed to uninstall DeAuthy's dependencies.
         """
+        from halo import Halo
         current_pkg = 1
         for dep in self.deps:
             Terminal.inform(self=Terminal, msg=f"{Terminal.White}Uninstalling {len(self.deps)} packages")
