@@ -65,7 +65,7 @@ class Dependencies:
         - ``False`` - Failed to uninstall DeAuthy's dependencies.
         """
         from halo import Halo
-        Terminal.inform(self=Terminal, msg=f"{Terminal.White}Uninstalling {len(self.deps)} packages")
+        Terminal.inform(msg=f"{Terminal.White}Uninstalling {len(self.deps)} packages")
         def pkgs():
             current_pkg = 1
             failed_pkgs = 0
@@ -86,8 +86,8 @@ class Dependencies:
             return {
                 "success":successful, "failed":failed_pkgs, "total":len(self.deps)}
         results = pkgs()
-        Terminal.inform(self=Terminal, msg=f"""{Terminal.Light_green}{Terminal.Bold}{results["success"]}{Terminal.End}{Terminal.White} dependencies were {Terminal.Light_green}{Terminal.Bold}successfully {Terminal.White}removed!""", entire_color=Terminal.White)
-        Terminal.inform(self=Terminal, msg=f"""{Terminal.Red}{Terminal.Bold}{results["failed"]}{Terminal.End}{Terminal.White} dependencies failed to be removed""", entire_color=Terminal.White)
-        Terminal.inform(self=Terminal, msg=f"""{Terminal.White}{Terminal.Bold}{results["total"]}{Terminal.End}{Terminal.White} total dependencies were in use by DeAuthy""", entire_color=Terminal.White)
-        Terminal.inform(self=Terminal, msg=f"{Terminal.White}Exiting!{Terminal.End}")
+        Terminal.inform(msg=f"""{Terminal.Light_green}{Terminal.Bold}{results["success"]}{Terminal.End}{Terminal.White} dependencies were {Terminal.Light_green}{Terminal.Bold}successfully {Terminal.White}removed!""", entire_color=Terminal.White)
+        Terminal.inform(msg=f"""{Terminal.Red}{Terminal.Bold}{results["failed"]}{Terminal.End}{Terminal.White} dependencies failed to be removed""", entire_color=Terminal.White)
+        Terminal.inform(msg=f"""{Terminal.White}{Terminal.Bold}{results["total"]}{Terminal.End}{Terminal.White} total dependencies were in use by DeAuthy""", entire_color=Terminal.White)
+        Terminal.inform(msg=f"{Terminal.White}Exiting!{Terminal.End}")
         exit(0)

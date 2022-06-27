@@ -58,7 +58,7 @@ def clear():
 class deauthy:
     """Main class"""
     def Chipset_Support_Check():
-        Terminal.inform(self=Terminal, msg=f"Checking if any of your devices (Built-in & External) support MONITOR mode...")
+        Terminal.inform(msg=f"Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
             try:
                 out = check_output(f"lspci | grep {chipset_name}", shell=True)
@@ -66,12 +66,12 @@ class deauthy:
                     put = out.decode('utf8', 'strict')
                     return True
             except CalledProcessError:
-                Terminal.tell_issue(self=Terminal, msg=f"{red}{bold}I'm so sorry!")
-                Terminal.tell_issue(self=Terminal, msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
-                Terminal.tell_issue(self=Terminal, msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
-                Terminal.tell_issue(self=Terminal, msg=f"{red}{bold}Please contribute to the project here by making an issue")
-                Terminal.tell_issue(self=Terminal, msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
-                Terminal.inform(self=Terminal, msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
+                Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
+                Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
+                Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
+                Terminal.tell_issue(msg=f"{red}{bold}Please contribute to the project here by making an issue")
+                Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
+                Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
                 exit(1)
 
     def prompt_for_ifaces():
@@ -87,16 +87,16 @@ class deauthy:
             return pos-1
         ifaces = gather_ifaces()
         try:
-            method = Terminal.prompt(self=Terminal, question=f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", allowed_replies=cards, ending_color=yellow)
+            method = Terminal.prompt(question=f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", allowed_replies=cards, ending_color=yellow)
             selected_card = interfaces[method]
             return selected_card
         except KeyboardInterrupt:
             print(" ")
-            Terminal.inform(self=Terminal, msg=f"{light_green}{bold}Goodbye!\n{end}Exiting...")
+            Terminal.inform(msg=f"{light_green}{bold}Goodbye!\n{end}Exiting...")
             exit(0)
         except KeyError:
             print(" ")
-            Terminal.inform(self=Terminal, msg=f"{red}{bold}Hey! {end}{red}That's not a valid interface! >:(\n{red}{bold}AGAIN!")
+            Terminal.inform(msg=f"{red}{bold}Hey! {end}{red}That's not a valid interface! >:(\n{red}{bold}AGAIN!")
             deauthy.prompt_for_ifaces()
     class Appearance:
 
@@ -176,21 +176,21 @@ def main():
             deauthy.InterfaceMode.switch(card=Interface(cardname), mode="managed")
             return
     
-    Terminal.inform(self=Terminal, msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     deauthy.Chipset_Support_Check()
-    Terminal.inform(self=Terminal, msg=f"{white}Running as {light_green}{bold}Root{end}")
-    Terminal.inform(self=Terminal, msg=f"{bold}{white}Chipset is {light_green}supported!{end}")
-    Terminal.inform(self=Terminal, msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
+    Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
+    Terminal.inform(msg=f"{bold}{white}Chipset is {light_green}supported!{end}")
+    Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     cardname = deauthy.prompt_for_ifaces()
     deauthy.InterfaceMode.switch(card=Interface(cardname), mode="monitor")
-    method = Terminal.prompt(self=Terminal, question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
+    method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
     if method == "BSSID":
         try:
-            amt_of_bssids   = Terminal.prompt(self=Terminal, question=f"How many BSSIDs?", allowed_replies=["any"])
+            amt_of_bssids   = Terminal.prompt(question=f"How many BSSIDs?", allowed_replies=["any"])
             numb_of_bssids  = int(amt_of_bssids)
             bssids_added = 0
             while bssids_added < numb_of_bssids:
-                Terminal.prompt(self=Terminal, question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
+                Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
             do_bssid_method()
         except KeyboardInterrupt:
             deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
@@ -201,7 +201,7 @@ def main():
 
 try:
     if not Checks.has_root():
-        Terminal.tell_issue(self=Terminal, msg=f"{bold}{red}Run it as root...{end}")
+        Terminal.tell_issue(msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
     deauthy.Appearance.printBanner()
     main()

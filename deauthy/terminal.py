@@ -41,25 +41,25 @@ class Terminal:
     Warning     = f"{Yellow}{Bold}[{Fore.YELLOW}{Bold}warning{Yellow}{Bold}]{End}"
     deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
 
-    def tell_issue(self, msg: str):
-        d_wut = self.White + f"{self.Bold}[" + self.Red + "!" + self.White + f"]{self.End}{self.Light_white} "
-        print(self.deAuThY + d_wut + msg)
+    def tell_issue(msg: str):
+        d_wut = Terminal.White + f"{Terminal.Bold}[" + Terminal.Red + "!" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
+        print(Terminal.deAuThY + d_wut + msg)
 
-    def inform(self, msg: str, entire_color=Fore.LIGHTBLACK_EX):
-        d_hey = self.White + f"{self.Bold}[" + self.Light_green + "+" + self.White + f"]{self.End}{self.Light_white} "
-        print(self.deAuThY + d_hey + entire_color + msg)
+    def inform(msg: str, entire_color=Fore.LIGHTBLACK_EX):
+        d_hey = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_green + "+" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
+        print(Terminal.deAuThY + d_hey + entire_color + msg)
 
-    def prompt(self, question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
-        d_huh = self.White + f"{self.Bold}[" + self.Light_blue + "?" + self.White + f"]{self.End}{self.Light_white} "
-        reply = input(self.deAuThY + d_huh + f"{self.Light_white}{question}{self.Bold}>{self.End} {ending_color}")
+    def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
+        d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
+        reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
         if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
-            print(self.End)
+            print(Terminal.End)
             check_call(reply)
-            reply = self.prompt(question, allowed_replies, ending_color)
+            reply = Terminal.prompt(question, allowed_replies, ending_color)
             return reply
         elif reply in CommandHandler.own_commands:
             CommandHandler.Own_Cmds.handle_own_cmd[reply]()
-            reply = self.prompt(question, allowed_replies, ending_color)
+            reply = Terminal.prompt(question, allowed_replies, ending_color)
             return reply
         elif reply.lower() in allowed_replies:
             return reply
@@ -67,6 +67,6 @@ class Terminal:
             if allowed_replies[0].lower() == "any":
                 return reply
             else:
-                self.tell_issue(self, msg=f"{self.Red}That's not a valid {self.Bold}{self.Red}reply{self.End}{self.Red} :/")
-                reply = self.prompt(self, question=question, allowed_replies=allowed_replies)
+                Terminal.tell_issue(Terminal, msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.Red}reply{Terminal.End}{Terminal.Red} :/")
+                reply = Terminal.prompt(Terminal, question=question, allowed_replies=allowed_replies)
                 return reply
