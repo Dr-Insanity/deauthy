@@ -70,7 +70,7 @@ class Dependencies:
         Terminal.inform(self=Terminal, msg=f"{Terminal.White}Uninstalling {len(self.deps)} packages")
         for dep in self.deps:
             with Halo(text=f"Uninstalling {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(self.deps)}") as spinner:
-                out = check_output(f"pip uninstall {dep}", shell=True)
+                out = check_output(f"pip uninstall {dep} --yes", shell=True)
                 spinner.succeed(text=f"{Terminal.Light_green}Successfully uninstalled {Terminal.White}{dep}{Terminal.End}")
         Terminal.inform(self=Terminal, msg=f"All dependencies were removed!")
         Terminal.inform(self=Terminal, msg=f"Exiting!")
