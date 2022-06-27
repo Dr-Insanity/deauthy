@@ -46,7 +46,7 @@ class Dependencies:
                 d_hey = White + f"{Bold}[" + Light_green + "+" + White + f"]{End}{Light_white} "
                 print(f"{deAuThY}{d_wut} {Red}{Bold}HEY! {End} We're missing some dependencies here...")
                 print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install them!")
-                self.install()
+                self.install(self)
                 return False
             except ImportError:
                 Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
