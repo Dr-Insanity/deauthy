@@ -1,3 +1,4 @@
+import deauthy.auto_installer
 from deauthy.auto_installer import Dependencies
 Dependencies.installed(self=Dependencies)
 from socket import if_nameindex
