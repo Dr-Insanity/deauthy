@@ -67,8 +67,8 @@ class Dependencies:
         """
         from halo import Halo
         current_pkg = 1
+        Terminal.inform(self=Terminal, msg=f"{Terminal.White}Uninstalling {len(self.deps)} packages")
         for dep in self.deps:
-            Terminal.inform(self=Terminal, msg=f"{Terminal.White}Uninstalling {len(self.deps)} packages")
             with Halo(text=f"Uninstalling {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(self.deps)}") as spinner:
                 out = check_output(f"pip uninstall {dep}", shell=True)
                 spinner.succeed(text=f"{Terminal.Light_green}Successfully uninstalled {Terminal.White}{dep}{Terminal.End}")
