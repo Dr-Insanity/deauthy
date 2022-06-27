@@ -72,17 +72,20 @@ class Dependencies:
             successful  = 0
             for dep in self.deps:
                 with Halo(text=f"Uninstalling {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(self.deps)}") as spinner:
-                    out = check_output(f"pip uninstall {dep} --yes --user", shell=True)
-                    if "PermissionError: [Errno 13]" in out.decode():
-                        spinner.fail(text=f"{Terminal.Red}{Terminal.Bold}Failed deinstallation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
-                        failed_pkgs += 1
-                    elif f"Successfully uninstalled {dep}" in out.decode():
-                        spinner.succeed(text=f"{Terminal.Light_green}Successfully uninstalled {Terminal.White}{dep}{Terminal.End}")
-                        current_pkg += 1
-                        successful += 1
-                    else:
-                        spinner.fail(f"""{Terminal.Warning} {Terminal.White}Something went wrong whilst uninstalling "{dep}"\nI suggest you try to uninstall it manually: {Terminal.White}"{Terminal.Bold}{Terminal.Light_white}pip3 uninstall {dep}{Terminal.End}{Terminal.White}"{Terminal.End}""")
-                        failed_pkgs += 1
+                    try:
+                        out = check_output(f"pip uninstall --user {dep} --yes", shell=True)
+                        if "PermissionError: [Errno 13]" in out.decode():
+                            spinner.fail(text=f"{Terminal.Red}{Terminal.Bold}Failed deinstallation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
+                            failed_pkgs += 1
+                        elif f"Successfully uninstalled {dep}" in out.decode():
+                            spinner.succeed(text=f"{Terminal.Light_green}Successfully uninstalled {Terminal.White}{dep}{Terminal.End}")
+                            current_pkg += 1
+                            successful += 1
+                        else:
+                            spinner.fail(f"""{Terminal.Warning} {Terminal.White}Something went wrong whilst uninstalling "{dep}"\nI suggest you try to uninstall it manually: {Terminal.White}"{Terminal.Bold}{Terminal.Light_white}pip3 uninstall {dep}{Terminal.End}{Terminal.White}"{Terminal.End}""")
+                            failed_pkgs += 1
+                    except CalledProcessError as e:
+                        e.returncode
             return {
                 "success":successful, "failed":failed_pkgs, "total":len(self.deps)}
         results = pkgs()
