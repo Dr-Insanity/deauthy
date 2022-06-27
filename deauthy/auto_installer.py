@@ -11,7 +11,7 @@ class Dependencies:
     def install(self):
         """Installs every non-standard lib dependency DeAuthy needs."""
         for dep in self.deps:
-            out = check_output(f"pip install {dep} --upgrade --user", shell=True)
+            out = check_output(f"pip install {dep} --upgrade --no-warn", shell=True)
 
     def installed(self):
         """Ensures the installation of DeAuthy's dependencies.
