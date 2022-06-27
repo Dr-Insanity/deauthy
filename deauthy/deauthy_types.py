@@ -1,3 +1,9 @@
+from deauthy.auto_installer import Dependencies
+from pyroute2 import IW
+from pyroute2 import IPRoute
+from pyroute2.netlink import NetlinkError
+from sys import argv
+
 class ESSID:
     """The ESSID of a wireless network.
 
@@ -14,6 +20,7 @@ class ESSID:
     def __init__(self, name: str, channel: int):
         self.name = name
         self.channel = channel
+        Dependencies.installed()
 
     @property
     def channel(self):
@@ -44,6 +51,7 @@ class BSSID:
     def __init__(self, bssids: dict[str, int], essid: ESSID=None):
         self.bssids = bssids
         self.essid = essid
+        Dependencies.installed()
     
     @property
     def bssids(self) -> dict[str, int]:
@@ -70,10 +78,35 @@ class Interface:
     """
 
     def __init__(self, name: str):
-        self.Name = name
+        self._name = name
+        Dependencies.installed()
 
     @property
     def name(self):
-        """The name of this wireless interface (i.e. wlan0 or wlo0)"""
-        name = self.Name
+        """The name of this wireless interface (i.e. wlan0 or wlo1)\n
+        Returns
+        -------
+        - `str`
+        """
+        name = self._name
         return name
+
+    def is_wireless(interface: str):
+        """Determine whether given NIC is a wireless one or not.\n
+        Returns
+        -------
+        - `True`[Bool] -The given NIC is a wireless NIC.
+        - `False`[Bool] - The given NIC is NOT a wireless NIC.
+        """
+        ip = IPRoute()
+        iw = IW()
+        index = ip.link_lookup(ifname=interface)[0]
+        try:
+            iw.get_interface_by_ifindex(index)
+            return True
+        except NetlinkError as e:
+            if e.code == 19:  # 19 'No such device'
+                return False
+        finally:
+            iw.close()
+            ip.close()

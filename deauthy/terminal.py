@@ -1,4 +1,4 @@
-from assets.commandhandler import CommandHandler
+from deauthy.commandhandler import CommandHandler
 from colorama import Fore
 from os import execv
 from time import sleep
@@ -42,7 +42,7 @@ class Terminal:
     Underline   = '\033[4m'
     End         = '\033[0m'
     deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
-
+    
     def tell_issue(self, msg: str):
         d_wut = self.White + f"{self.Bold}[" + self.Red + "!" + self.White + f"]{self.End}{self.Light_white} "
         print(self.deAuThY + d_wut + msg)

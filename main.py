@@ -1,13 +1,13 @@
-from os import geteuid, execv
+from deauthy.auto_installer import Dependencies
+Dependencies.remove()
+Dependencies.installed()
 from socket import if_nameindex
-from colorama import init, Fore, Back, Style
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
-from sys import exit, executable, argv
+from sys import exit
 from halo import Halo
-from json import loads
-from assets.deauthy_types import BSSID, ESSID, Interface
-from assets.terminal import Terminal
-from configparser import ConfigParser
+from deauthy.deauthy_types import BSSID, ESSID, Interface
+from deauthy.terminal import Terminal
+from deauthy.checks import Checks
 
 red         = Terminal.Red
 cyan        = Terminal.Cyan
@@ -51,9 +51,6 @@ current_wiface = f""
     "28:C7:CE:4F:04:F0":6,
 } 
 STATION = "8C:F5:A3:38:CC:73" # aka client mac address, the device you wish to deauthenticate
-
-def has_root():
-    return geteuid() == 0
 
 def clear():
     check_call(["clear"])
@@ -203,7 +200,7 @@ def main():
         return
 
 try:
-    if not has_root():
+    if not Checks.has_root():
         Terminal.tell_issue(self=Terminal, msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
     deauthy.Appearance.printBanner()
