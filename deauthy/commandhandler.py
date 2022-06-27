@@ -1,6 +1,6 @@
 from colorama import Fore
 from deauthy.auto_installer import Dependencies
-from deauthy.terminal import Terminal
+from subprocess import check_call
 
 prefix = f"!"
 
@@ -14,6 +14,37 @@ light_white = Fore.LIGHTBLACK_EX
 end         = '\033[0m'
 light_blue  = Fore.LIGHTBLUE_EX
 underline   = '\033[4m'
+deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
+
+def tell_issue(msg: str):
+    d_wut = Fore.White + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
+    print(deAuThY + d_wut + msg)
+
+def inform(msg: str, entire_color=Fore.LIGHTBLACK_EX):
+    d_hey = Fore.White + f"{Fore.Bold}[" + Fore.Light_green + "+" + Fore.White + f"]{Fore.End}{Fore.Light_white} "
+    print(Fore.deAuThY + d_hey + entire_color + msg)
+
+def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
+    d_huh = Fore.WHITE + f"{Fore.Bold}[" + Fore.LIGHTBLUE_EX + "?" + Fore.WHITE + f"]{Fore.End}{Fore.Light_white} "
+    reply = input(Fore.deAuThY + d_huh + f"{Fore.Light_white}{question}{Fore.Bold}>{Fore.End} {ending_color}")
+    if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
+        print(Fore.End)
+        check_call(reply)
+        reply = Fore.prompt(question, allowed_replies, ending_color)
+        return reply
+    elif reply in CommandHandler.own_commands:
+        CommandHandler.Own_Cmds.handle_own_cmd[reply]()
+        reply = Fore.prompt(question, allowed_replies, ending_color)
+        return reply
+    elif reply.lower() in allowed_replies:
+        return reply
+    else:
+        if allowed_replies[0].lower() == "any":
+            return reply
+        else:
+            tell_issue(msg=f"{Fore.Red}That's not a valid {Fore.Bold}{Fore.Red}reply{Fore.End}{Fore.Red} :/")
+            reply = prompt(question=question, allowed_replies=allowed_replies)
+            return reply
 
 class CommandHandler:
     """A class made to handle Deauthy's own commands as well as SOME linux commands."""
@@ -70,11 +101,12 @@ It won't be me.{end}""")
             print(f"{white}{bold}DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy{end}")
 
         def d_remove():
-            res = Terminal.prompt(Terminal, f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
+            res = Fore.prompt(f"{Fore.WHITE}Are you very sure you want to do this? ({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.White})", ["y", "n"], ending_color=Fore.RED)
             if res.lower() == "y":
                 Dependencies.remove(Dependencies)
             if res.lower() == "n":
                 print(f"{Fore.WHITE}Cancelled.")
+
         handle_own_cmd = {
             f"{prefix}help":d_help,
             f"{prefix}about":d_about,
