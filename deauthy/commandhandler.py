@@ -128,6 +128,9 @@ It won't be me.{end}""")
                 Functs.switch(Interface(cardname), "monitor")
             if mon_or_not.lower() == "n":
                 Terminal.inform(f"""{white}Leaving {cardname}'s mode unchanged.""")
+            
+            from main import current_wiface
+            current_wiface.replace(current_wiface, cardname)
 
         def d_set_iface_mode():
             cardname = Functs.prompt_for_ifaces()
