@@ -1,6 +1,3 @@
-from ast import In
-from statistics import mode
-from tkinter import W
 from colorama import Fore
 from subprocess import check_call
 from deauthy.checks import Checks
