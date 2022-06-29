@@ -1,5 +1,12 @@
+from ast import In
+from statistics import mode
+from tkinter import W
 from colorama import Fore
 from subprocess import check_call
+from deauthy.checks import Checks
+from deauthy.deauthy_types import Interface
+from deauthy.terminal import Terminal
+from deauthy.functs import Functs
 
 prefix = f"!"
 
@@ -13,6 +20,7 @@ light_white = Fore.LIGHTBLACK_EX
 end         = '\033[0m'
 light_blue  = Fore.LIGHTBLUE_EX
 underline   = '\033[4m'
+cyan        = Fore.CYAN
 deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
 
 def tell_issue(msg: str):
@@ -57,6 +65,8 @@ class CommandHandler:
         f"{prefix}repo",
         f"{prefix}announcement",
         f"{prefix}remove",
+        f"{prefix}interface":d_set_iface,
+        f"{prefix}interfacemode":d_set_iface_mode,
     ]
 
     class Own_Cmds:
@@ -73,8 +83,9 @@ You can keep an eye on the Testing branch, but I don't recommend cloning it, sin
 {light_white}- {light_green}repo {light_white}-- {white}Displays the link to deauthy's Github repository.
 {light_white}- {light_green}about {light_white}-- {white}Displays information about the project.
 {light_white}- {light_green}announcements {light_white}-- {white}Displays important note(s) that are very recommended to read.
-{light_white}- {light_green}remove {light_white}-- {white}Attempts to remove DeAuthy's dependencies that are not from the standard python library.""")
-
+{light_white}- {light_green}remove {light_white}-- {white}Attempts to remove DeAuthy's dependencies that are not from the standard python library.
+{light_white}- {light_green}interface {light_white}-- {white}Sets the wireless network interface for DeAuthy to use.
+{light_white}- {light_green}interfacemode {light_white}-- {white}Set the mode for a wireless network interface card.""")
         def d_about():
             print(f"""{white}{bold}
 DeAuthy{end} {white}version: {light_white}Private Repository Version
@@ -106,6 +117,28 @@ It won't be me.{end}""")
                 Dependencies.remove(Dependencies)
             if res.lower() == "n":
                 print(f"{white}Cancelled.")
+        
+        def d_set_iface():
+            Checks.Chipset_Support_Check()
+            Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
+            Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
+            cardname = Functs.prompt_for_ifaces()
+            if not Interface.is_wireless(cardname):
+                Terminal.tell_issue(f"{red}{bold}HEY! {end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+                return
+            mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? ({light_green}Y{white}/{red}N{white})""", ["y", "n"], light_green)
+            if mon_or_not.lower() == "y":
+                Functs.switch(Interface(cardname), "monitor")
+            if mon_or_not.lower() == "n":
+                Terminal.inform(f"""{white}Leaving {cardname}'s mode unchanged.""")
+
+        def d_set_iface_mode():
+            cardname = Functs.prompt_for_ifaces()
+            if not Interface.is_wireless(cardname):
+                Terminal.tell_issue(f"{red}{bold}HEY! {end}{white}That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+                return
+            mode     = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
+            Functs.switch(Interface(cardname), mode.lower())
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
@@ -114,4 +147,6 @@ It won't be me.{end}""")
             f"{prefix}announcements":d_announcements,
             f"{prefix}disclaimer":d_disclaimer,
             f"{prefix}remove":d_remove,
+            f"{prefix}interface":d_set_iface,
+            f"{prefix}interfacemode":d_set_iface_mode,
         }

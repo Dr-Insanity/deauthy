@@ -1,6 +1,12 @@
 from deauthy.terminal import Terminal
 from deauthy.auto_installer import Dependencies
 from os import geteuid
+from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
+
+white = Terminal.White
+red = Terminal.Red
+bold = Terminal.Bold
+end = Terminal.End
 
 class Checks:
     """
@@ -13,3 +19,20 @@ class Checks:
     def has_root() -> bool:
         "Are we launched with root privileges?\n## returns\n- `True` - DeAuthy is ran as root.\n- `False` - Deauthy is NOT ran as root."
         return geteuid() == 0
+
+    def Chipset_Support_Check():
+        Terminal.inform(msg=f"Checking if any of your devices (Built-in & External) support MONITOR mode...")
+        for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
+            try:
+                out = check_output(f"lspci | grep {chipset_name}", shell=True)
+                if chipset_name in out.decode():
+                    put = out.decode('utf8', 'strict')
+                    return True
+            except CalledProcessError:
+                Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
+                Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
+                Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
+                Terminal.tell_issue(msg=f"{red}{bold}Please contribute to the project here by making an issue")
+                Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
+                Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
+                exit(1)

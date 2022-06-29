@@ -55,49 +55,6 @@ STATION = "8C:F5:A3:38:CC:73" # aka client mac address, the device you wish to d
 def clear():
     check_call(["clear"])
 
-class deauthy:
-    """Main class"""
-    def Chipset_Support_Check():
-        Terminal.inform(msg=f"Checking if any of your devices (Built-in & External) support MONITOR mode...")
-        for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
-            try:
-                out = check_output(f"lspci | grep {chipset_name}", shell=True)
-                if chipset_name in out.decode():
-                    put = out.decode('utf8', 'strict')
-                    return True
-            except CalledProcessError:
-                Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
-                Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
-                Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
-                Terminal.tell_issue(msg=f"{red}{bold}Please contribute to the project here by making an issue")
-                Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
-                Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
-                exit(1)
-
-    def prompt_for_ifaces():
-        cards = []
-        interfaces = {} # type: dict[str, str]
-        def gather_ifaces():
-            pos = 1
-            for ifaces in if_nameindex():
-                print(f"{white}[{yellow}{pos}{white}] {white}{ifaces[1]}")
-                cards.append(str(pos))
-                interfaces[str(pos)] = ifaces[1]
-                pos += 1
-            return pos-1
-        ifaces = gather_ifaces()
-        try:
-            method = Terminal.prompt(question=f"{light_white}Which {bold}wireless{end}{light_white} interface should be put into monitor mode? Enter corresponding number {light_blue}({yellow}1{white}-{yellow}{ifaces}{light_blue})", allowed_replies=cards, ending_color=yellow)
-            selected_card = interfaces[method]
-            return selected_card
-        except KeyboardInterrupt:
-            print(" ")
-            Terminal.inform(msg=f"{light_green}{bold}Goodbye!\n{end}Exiting...")
-            exit(0)
-        except KeyError:
-            print(" ")
-            Terminal.inform(msg=f"{red}{bold}Hey! {end}{red}That's not a valid interface! >:(\n{red}{bold}AGAIN!")
-            deauthy.prompt_for_ifaces()
     class Appearance:
 
         def printBanner():
@@ -140,32 +97,6 @@ Time to kick off some assholes from yer net""")
             """Hop to a different channel"""
             out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
-    class InterfaceMode:
-        def switch(card: Interface, mode: str):
-            """
-            Accepts either "monitor" or "managed"
-            """
-            def managed():
-                out = check_call(["airmon-ng", "stop", f"{card.name}mon"], stdout=DEVNULL, stderr=STDOUT)
-            def monitor():
-                spinner = Halo(f"Putting {card.name} into monitor mode...")
-                spinner.start()
-                out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
-                if out != 1:
-                    spinner.succeed(f"{card.name} is now in monitor mode")
-                else:
-                    spinner.fail(f"Could not put {card.name} in monitor mode\nQUITING!{end}")
-                
-                
-            modes = {
-                "managed":managed,
-                "monitor":monitor,
-            }
-            try:
-                modes[mode]()
-            except KeyError:
-                raise RuntimeError("That's not a valid interface mode.")
-
 def main():
     def do_bssid_method():
         for bssid, channel in Config.BSSIDs.items():
@@ -177,8 +108,11 @@ def main():
             return
     
     Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
+    Terminal.inform(msg=f"""{white}Type {light_white}"{white}!help{light_white}"{white} for a list of commands!""")
+    if Checks.has_root():
+        Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
+    Terminal.prompt(question=Terminal.deauthy_non_tag+"SH", allowed_replies=["any"], ending_color=yellow)
     deauthy.Chipset_Support_Check()
-    Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
     Terminal.inform(msg=f"{bold}{white}Chipset is {light_green}supported!{end}")
     Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
     cardname = deauthy.prompt_for_ifaces()

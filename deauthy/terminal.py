@@ -40,6 +40,7 @@ class Terminal:
     End         = '\033[0m'
     Warning     = f"{Yellow}{Bold}[{Fore.YELLOW}{Bold}warning{Yellow}{Bold}]{End}"
     deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
+    deauthy_non_tag = Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y"
 
     def tell_issue(msg: str):
         d_wut = Terminal.White + f"{Terminal.Bold}[" + Terminal.Red + "!" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
