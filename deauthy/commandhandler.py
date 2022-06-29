@@ -65,8 +65,8 @@ class CommandHandler:
         f"{prefix}repo",
         f"{prefix}announcement",
         f"{prefix}remove",
-        f"{prefix}interface":d_set_iface,
-        f"{prefix}interfacemode":d_set_iface_mode,
+        f"{prefix}interface",
+        f"{prefix}interfacemode",
     ]
 
     class Own_Cmds:
