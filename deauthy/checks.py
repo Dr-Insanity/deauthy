@@ -1,12 +1,6 @@
-from deauthy.terminal import Terminal
 from deauthy.auto_installer import Dependencies
 from os import geteuid
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
-
-white = Terminal.White
-red = Terminal.Red
-bold = Terminal.Bold
-end = Terminal.End
 
 class Checks:
     """
@@ -21,6 +15,11 @@ class Checks:
         return geteuid() == 0
 
     def Chipset_Support_Check():
+        from deauthy.terminal import Terminal
+        white = Terminal.White
+        red = Terminal.Red
+        bold = Terminal.Bold
+        end = Terminal.End
         Terminal.inform(msg=f"Checking if any of your devices (Built-in & External) support MONITOR mode...")
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93"]:
             try:
