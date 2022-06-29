@@ -1,4 +1,3 @@
-from deauthy.auto_installer import Dependencies
 from os import geteuid
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 
@@ -8,6 +7,7 @@ class Checks:
     """
 
     def __init__(self):
+        from deauthy.auto_installer import Dependencies
         Dependencies.installed()
     
     def has_root() -> bool:
