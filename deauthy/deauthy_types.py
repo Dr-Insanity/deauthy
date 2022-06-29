@@ -1,4 +1,3 @@
-from deauthy.auto_installer import Dependencies
 from pyroute2 import IW
 from pyroute2 import IPRoute
 from pyroute2.netlink import NetlinkError
@@ -16,11 +15,11 @@ class ESSID:
     - `value` str - The name of the network.
     - `channel` int - The channel this One and ONLY AP is streaming on.
     """
-
+    from deauthy.auto_installer import Dependencies
     def __init__(self, name: str, channel: int):
         self.name = name
         self.channel = channel
-        Dependencies.installed()
+        self.Dependencies.installed()
 
     @property
     def channel(self):
@@ -51,7 +50,7 @@ class BSSID:
     def __init__(self, bssids: dict[str, int], essid: ESSID=None):
         self.bssids = bssids
         self.essid = essid
-        Dependencies.installed()
+        self.Dependencies.installed()
     
     @property
     def bssids(self) -> dict[str, int]:
@@ -79,7 +78,7 @@ class Interface:
 
     def __init__(self, name: str):
         self._name = name
-        Dependencies.installed()
+        self.Dependencies.installed()
 
     @property
     def name(self):
