@@ -15,11 +15,9 @@ class ESSID:
     - `value` str - The name of the network.
     - `channel` int - The channel this One and ONLY AP is streaming on.
     """
-    from deauthy.auto_installer import Dependencies
     def __init__(self, name: str, channel: int):
         self.name = name
         self.channel = channel
-        self.Dependencies.installed()
 
     @property
     def channel(self):
@@ -50,7 +48,6 @@ class BSSID:
     def __init__(self, bssids: dict[str, int], essid: ESSID=None):
         self.bssids = bssids
         self.essid = essid
-        self.Dependencies.installed()
     
     @property
     def bssids(self) -> dict[str, int]:
@@ -78,7 +75,6 @@ class Interface:
 
     def __init__(self, name: str):
         self._name = name
-        self.Dependencies.installed()
 
     @property
     def name(self):
