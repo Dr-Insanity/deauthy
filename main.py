@@ -111,7 +111,7 @@ def main():
     Terminal.inform(msg=f"""{white}Type {light_white}"{white}!help{light_white}"{white} for a list of commands!""")
     if Checks.has_root():
         Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
-    Terminal.prompt(question=Terminal.deauthy_non_tag+"SH", allowed_replies=["any"], ending_color=yellow)
+    Terminal.prompt(question=f"{white}{bold}[{Terminal.deauthy_non_tag.lower()}"+f"{white}{bold}]{light_green}SH", allowed_replies=["any"], ending_color=yellow)
 
     method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
     if method == "BSSID":
