@@ -2,7 +2,6 @@ from colorama import Fore
 from subprocess import check_call
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
-from deauthy.terminal import Terminal
 from deauthy.functs import Functs
 
 prefix = f"!"
@@ -116,6 +115,7 @@ It won't be me.{end}""")
                 print(f"{white}Cancelled.")
         
         def d_set_iface():
+            from deauthy.terminal import Terminal
             Checks.Chipset_Support_Check()
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
@@ -133,6 +133,7 @@ It won't be me.{end}""")
             current_wiface.replace(current_wiface, cardname)
 
         def d_set_iface_mode():
+            from deauthy.terminal import Terminal
             cardname = Functs.prompt_for_ifaces()
             if not Interface.is_wireless(cardname):
                 Terminal.tell_issue(f"{red}{bold}HEY! {end}{white}That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
