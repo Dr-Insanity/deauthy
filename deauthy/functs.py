@@ -1,20 +1,19 @@
 from socket import if_nameindex
-from deauthy.terminal import Terminal
 from deauthy.deauthy_types import Interface
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 from halo import Halo
 
-white       = Terminal.White
-yellow      = Terminal.Yellow
-bold        = Terminal.Bold
-light_white = Terminal.Light_white
-end         = Terminal.End
-light_blue  = Terminal.Light_blue
-light_green = Terminal.Light_green
-red         = Terminal.Red
-
 class Functs:
     def prompt_for_ifaces():
+        from deauthy.terminal import Terminal
+        white       = Terminal.White
+        yellow      = Terminal.Yellow
+        bold        = Terminal.Bold
+        light_white = Terminal.Light_white
+        end         = Terminal.End
+        light_blue  = Terminal.Light_blue
+        light_green = Terminal.Light_green
+        red         = Terminal.Red
         cards = []
         interfaces = {} # type: dict[str, str]
         def gather_ifaces():
@@ -43,6 +42,8 @@ class Functs:
         """
         Accepts either "monitor" or "managed"
         """
+        from deauthy.terminal import Terminal
+        end = Terminal.End
         def managed():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
                 out = check_call(["airmon-ng", "stop", f"{card.name}mon"], stdout=DEVNULL, stderr=STDOUT)
