@@ -68,10 +68,10 @@ class Terminal:
             if allowed_replies[0].lower() == "any":
                 return reply
             if allowed_replies[0].lower() == "deauthy | sh" and reply not in CommandHandler.own_commands:
-                Terminal.tell_issue(Terminal, msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
+                Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
                 reply = Terminal.prompt(Terminal, question=question, allowed_replies=allowed_replies)
                 return reply
             else:
-                Terminal.tell_issue(Terminal, msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.Red}reply{Terminal.End}{Terminal.Red} :/")
+                Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.Red}reply{Terminal.End}{Terminal.Red} :/")
                 reply = Terminal.prompt(Terminal, question=question, allowed_replies=allowed_replies)
                 return reply
