@@ -1,5 +1,6 @@
 from os import geteuid
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
+import re
 
 class Checks:
     """
@@ -35,3 +36,9 @@ class Checks:
                 Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
                 Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
                 exit(1)
+    
+    def is_valid_MAC(mac: str):
+        """MAC address validator\n\nParameters\n----------\n- `str` - A MAC-address\n\nReturns\n-------\n- `True` - The given MAC address is valid\n- `False` - The given MAC address is invalid\n"""
+        if re.match("[0-9a-f]{2}([-:]?)[0-9a-f]{2}(\\1[0-9a-f]{2}){4}$", mac.lower()):
+            return True
+        return False

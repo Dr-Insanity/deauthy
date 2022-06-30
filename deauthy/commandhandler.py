@@ -136,10 +136,49 @@ It won't be me.{end}""")
             from deauthy.terminal import Terminal
             cardname = Functs.prompt_for_ifaces()
             if not Interface.is_wireless(cardname):
-                Terminal.tell_issue(f"{red}{bold}HEY! {end}{white}That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+                Terminal.tell_issue(f"{red}{bold}HEY!{end}{white}That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
                 return
             mode     = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
             Functs.switch(Interface(cardname), mode.lower())
+
+        def d_set_target():
+            from deauthy.terminal import Terminal
+            from deauthy.functs import Functs
+            from main import target_mac, current_wiface
+            from deauthy.checks import Checks
+            target_mac_addr = Terminal.prompt(question="Which client mac address are we going to send deauth packets to?", allowed_replies=["any"])
+            if Checks.is_valid_MAC(target_mac_addr):
+                pass
+            elif not Checks.is_valid_MAC(target_mac_addr):
+                Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a valid MAC address!{red}{bold} >:({end}")
+            if target_mac == f"":
+                target_mac += target_mac_addr
+            elif target_mac != f"":
+                Terminal.inform(f"{end}{cyan}WAIT!{end}{white} You have already set a target before!")
+                Terminal.inform(f"{white}For now, DeAuthy supports up to max 1 target device{end}")
+                answ = Terminal.prompt(f"{red}{bold}Replace{end}{white} old target with {light_green}{bold}new{end}{white} target? ({light_green}Y{white}/{red}N{white})", ["y", "n"])
+                if answ.lower() == "y":
+                    old_mac = target_mac
+                    target_mac += target_mac_addr
+                    Terminal.inform(f"{white}{bold}Target updated:{end}{light_white} {old_mac} --> {light_green}{bold}{target_mac}{end}")
+                if answ.lower() == "n":
+                    print(f"{white}Leaving target {light_green}{bold}unchanged{end}.")
+            Terminal.inform(f"{white}Now we need to specify which network(s) are forbidden for our target to connect to{end}")
+            method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
+            if method == "BSSID":
+                try:
+                    amt_of_bssids   = Terminal.prompt(question=f"How many BSSIDs?", allowed_replies=["any"])
+                    numb_of_bssids  = int(amt_of_bssids)
+                    bssids_added = 0
+                    while bssids_added < numb_of_bssids:
+                        Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
+                    Functs.do_bssid_method()
+                except KeyboardInterrupt:
+                    Functs.switch(Interface(current_wiface), "managed")
+                    return
+            elif method == "ESSID":
+                Functs.ESSID_METHOD.deauth(Config.ESSID)
+                return
 
         handle_own_cmd = {
             f"{prefix}help":d_help,

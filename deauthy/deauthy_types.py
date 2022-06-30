@@ -16,19 +16,19 @@ class ESSID:
     - `channel` int - The channel this One and ONLY AP is streaming on.
     """
     def __init__(self, name: str, channel: int):
-        self.name = name
-        self.channel = channel
+        self._name = name
+        self._channel = channel
 
     @property
     def channel(self):
         """The wireless network's channel"""
-        channel = self.channel
+        channel = self._channel
         return channel
 
     @property
     def value(self):
         """The value for this ESSID"""
-        name = self.name
+        name = self._name
         return name
 
 class BSSID:
@@ -46,19 +46,19 @@ class BSSID:
     """
 
     def __init__(self, bssids: dict[str, int], essid: ESSID=None):
-        self.bssids = bssids
-        self.essid = essid
+        self._bssids = bssids
+        self._essid = essid
     
     @property
-    def bssids(self) -> dict[str, int]:
+    def bssids(self):
         """A set of BSSIDs and their channels, in a dict."""
-        bssids_data = self.bssids
+        bssids_data = self._bssids
         return bssids_data
 
     @property
-    def essid(self) -> ESSID:
+    def essid(self):
         """The ESSID of a wireless network, can be None"""
-        essid = self.essid
+        essid = self._essid
         return essid
 
 class Interface:
