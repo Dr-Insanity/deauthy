@@ -77,7 +77,7 @@ def main():
     Terminal.inform(msg=f"""{white}Type {light_white}"{white}!help{light_white}"{white} for a list of commands!""")
     if Checks.has_root():
         Terminal.inform(msg=f"{white}Running as {light_green}{bold}Root{end}")
-    Terminal.prompt(question=f" ", allowed_replies=["any"], ending_color=yellow)
+    Terminal.prompt(question=f"{white}deauthy | sh", allowed_replies=["any"], ending_color=yellow)
 
 
 try:
