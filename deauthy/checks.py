@@ -29,7 +29,7 @@ class Checks:
                     put = out.decode('utf8', 'strict')
                     return True
             except CalledProcessError as e:
-                print(e.stderr)
+                print(e.stdout)
                 Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
                 Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
                 Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
