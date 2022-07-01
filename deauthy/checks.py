@@ -30,13 +30,13 @@ class Checks:
                     return True
             except CalledProcessError as e:
                 continue
-            Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
-            Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
-            Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
-            Terminal.tell_issue(msg=f"{red}{bold}Please contribute to the project here by making an issue")
-            Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
-            Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
-            exit(1)
+        Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
+        Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
+        Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
+        Terminal.tell_issue(msg=f"{red}{bold}Please contribute to the project here by making an issue")
+        Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
+        Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
+        exit(1)
     
     def is_valid_MAC(mac: str):
         """MAC address validator\n\nParameters\n----------\n- `str` - A MAC-address\n\nReturns\n-------\n- `True` - The given MAC address is valid\n- `False` - The given MAC address is invalid\n"""
