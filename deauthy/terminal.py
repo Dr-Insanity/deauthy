@@ -52,6 +52,7 @@ class Terminal:
         print(Terminal.deAuThY + d_hey + entire_color + msg)
 
     def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
+        from halo import Halo as H
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
@@ -60,7 +61,12 @@ class Terminal:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
-                        exitcode = check_call(args=cmd)
+                        with H(text=f"Running '{reply.lower}'") as h:
+                            exitcode = check_call(args=cmd)
+                            if exitcode == 0:
+                                h.succeed(f"Done")
+                            elif exitcode != 0:
+                                h.fail(f"Some errors/warnings occured.")
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                         return reply
                     else:
