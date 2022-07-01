@@ -1,8 +1,5 @@
-from http.server import executable
 from colorama import Fore
 from subprocess import check_call
-
-from setuptools import Command
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
