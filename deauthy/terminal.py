@@ -68,7 +68,6 @@ class Terminal:
                         exitcode = check_call([executable])
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                 except CalledProcessError:
-                    print("I'M ALIIIIVE")
                     return reply
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
@@ -79,7 +78,7 @@ class Terminal:
             else:
                 if allowed_replies[0].lower() == "any":
                     return reply
-                if allowed_replies[0].lower() == "deauthy | sh" and reply not in CommandHandler.own_commands:
+                if allowed_replies[0].lower() == "deauthy | sh" and reply.split()[0] not in CommandHandler.own_commands:
 
                     Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
                     reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
