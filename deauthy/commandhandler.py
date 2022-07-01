@@ -62,18 +62,13 @@ class CommandHandler:
         fragmented_cmd = entire_cmd.split()
         return fragmented_cmd
 
-    def do_cmd(*args):
-
-        for arg in args:
-
-
     class Debian:
         supported_commands_debian_based_distros = [
             "ifconfig",
             "ls",
             "airmon-ng",
         ]
-        strip
+
         def do_cmd(command: str, *args):
             if command in CommandHandler.Debian.supported_commands_debian_based_distros:
                 for key in args
