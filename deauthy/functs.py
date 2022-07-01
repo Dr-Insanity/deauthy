@@ -70,7 +70,7 @@ class Functs:
             raise RuntimeError("That's not a valid interface mode.")
 
     def do_bssid_method():
-        from main import current_wiface, BSSID_METHOD
+        from deauthy.storage import current_wiface
         for bssid, channel in Config.BSSIDs.items():
             BSSID_METHOD.deauth(bssid)
         try:
@@ -81,14 +81,14 @@ class Functs:
 
     class ChannelSys:
         def hopper(channel_number: int):
-            from main import current_wiface
+            from deauthy.storage import current_wiface
             """Hop to a different channel"""
             out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
         def deauth(bSSID: BSSID):
             """"""
-            from main import current_wiface, target_mac
+            from deauthy.storage import current_wiface, target_mac
 
             for key, value in bSSID.bssids:
                 Functs.ChannelSys.hopper()
@@ -101,7 +101,7 @@ class Functs:
     class ESSID_METHOD:
         def deauth(eSSID: ESSID):
             """"""
-            from main import current_wiface, target_mac
+            from deauthy.storage import current_wiface, target_mac
             channel = eSSID.channel
             Functs.ChannelSys.hopper(channel)
             try:

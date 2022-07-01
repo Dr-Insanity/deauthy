@@ -21,9 +21,6 @@ end         = Terminal.End
 light_blue  = Terminal.Light_blue
 underline   = Terminal.Underline
 
-current_wiface = f""
-target_mac     = f""
-
 # Beautiful is better than ugly.
 # Explicit is better than implicit.
 # Simple is better than complex.

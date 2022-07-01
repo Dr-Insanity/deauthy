@@ -46,7 +46,7 @@ class Checks:
 
     class WirelessInterface:
         def was_previously_set():
-            from main import current_wiface
+            from deauthy.storage import current_wiface
             if current_wiface == f"":
                 return False
             return True
@@ -55,7 +55,7 @@ class Checks:
         """Class for checks concerning targets"""
         class Client_MAC:
             def was_previously_set():
-                from main import target_mac
+                from deauthy.storage import target_mac
                 if target_mac ==  f"":
                     return False
                 return True

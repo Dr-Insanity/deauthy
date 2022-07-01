@@ -117,7 +117,7 @@ It won't be me.{end}""")
         def d_set_iface():
             from deauthy.terminal import Terminal
             from deauthy.checks import Checks
-            from main import current_wiface
+            from deauthy.storage import current_wiface
             Checks.Chipset_Support_Check()
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
@@ -156,7 +156,7 @@ It won't be me.{end}""")
         def d_set_target():
             from deauthy.terminal import Terminal
             from deauthy.functs import Functs
-            from main import target_mac, current_wiface
+            from deauthy.storage import target_mac, current_wiface
             from deauthy.checks import Checks
             target_mac_addr = Terminal.prompt(question="Which client mac address are we going to send deauth packets to?", allowed_replies=["any"])
             if Checks.is_valid_MAC(target_mac_addr):
