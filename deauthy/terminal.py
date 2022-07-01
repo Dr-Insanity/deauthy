@@ -52,7 +52,6 @@ class Terminal:
         print(Terminal.deAuThY + d_hey + entire_color + msg)
 
     def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
-        from halo import Halo as H
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
@@ -61,12 +60,7 @@ class Terminal:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
-                        with H(text=f"{Terminal.Light_green}{Terminal.Bold}Running '{reply.lower()}'\n\n\n") as h:
-                            exitcode = check_call(args=cmd)
-                            if exitcode == 0:
-                                h.succeed(f"Done")
-                            elif exitcode != 0:
-                                h.fail(f"{Terminal.Red}{Terminal.Bold}Some errors/warnings occured.")
+                        exitcode = check_call(args=cmd)
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                         return reply
                     else:
@@ -74,13 +68,6 @@ class Terminal:
                         exitcode = check_call([executable])
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                 except CalledProcessError as e:
-                    print(e.stdout)
-                    print(e.stderr)
-                    print(e.output)
-                    print(e.returncode)
-                    print(e.args)
-                    print(e.cmd)
-                    h.fail(f"{Terminal.Red}{Terminal.Bold}Some errors/warnings occured.")
                     return reply
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
