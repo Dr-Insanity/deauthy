@@ -110,7 +110,7 @@ It won't be me.{end}""")
             res = prompt(f"{white}Are you very sure you want to do this? ({light_green}Y{white}/{red}N{white})", ["y", "n"], ending_color=red)
             if res.lower() == "y":
                 from deauthy.auto_installer import Dependencies
-                Dependencies.remove(Dependencies)
+                Dependencies.remove()
             if res.lower() == "n":
                 print(f"{white}Cancelled.")
         
