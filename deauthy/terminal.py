@@ -1,6 +1,6 @@
 from deauthy.commandhandler import CommandHandler
 from colorama import Fore
-from subprocess import check_call
+from subprocess import CalledProcessError, check_call
 
 class Terminal:
     """
@@ -57,15 +57,18 @@ class Terminal:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
                 print(Terminal.End)
-                if len(reply.split()) >= 2:
-                    cmd = CommandHandler.stage_args(reply)
-                    exitcode = check_call(args=cmd)
-                    reply = Terminal.prompt(question, allowed_replies, ending_color)
-                    return reply
-                else:
-                    executable = CommandHandler.stage_args(reply)[0]
-                    exitcode = check_call([executable])
-                    reply = Terminal.prompt(question, allowed_replies, ending_color)
+                try:
+                    if len(reply.split()) >= 2:
+                        cmd = CommandHandler.stage_args(reply)
+                        exitcode = check_call(args=cmd)
+                        reply = Terminal.prompt(question, allowed_replies, ending_color)
+                        return reply
+                    else:
+                        executable = CommandHandler.stage_args(reply)[0]
+                        exitcode = check_call([executable])
+                        reply = Terminal.prompt(question, allowed_replies, ending_color)
+                except CalledProcessError as e:
+                    print(e.stderr)
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
                 reply = Terminal.prompt(question, allowed_replies, ending_color)
