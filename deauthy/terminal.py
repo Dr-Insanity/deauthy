@@ -61,21 +61,21 @@ class Terminal:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
-                        with H(text=f"Running '{reply.lower()}'\n") as h:
+                        with H(text=f"{Terminal.Light_green}{Terminal.Bold}Running '{reply.lower()}'\n") as h:
                             exitcode = check_call(args=cmd)
                             if exitcode == 0:
                                 h.succeed(f"Done")
                             elif exitcode != 0:
-                                h.fail(f"Some errors/warnings occured.")
+                                h.fail(f"{Terminal.Red}{Terminal.Bold}Some errors/warnings occured.")
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                         return reply
                     else:
                         executable = CommandHandler.stage_args(reply)[0]
                         exitcode = check_call([executable])
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
-                except CalledProcessError as e:
-                    h.fail(f"Some errors/warnings occured.")
-                    return
+                except CalledProcessError:
+                    h.fail(f"{Terminal.Red}{Terminal.Bold}Some errors/warnings occured.")
+                    return reply
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
                 reply = Terminal.prompt(question, allowed_replies, ending_color)
