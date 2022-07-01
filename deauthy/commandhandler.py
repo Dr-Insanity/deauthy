@@ -72,6 +72,7 @@ class CommandHandler:
 
     own_commands = [
         f"{prefix}help",
+        f"{prefix}disclaimer",
         f"{prefix}about",
         f"{prefix}repo",
         f"{prefix}announcement",
@@ -213,10 +214,10 @@ It won't be me.{end}""")
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
-            f"{prefix}about":d_about,
-            f"{prefix}repo":d_repo,
-            f"{prefix}announcements":d_announcements,
             f"{prefix}disclaimer":d_disclaimer,
+            f"{prefix}repo":d_repo,
+            f"{prefix}about":d_about,
+            f"{prefix}announcements":d_announcements,
             f"{prefix}remove":d_remove,
             f"{prefix}interface":d_set_iface,
             f"{prefix}interfacemode":d_set_iface_mode,
