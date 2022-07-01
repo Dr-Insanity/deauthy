@@ -61,7 +61,7 @@ class Terminal:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
-                        with H(text=f"Running '{reply.lower}'") as h:
+                        with H(text=f"Running '{reply.lower()}'") as h:
                             exitcode = check_call(args=cmd)
                             if exitcode == 0:
                                 h.succeed(f"Done")
@@ -74,7 +74,7 @@ class Terminal:
                         exitcode = check_call([executable])
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                 except CalledProcessError as e:
-                    print(e.stderr)
+                    print()
                     return
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
