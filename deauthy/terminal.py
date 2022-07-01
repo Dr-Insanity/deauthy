@@ -57,11 +57,16 @@ class Terminal:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
                 print(Terminal.End)
-                args = CommandHandler.stage_args(reply)[1:]
-                executable = CommandHandler.stage_args(reply)[0]
-                exitcode = check_call(args=args, executable=executable)
-                reply = Terminal.prompt(question, allowed_replies, ending_color)
-                return reply
+                if reply.split() >= 2:
+                    args = CommandHandler.stage_args(reply)[1:]
+                    executable = CommandHandler.stage_args(reply)[0]
+                    exitcode = check_call(args=args, executable=executable)
+                    reply = Terminal.prompt(question, allowed_replies, ending_color)
+                    return reply
+                else:
+                    executable = CommandHandler.stage_args(reply)[0]
+                    exitcode = check_call([executable])
+                    reply = Terminal.prompt(question, allowed_replies, ending_color)
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
                 reply = Terminal.prompt(question, allowed_replies, ending_color)
