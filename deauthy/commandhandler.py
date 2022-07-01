@@ -75,7 +75,7 @@ class CommandHandler:
         f"{prefix}disclaimer",
         f"{prefix}about",
         f"{prefix}repo",
-        f"{prefix}announcement",
+        f"{prefix}announcements",
         f"{prefix}remove",
         f"{prefix}interface",
         f"{prefix}interfacemode",
