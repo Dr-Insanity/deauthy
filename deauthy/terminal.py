@@ -62,7 +62,8 @@ class Terminal:
                 return reply
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
-                return None
+                reply = Terminal.prompt(question, allowed_replies, ending_color)
+                return reply
             elif reply.lower() in allowed_replies:
                 return reply
             else:
