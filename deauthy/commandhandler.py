@@ -123,8 +123,12 @@ It won't be me.{end}""")
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
             cardname = Functs.prompt_for_ifaces()
             if not Interface.is_wireless(cardname):
-                Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
-                return
+                # temporary
+                if cardname == "enp0s3":
+                    pass
+                else:
+                    Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+                    return
             if Checks.WirelessInterface.was_previously_set():
                 Terminal.tell_issue(f"{end}{cyan}WAIT!{end}{white} You've previously setup a wireless interface before!")
                 confirm_chnge_interf = Terminal.prompt(f"{white}Do you still want to change interfaces? {Terminal.y_n}", ["y", "n"], light_green) 
