@@ -22,7 +22,7 @@ class Checks:
         bold = Terminal.Bold
         end = Terminal.End
         Terminal.inform(msg=f"Checking if any of your devices (Built-in & External) support MONITOR mode...")
-        for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93", "82371AB/EB/MB"]:
+        for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93", "82371AB"]:
             try:
                 out = check_output(f"lspci | grep {chipset_name}", shell=True)
                 if chipset_name in out.decode():
