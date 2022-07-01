@@ -57,7 +57,7 @@ class Terminal:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
                 print(Terminal.End)
-                if reply.split() >= 2:
+                if len(reply.split()) >= 2:
                     args = CommandHandler.stage_args(reply)[1:]
                     executable = CommandHandler.stage_args(reply)[0]
                     exitcode = check_call(args=args, executable=executable)
