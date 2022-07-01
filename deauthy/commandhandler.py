@@ -54,6 +54,7 @@ class CommandHandler:
     supported_commands_debian_based_distros = [
         "ifconfig",
         "ls",
+        "airmon-ng",
     ]
     own_commands = [
         f"{prefix}help",
