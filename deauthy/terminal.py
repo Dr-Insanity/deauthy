@@ -58,9 +58,8 @@ class Terminal:
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
                 print(Terminal.End)
                 if len(reply.split()) >= 2:
-                    args = CommandHandler.stage_args(reply)[1:]
-                    executable = CommandHandler.stage_args(reply)[0]
-                    exitcode = check_call(args=args, executable=executable)
+                    cmd = CommandHandler.stage_args(reply)
+                    exitcode = check_call(args=cmd)
                     reply = Terminal.prompt(question, allowed_replies, ending_color)
                     return reply
                 else:
