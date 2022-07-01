@@ -69,6 +69,7 @@ class Terminal:
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                 except CalledProcessError as e:
                     print(e.stderr)
+                    return
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
                 reply = Terminal.prompt(question, allowed_replies, ending_color)
