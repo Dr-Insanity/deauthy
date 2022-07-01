@@ -56,7 +56,7 @@ class Terminal:
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
-            if allowed_replies[0].upper() == "OSCMD":
+            if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
@@ -79,7 +79,8 @@ class Terminal:
             else:
                 if allowed_replies[0].lower() == "any":
                     return reply
-                if allowed_replies[0].upper() == "OSCMD" and reply.split()[0] not in CommandHandler.own_commands:
+                if allowed_replies[0].lower() == "deauthy | sh" and reply.split()[0] not in CommandHandler.own_commands:
+
                     Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
                     reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
                     return reply
