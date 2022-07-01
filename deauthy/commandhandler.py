@@ -1,5 +1,8 @@
+from http.server import executable
 from colorama import Fore
 from subprocess import check_call
+
+from setuptools import Command
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
@@ -30,9 +33,11 @@ def inform(msg: str, entire_color=white):
 def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
     d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
     reply = input(deAuThY + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
-    if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
+    if reply.lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
         print(end)
-        check_call(reply)
+        args = CommandHandler.stage_args(reply)[1:]
+        executable = CommandHandler.stage_args(reply)[0]
+        exitcode = check_call(args=args, executable=executable)
         reply = prompt(question, allowed_replies, ending_color)
         return reply
     elif reply in CommandHandler.own_commands:
@@ -51,11 +56,28 @@ def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str
 
 class CommandHandler:
     """A class made to handle Deauthy's own commands as well as SOME linux commands."""
-    supported_commands_debian_based_distros = [
-        "ifconfig",
-        "ls",
-        "airmon-ng",
-    ]
+
+    def stage_args(entire_cmd: str):
+        """Get an entire command, with or without arguments, as parts into a list, to make it work with subprocess\n\nParameters\n----------\n- `entire_cmd` [str] - An entire command, with/without args.\n\nReturns\n-------\n- `fragmented_cmd` [list[str]] - The command you gave in, just in parts in a LIST"""
+        fragmented_cmd = entire_cmd.split()
+        return fragmented_cmd
+
+    def do_cmd(*args):
+
+        for arg in args:
+
+
+    class Debian:
+        supported_commands_debian_based_distros = [
+            "ifconfig",
+            "ls",
+            "airmon-ng",
+        ]
+        strip
+        def do_cmd(command: str, *args):
+            if command in CommandHandler.Debian.supported_commands_debian_based_distros:
+                for key in args
+
     own_commands = [
         f"{prefix}help",
         f"{prefix}about",
