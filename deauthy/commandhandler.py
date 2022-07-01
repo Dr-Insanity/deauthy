@@ -91,7 +91,7 @@ You can keep an eye on the Testing branch, but I don't recommend cloning it, sin
         def d_help():
             print(f"""{white}{bold}[{end}DeAuthy commands{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
 {light_white}- {light_green}help {light_white}-- {white}Views this message.
-{light_white}- {light_green}disclaimer {light_white}-- {white}Displays a disclaiemr for DeAuthy.
+{light_white}- {light_green}disclaimer {light_white}-- {white}Displays the disclaimer for DeAuthy.
 {light_white}- {light_green}repo {light_white}-- {white}Displays the link to deauthy's Github repository.
 {light_white}- {light_green}about {light_white}-- {white}Displays information about the project.
 {light_white}- {light_green}announcements {light_white}-- {white}Displays important note(s) that are very recommended to read.
