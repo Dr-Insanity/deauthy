@@ -67,7 +67,8 @@ class Terminal:
                         executable = CommandHandler.stage_args(reply)[0]
                         exitcode = check_call([executable])
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
-                except CalledProcessError as e:
+                except CalledProcessError:
+                    print("I'M ALIIIIVE")
                     return reply
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
