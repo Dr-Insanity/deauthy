@@ -74,7 +74,7 @@ class Terminal:
                         exitcode = check_call([executable])
                         reply = Terminal.prompt(question, allowed_replies, ending_color)
                 except CalledProcessError as e:
-                    print(f"\n")
+                    h.fail(f"Some errors/warnings occured.")
                     return
             elif reply in CommandHandler.own_commands:
                 CommandHandler.Own_Cmds.handle_own_cmd[reply]()
