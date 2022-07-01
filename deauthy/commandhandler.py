@@ -69,9 +69,6 @@ class CommandHandler:
             "airmon-ng",
         ]
 
-        def do_cmd(command: str, *args):
-            if command in CommandHandler.Debian.supported_commands_debian_based_distros:
-                for key in args
 
     own_commands = [
         f"{prefix}help",
