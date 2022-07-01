@@ -42,3 +42,31 @@ class Checks:
         if re.match("[0-9a-f]{2}([-:]?)[0-9a-f]{2}(\\1[0-9a-f]{2}){4}$", mac.lower()):
             return True
         return False
+
+    class WirelessInterface:
+        def was_previously_set():
+            from main import current_wiface
+            if current_wiface == f"":
+                return False
+            return True
+
+    class Target:
+        """Class for checks concerning targets"""
+        class Client_MAC:
+            def was_previously_set():
+                from main import target_mac
+                if target_mac ==  f"":
+                    return False
+                return True
+
+        class Networks:
+            """Forbidden networks for target device"""
+            class BSSID:
+                """Were BSSIDs set up previously?"""
+                def was_previously_set():
+                    """B"""
+
+            class ESSID:
+                """Was an ESSID set up previously?"""
+                def was_previously_set():
+                    """A"""

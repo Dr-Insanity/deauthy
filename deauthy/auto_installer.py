@@ -1,19 +1,18 @@
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 
 class Dependencies:
-    from deauthy.terminal import Terminal
     """
     DeAuthy's Dependencies class, full of code ensuring dependencies are all installed.
     The idea is give 0 errors: DeAuthy MUST run properly.
     """
     deps = ["pyroute2", "colorama", "halo"]
 
-    def install(self):
+    def install():
         """Installs every non-standard lib dependency DeAuthy needs."""
-        for dep in self.deps:
+        for dep in Dependencies.deps:
             out = check_output(f"pip install {dep} --upgrade --no-warn-conflicts --no-warn-script-location", shell=True)
 
-    def installed(self):
+    def installed():
         """Ensures the installation of DeAuthy's dependencies.\n
         Returns
         -------
@@ -45,15 +44,16 @@ class Dependencies:
                 d_hey = White + f"{Bold}[" + Light_green + "+" + White + f"]{End}{Light_white} "
                 print(f"{deAuThY}{d_wut} {Red}{Bold}HEY! {End} We're missing some dependencies here...")
                 print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install them!")
-                self.install(self)
+                Dependencies.install()
                 return False
             except ImportError:
-                self.Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
-                self.Terminal.inform(f"Attempting to install them!")
-                self.install(self)
+                from deauthy.terminal import Terminal
+                Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
+                Terminal.inform(f"Attempting to install them!")
+                Dependencies.install()
                 return False
 
-    def remove(self):
+    def remove():
         """A class method for removing all DeAuthy's dependencies, if that is really wanted. 
         These dependencies may also be used by other python applications. 
         Deinstallation of DeAuthy's dependencies may result in 
@@ -65,32 +65,33 @@ class Dependencies:
         - ``False`` - Failed to uninstall DeAuthy's dependencies.
         """
         from halo import Halo
-        self.Terminal.inform(msg=f"{self.Terminal.White}Uninstalling {len(self.deps)} packages")
+        from deauthy.terminal import Terminal
+        Terminal.inform(msg=f"{Terminal.White}Uninstalling {len(Dependencies.deps)} packages")
         def pkgs():
             current_pkg = 1
             failed_pkgs = 0
             successful  = 0
-            for dep in self.deps:
-                with Halo(text=f"Uninstalling {dep} {self.Terminal.Light_green}{current_pkg}{self.Terminal.White}/{len(self.deps)}") as spinner:
+            for dep in Dependencies.deps:
+                with Halo(text=f"Uninstalling {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(Dependencies.deps)}") as spinner:
                     try:
                         out = check_output(f"pip uninstall {dep} --yes", shell=True)
                         if "PermissionError: [Errno 13]" in out.decode():
-                            spinner.fail(text=f"{self.Terminal.Red}{self.Terminal.Bold}Failed deinstallation of {self.Terminal.White}{dep}\n{self.Terminal.Bold}Error: {self.Terminal.Red}PermissionError: [Errno 13]{self.Terminal.End}...\n{self.Terminal.White}Skipping!")
+                            spinner.fail(text=f"{Terminal.Red}{Terminal.Bold}Failed deinstallation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
                             failed_pkgs += 1
                         elif f"Successfully uninstalled {dep}" in out.decode():
-                            spinner.succeed(text=f"{self.Terminal.Light_green}Successfully uninstalled {self.Terminal.White}{dep}{self.Terminal.End}")
+                            spinner.succeed(text=f"{Terminal.Light_green}Successfully uninstalled {Terminal.White}{dep}{Terminal.End}")
                             current_pkg += 1
                             successful += 1
                         else:
-                            spinner.fail(f"""{self.Terminal.Warning} {self.Terminal.White}Something went wrong whilst uninstalling "{dep}"\nI suggest you try to uninstall it manually: {self.Terminal.White}"{self.Terminal.Bold}{self.Terminal.Light_white}pip3 uninstall {dep}{self.Terminal.End}{self.Terminal.White}"{self.Terminal.End}""")
+                            spinner.fail(f"""{Terminal.Warning} {Terminal.White}Something went wrong whilst uninstalling "{dep}"\nI suggest you try to uninstall it manually: {Terminal.White}"{Terminal.Bold}{Terminal.Light_white}pip3 uninstall {dep}{Terminal.End}{Terminal.White}"{Terminal.End}""")
                             failed_pkgs += 1
                     except CalledProcessError as e:
                         e.returncode
             return {
-                "success":successful, "failed":failed_pkgs, "total":len(self.deps)}
+                "success":successful, "failed":failed_pkgs, "total":len(Dependencies.deps)}
         results = pkgs()
-        self.Terminal.inform(msg=f"""{self.Terminal.Light_green}{self.Terminal.Bold}{results["success"]}{self.Terminal.End}{self.Terminal.White} dependencies were {self.Terminal.Light_green}{self.Terminal.Bold}successfully {self.Terminal.White}removed!""", entire_color=self.Terminal.White)
-        self.Terminal.inform(msg=f"""{self.Terminal.Red}{self.Terminal.Bold}{results["failed"]}{self.Terminal.End}{self.Terminal.White} dependencies failed to be removed""", entire_color=self.Terminal.White)
-        self.Terminal.inform(msg=f"""{self.Terminal.White}{self.Terminal.Bold}{results["total"]}{self.Terminal.End}{self.Terminal.White} total dependencies were in use by DeAuthy""", entire_color=self.Terminal.White)
-        self.Terminal.inform(msg=f"{self.Terminal.White}Exiting!{self.Terminal.End}")
+        Terminal.inform(msg=f"""{Terminal.Light_green}{Terminal.Bold}{results["success"]}{Terminal.End}{Terminal.White} dependencies were {Terminal.Light_green}{Terminal.Bold}successfully {Terminal.White}removed!""", entire_color=Terminal.White)
+        Terminal.inform(msg=f"""{Terminal.Red}{Terminal.Bold}{results["failed"]}{Terminal.End}{Terminal.White} dependencies failed to be removed""", entire_color=Terminal.White)
+        Terminal.inform(msg=f"""{Terminal.White}{Terminal.Bold}{results["total"]}{Terminal.End}{Terminal.White} total dependencies were in use by DeAuthy""", entire_color=Terminal.White)
+        Terminal.inform(msg=f"{Terminal.White}Exiting!{Terminal.End}")
         exit(0)

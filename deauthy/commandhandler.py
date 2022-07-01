@@ -116,21 +116,33 @@ It won't be me.{end}""")
         
         def d_set_iface():
             from deauthy.terminal import Terminal
+            from deauthy.checks import Checks
+            from main import current_wiface
             Checks.Chipset_Support_Check()
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
             cardname = Functs.prompt_for_ifaces()
             if not Interface.is_wireless(cardname):
-                Terminal.tell_issue(f"{red}{bold}HEY! {end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+                Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
                 return
-            mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? ({light_green}Y{white}/{red}N{white})""", ["y", "n"], light_green)
+            if Checks.WirelessInterface.was_previously_set():
+                Terminal.tell_issue(f"{end}{cyan}WAIT!{end}{white} You've previously setup a wireless interface before!")
+                confirm_chnge_interf = Terminal.prompt(f"{white}Do you still want to change interfaces? {Terminal.y_n}", ["y", "n"], light_green) 
+                if confirm_chnge_interf.lower() == "y":
+                    old_iface = current_wiface
+                    current_wiface.replace(current_wiface, cardname)
+                    Terminal.inform(f"{white}{bold}wireless interface updated:{end}{light_white} {old_iface} --> {light_green}{bold}{current_wiface}{end}")
+                if confirm_chnge_interf.lower() == "n":
+                    print(f"{white}Leaving current set interface {light_green}{bold}unchanged{end}.")
+                    return
+            current_wiface.replace(current_wiface, cardname)
+            mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? {Terminal.y_n}""", ["y", "n"], light_green)
             if mon_or_not.lower() == "y":
                 Functs.switch(Interface(cardname), "monitor")
+                return
             if mon_or_not.lower() == "n":
                 Terminal.inform(f"""{white}Leaving {cardname}'s mode unchanged.""")
-            
-            from main import current_wiface
-            current_wiface.replace(current_wiface, cardname)
+                return
 
         def d_set_iface_mode():
             from deauthy.terminal import Terminal

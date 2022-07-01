@@ -38,6 +38,7 @@ class Terminal:
     Bold        = '\033[1m'
     Underline   = '\033[4m'
     End         = '\033[0m'
+    y_n         = f"({Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.WHITE})"
     Warning     = f"{Yellow}{Bold}[{Fore.YELLOW}{Bold}warning{Yellow}{Bold}]{End}"
     deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
     deauthy_non_tag = Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y"
@@ -52,26 +53,29 @@ class Terminal:
 
     def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
-        reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
-        if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
-            print(Terminal.End)
-            check_call(reply)
-            reply = Terminal.prompt(question, allowed_replies, ending_color)
-            return reply
-        elif reply in CommandHandler.own_commands:
-            CommandHandler.Own_Cmds.handle_own_cmd[reply]()
-            reply = Terminal.prompt(question, allowed_replies, ending_color)
-            return reply
-        elif reply.lower() in allowed_replies:
-            return reply
-        else:
-            if allowed_replies[0].lower() == "any":
+        try:
+            reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
+            if reply.lower() in CommandHandler.supported_commands_debian_based_distros:
+                print(Terminal.End)
+                check_call(reply)
+                reply = Terminal.prompt(question, allowed_replies, ending_color)
                 return reply
-            if allowed_replies[0].lower() == "deauthy | sh" and reply not in CommandHandler.own_commands:
-                Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
-                reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
+            elif reply in CommandHandler.own_commands:
+                CommandHandler.Own_Cmds.handle_own_cmd[reply]()
+                reply = Terminal.prompt(question, allowed_replies, ending_color)
+                return reply
+            elif reply.lower() in allowed_replies:
                 return reply
             else:
-                Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.Red}reply{Terminal.End}{Terminal.Red} :/")
-                reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
-                return reply
+                if allowed_replies[0].lower() == "any":
+                    return reply
+                if allowed_replies[0].lower() == "deauthy | sh" and reply not in CommandHandler.own_commands:
+                    Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
+                    reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
+                    return reply
+                else:
+                    Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.Red}reply{Terminal.End}{Terminal.Red} :/")
+                    reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
+                    return reply
+        except KeyboardInterrupt:
+            quit(0)
