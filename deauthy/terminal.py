@@ -52,12 +52,11 @@ class Terminal:
         d_hey = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_green + "+" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         print(Terminal.deAuThY + d_hey + entire_color + msg)
 
-    def prompt(question: str, allowed_replies: list[str], ending_color=Fore.WHITE) -> str:
+    def prompt(question: str, allowed_replies: list[str], ending_color=End) -> str:
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
-                print(Terminal.End)
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
