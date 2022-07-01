@@ -61,8 +61,7 @@ class Terminal:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)
-                        with H(text=f"{Terminal.Light_green}{Terminal.Bold}Running '{reply.lower()}'\n") as h:
-                            print(f"")
+                        with H(text=f"{Terminal.Light_green}{Terminal.Bold}Running '{reply.lower()}'\n\n\n") as h:
                             exitcode = check_call(args=cmd)
                             if exitcode == 0:
                                 h.succeed(f"Done")
