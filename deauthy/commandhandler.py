@@ -76,6 +76,7 @@ class CommandHandler:
         f"{prefix}remove",
         f"{prefix}interface",
         f"{prefix}interfacemode",
+        f"{prefix}settarget",
     ]
 
     class Own_Cmds:
@@ -94,7 +95,8 @@ You can keep an eye on the Testing branch, but I don't recommend cloning it, sin
 {light_white}- {light_green}announcements {light_white}-- {white}Displays important note(s) that are very recommended to read.
 {light_white}- {light_green}remove {light_white}-- {white}Attempts to remove DeAuthy's dependencies that are not from the standard python library.
 {light_white}- {light_green}interface {light_white}-- {white}Sets the wireless network interface for DeAuthy to use.
-{light_white}- {light_green}interfacemode {light_white}-- {white}Set the mode for a wireless network interface card.""")
+{light_white}- {light_green}interfacemode {light_white}-- {white}Set the mode for a wireless network interface card.
+{light_white}- {light_green}settarget {light_white}-- {white}Set the target.""")
         def d_about():
             print(f"""{white}{bold}
 DeAuthy{end} {white}version: {light_white}Private Repository Version
