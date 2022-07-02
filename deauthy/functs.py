@@ -74,10 +74,9 @@ class Functs:
 
     def do_bssid_method(bssid: BSSID):
         from deauthy.storage import current_wiface
-        for b, channel in bssid.bssids.items():
-            Functs.BSSID_METHOD.deauth(b)
+        Functs.BSSID_METHOD.deauth(bssid)
         try:
-            Functs.do_bssid_method()
+            Functs.do_bssid_method(bssid)
         except KeyboardInterrupt:
             Functs.switch(card=Interface(current_wiface), mode="managed")
             return
@@ -89,7 +88,7 @@ class Functs:
             out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
-        def deauth(bssid: BSSID):
+        def deauth(bssid: str):
             """"""
             from deauthy.storage import current_wiface, target_mac
 
