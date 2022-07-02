@@ -40,6 +40,7 @@ class Dependencies:
         results = pkgs()
         Terminal.inform(msg=f"""{Terminal.Light_green}{Terminal.Bold}{results["success"]}{Terminal.End}{Terminal.White} dependencies were {Terminal.Light_green}{Terminal.Bold}successfully {Terminal.White}installed!""", entire_color=Terminal.White)
         Terminal.inform(msg=f"""{Terminal.Red}{Terminal.Bold}{results["failed"]}{Terminal.End}{Terminal.White} dependencies failed to be installed""", entire_color=Terminal.White)
+        input("Press enter / enter something")
         if results["failed"] > 0:
             Terminal.tell_issue(f"{Terminal.White}Some package failed to install. As a result, DeAuthy is lacking required dependencies.")
             Terminal.inform(f"{Terminal.White}You should try to install the following dependencies by yourself:\n{Terminal.White}--> {Terminal.Light_white}colorama\n{Terminal.White}--> {Terminal.Light_white}pyroute2\n{Terminal.White}--> {Terminal.Light_green}halo\n{Terminal.End}QUITTING!")
