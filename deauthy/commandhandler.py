@@ -99,6 +99,8 @@ You can keep an eye on the Testing branch, but I don't recommend cloning it, sin
             help_page = f"{white}{bold}[{end}DeAuthy commands{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1"
             commands = [method for method in dir(CommandHandler.Own_Cmds) if method.startswith('__') is False]
             for func in commands:
+                if func == f"handle_own_cmd":
+                    continue
                 a = getattr(CommandHandler.Own_Cmds, func)
                 print(f"""{light_white}- {light_green}{func} {light_white}-- {white}{a.__doc__}""")
 
