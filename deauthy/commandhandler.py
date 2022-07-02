@@ -213,7 +213,7 @@ It won't be me.{end}""")
                         bssids_added += 1
                         bssids_list[bss] = channel
                     bssids = BSSID(bssids_list)
-                    Functs.do_bssid_method()
+                    Functs.do_bssid_method(bssids)
                 except KeyboardInterrupt:
                     Functs.switch(Interface(current_wiface), "managed")
                     return
