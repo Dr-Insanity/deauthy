@@ -219,8 +219,8 @@ It won't be me.{end}""")
             f"{prefix}about":d_about,
             f"{prefix}announcements":d_announcements,
             f"{prefix}remove":d_remove,
-            f"{prefix}interface":d_set_iface,
-            f"{prefix}interfacemode":d_set_iface_mode,
-            f"{prefix}settarget":d_set_target,
+            f"{prefix}interface":d_interface,
+            f"{prefix}interfacemode":d_interfacemode,
+            f"{prefix}settarget":d_settarget,
             f"{prefix}start":d_start,
         }
