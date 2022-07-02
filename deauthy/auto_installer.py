@@ -55,7 +55,7 @@ class Dependencies:
             import halo
             import pyroute2
             return True
-        except ImportError:
+        except ModuleNotFoundError:
             try:
                 from colorama import Fore
                 White       = Fore.WHITE
@@ -77,7 +77,7 @@ class Dependencies:
                 print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install them!")
                 Dependencies.install()
                 return False
-            except ImportError:
+            except ModuleNotFoundError:
                 from deauthy.terminal import Terminal
                 Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
                 Terminal.inform(f"Attempting to install them!")
