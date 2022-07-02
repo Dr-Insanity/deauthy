@@ -25,6 +25,7 @@ class Checks:
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93", "82371AB"]:
             try:
                 out = check_output(f"lspci | grep {chipset_name}", shell=True)
+                out = check_output(f"lsusb | grep {chipset_name}", shell=True)
                 if chipset_name in out.decode():
                     put = out.decode('utf8', 'strict')
                     return True
@@ -37,37 +38,9 @@ class Checks:
         Terminal.tell_issue(msg=f"{red}{bold}Go to: {white}https://github.com/Dr-Insanity/deauthy/issues/new")
         Terminal.inform(msg=f"{red}{bold}Goodbye!\n{end}Exiting...")
         exit(1)
-    
+
     def is_valid_MAC(mac: str):
         """MAC address validator\n\nParameters\n----------\n- `str` - A MAC-address\n\nReturns\n-------\n- `True` - The given MAC address is valid\n- `False` - The given MAC address is invalid\n"""
         if re.match("[0-9a-f]{2}([-:]?)[0-9a-f]{2}(\\1[0-9a-f]{2}){4}$", mac.lower()):
             return True
         return False
-
-    class WirelessInterface:
-        def was_previously_set():
-            from deauthy.storage import current_wiface
-            if current_wiface == f"":
-                return False
-            return True
-
-    class Target:
-        """Class for checks concerning targets"""
-        class Client_MAC:
-            def was_previously_set():
-                from deauthy.storage import target_mac
-                if target_mac ==  f"":
-                    return False
-                return True
-
-        class Networks:
-            """Forbidden networks for target device"""
-            class BSSID:
-                """Were BSSIDs set up previously?"""
-                def was_previously_set():
-                    """B"""
-
-            class ESSID:
-                """Was an ESSID set up previously?"""
-                def was_previously_set():
-                    """A"""

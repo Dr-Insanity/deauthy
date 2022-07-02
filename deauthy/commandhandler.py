@@ -1,9 +1,12 @@
-from re import A
+from operator import mod
 from colorama import Fore
 from subprocess import check_call
+
+from setuptools import Command
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
+import json
 
 prefix = f"!"
 
@@ -80,27 +83,27 @@ class CommandHandler:
         f"{prefix}interface",
         f"{prefix}interfacemode",
         f"{prefix}settarget",
+        f"{prefix}start",
     ]
 
     class Own_Cmds:
         def d_announcements():
+            """Displays important note(s) that are very recommended to read."""
             print(f"""{end}As of right now, saving configuration is not possible.
 this due to me getting a better understanding of JSON. 
 It's something I still have to take under the loop, but saving will be possible in the future.
 You can keep an eye on the Testing branch, but I don't recommend cloning it, since it may contain code that renders the application useless.""")
 
         def d_help():
-            print(f"""{white}{bold}[{end}DeAuthy commands{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1
-{light_white}- {light_green}help {light_white}-- {white}Views this message.
-{light_white}- {light_green}disclaimer {light_white}-- {white}Displays the disclaimer for DeAuthy.
-{light_white}- {light_green}repo {light_white}-- {white}Displays the link to deauthy's Github repository.
-{light_white}- {light_green}about {light_white}-- {white}Displays information about the project.
-{light_white}- {light_green}announcements {light_white}-- {white}Displays important note(s) that are very recommended to read.
-{light_white}- {light_green}remove {light_white}-- {white}Attempts to remove DeAuthy's dependencies that are not from the standard python library.
-{light_white}- {light_green}interface {light_white}-- {white}Sets the wireless network interface for DeAuthy to use.
-{light_white}- {light_green}interfacemode {light_white}-- {white}Set the mode for a wireless network interface card.
-{light_white}- {light_green}settarget {light_white}-- {white}Set the target.""")
+            """Views this message."""
+            help_page = f"{white}{bold}[{end}DeAuthy commands{white}{bold}]{end} {white}Page {light_green}{bold}1{end}{white}/1"
+            commands = [method for method in dir(CommandHandler.Own_Cmds) if method.startswith('__') is False]
+            for func in commands:
+                a = getattr(CommandHandler.Own_Cmds, func)
+                print(f"""{light_white}- {light_green}{func} {light_white}-- {white}{a.__doc__}""")
+
         def d_about():
+            """Displays information about the project."""
             print(f"""{white}{bold}
 DeAuthy{end} {white}version: {light_white}Private Repository Version
 {white}
@@ -109,6 +112,7 @@ Note: {light_white}Version numbers are gonna be set once this project is release
 Author:{end} {light_green}Dr-Insanity {white}(On Github)""")
 
         def d_disclaimer():
+            """Displays the disclaimer for DeAuthy."""
             print(f"""{bold}{red}Disclaimer{end}{white}:{red}
 I do not condone illegal activities.
 I discourage non-ethical use of my application.
@@ -122,9 +126,11 @@ own when you're charged or in a lawsuit, unless you got others rooting for you.
 It won't be me.{end}""")
 
         def d_repo():
+            """Displays the link to deauthy's Github repository."""
             print(f"{white}{bold}DeAuthy{end} {white}repository: {light_green}https://github.com/Dr-Insanity/deauthy{end}")
 
         def d_remove():
+            """Attempts to remove DeAuthy's dependencies that are not from the standard python library."""
             res = prompt(f"{white}Are you very sure you want to do this? ({light_green}Y{white}/{red}N{white})", ["y", "n"], ending_color=red)
             if res.lower() == "y":
                 from deauthy.auto_installer import Dependencies
@@ -133,31 +139,19 @@ It won't be me.{end}""")
                 print(f"{white}Cancelled.")
         
         def d_set_iface():
+            """Sets the wireless network interface for DeAuthy to use."""
             from deauthy.terminal import Terminal
             from deauthy.checks import Checks
-            from deauthy.storage import current_wiface
+            from deauthy.functs import mod_config
             Checks.Chipset_Support_Check()
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
             cardname = Functs.prompt_for_ifaces()
             if not Interface.is_wireless(cardname):
-                # temporary
-                if cardname == "enp0s3":
-                    pass
-                else:
-                    Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
-                    return
-            if Checks.WirelessInterface.was_previously_set():
-                Terminal.tell_issue(f"{end}{cyan}WAIT!{end}{white} You've previously setup a wireless interface before!")
-                confirm_chnge_interf = Terminal.prompt(f"{white}Do you still want to change interfaces? {Terminal.y_n}", ["y", "n"], light_green) 
-                if confirm_chnge_interf.lower() == "y":
-                    old_iface = current_wiface
-                    current_wiface.replace(current_wiface, cardname)
-                    Terminal.inform(f"{white}{bold}wireless interface updated:{end}{light_white} {old_iface} --> {light_green}{bold}{current_wiface}{end}")
-                if confirm_chnge_interf.lower() == "n":
-                    print(f"{white}Leaving current set interface {light_green}{bold}unchanged{end}.")
-                    return
-            current_wiface += cardname
+                Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+                return
+
+            mod_config("interface", cardname)
             mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? {Terminal.y_n}""", ["y", "n"], light_green)
             if mon_or_not.lower() == "y":
                 Functs.switch(Interface(cardname), "monitor")
@@ -167,6 +161,7 @@ It won't be me.{end}""")
                 return
 
         def d_set_iface_mode():
+            """Set the mode for a wireless network interface card."""
             from deauthy.terminal import Terminal
             cardname = Functs.prompt_for_ifaces()
             if not Interface.is_wireless(cardname):
@@ -176,9 +171,9 @@ It won't be me.{end}""")
             Functs.switch(Interface(cardname), mode.lower())
 
         def d_set_target():
+            """Set the target."""
             from deauthy.terminal import Terminal
-            from deauthy.functs import Functs
-            from deauthy.storage import target_mac, current_wiface
+            from deauthy.functs import Functs, mod_config, get_var
             from deauthy.checks import Checks
             from deauthy.deauthy_types import BSSID
             target_mac_addr = Terminal.prompt(question="Which client mac address are we going to send deauth packets to?", allowed_replies=["any"])
@@ -187,18 +182,8 @@ It won't be me.{end}""")
             elif not Checks.is_valid_MAC(target_mac_addr):
                 Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a valid MAC address!{red}{bold} >:({end}")
                 return
-            if target_mac == f"":
-                target_mac += target_mac_addr
-            elif target_mac != f"":
-                Terminal.inform(f"{end}{cyan}WAIT!{end}{white} You have already set a target before!")
-                Terminal.inform(f"{white}For now, DeAuthy supports up to max 1 target device{end}")
-                answ = Terminal.prompt(f"{red}{bold}Replace{end}{white} old target with {light_green}{bold}new{end}{white} target? ({light_green}Y{white}/{red}N{white})", ["y", "n"])
-                if answ.lower() == "y":
-                    old_mac = target_mac
-                    target_mac += target_mac_addr
-                    Terminal.inform(f"{white}{bold}Target updated:{end}{light_white} {old_mac} --> {light_green}{bold}{target_mac}{end}")
-                if answ.lower() == "n":
-                    print(f"{white}Leaving target {light_green}{bold}unchanged{end}.")
+
+            mod_config('target_mac', target_mac_addr)
             Terminal.inform(f"{white}Now we need to specify which network(s) are forbidden for our target to connect to{end}")
             method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
             if method == "BSSID":
@@ -215,11 +200,15 @@ It won't be me.{end}""")
                     bssids = BSSID(bssids_list)
                     Functs.do_bssid_method(bssids)
                 except KeyboardInterrupt:
+                    current_wiface = get_var('interface')
                     Functs.switch(Interface(current_wiface), "managed")
                     return
             elif method == "ESSID":
                 Functs.ESSID_METHOD.deauth(Config.ESSID)
                 return
+
+        def d_start():
+            """Ïn development!"""
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
@@ -231,4 +220,5 @@ It won't be me.{end}""")
             f"{prefix}interface":d_set_iface,
             f"{prefix}interfacemode":d_set_iface_mode,
             f"{prefix}settarget":d_set_target,
+            f"{prefix}start":d_start,
         }

