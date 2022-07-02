@@ -140,7 +140,7 @@ It won't be me.{end}""")
             if res.lower() == "n":
                 print(f"{white}Cancelled.")
         
-        def d_set_iface():
+        def d_interface():
             """Sets the wireless network interface for DeAuthy to use."""
             from deauthy.terminal import Terminal
             from deauthy.checks import Checks
@@ -162,7 +162,7 @@ It won't be me.{end}""")
                 Terminal.inform(f"""{white}Leaving {cardname}'s mode unchanged.""")
                 return
 
-        def d_set_iface_mode():
+        def d_interfacemode():
             """Set the mode for a wireless network interface card."""
             from deauthy.terminal import Terminal
             cardname = Functs.prompt_for_ifaces()
@@ -172,7 +172,7 @@ It won't be me.{end}""")
             mode     = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
             Functs.switch(Interface(cardname), mode.lower())
 
-        def d_set_target():
+        def d_settarget():
             """Set the target."""
             from deauthy.terminal import Terminal
             from deauthy.functs import Functs, mod_config, get_var
