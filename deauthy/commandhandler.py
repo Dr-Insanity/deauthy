@@ -1,3 +1,4 @@
+from re import A
 from colorama import Fore
 from subprocess import check_call
 from deauthy.checks import Checks
@@ -179,6 +180,7 @@ It won't be me.{end}""")
             from deauthy.functs import Functs
             from deauthy.storage import target_mac, current_wiface
             from deauthy.checks import Checks
+            from deauthy.deauthy_types import BSSID
             target_mac_addr = Terminal.prompt(question="Which client mac address are we going to send deauth packets to?", allowed_replies=["any"])
             if Checks.is_valid_MAC(target_mac_addr):
                 pass
@@ -200,13 +202,17 @@ It won't be me.{end}""")
             Terminal.inform(f"{white}Now we need to specify which network(s) are forbidden for our target to connect to{end}")
             method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
             if method == "BSSID":
+                bssids_list = {}
                 try:
                     amt_of_bssids   = Terminal.prompt(question=f"How many BSSIDs?", allowed_replies=["any"])
                     numb_of_bssids  = int(amt_of_bssids)
                     bssids_added = 0
                     while bssids_added < numb_of_bssids:
-                        Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
+                        bss     = Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
+                        channel = Terminal.prompt(f"{white}It's channel", allowed_replies=["any"])
                         bssids_added += 1
+                        bssids_list[bss] = channel
+                    bssids = BSSID(bssids_list)
                     Functs.do_bssid_method()
                 except KeyboardInterrupt:
                     Functs.switch(Interface(current_wiface), "managed")
