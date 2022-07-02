@@ -1,4 +1,3 @@
-from ast import Index
 from deauthy.commandhandler import CommandHandler
 from colorama import Fore
 from subprocess import CalledProcessError, check_call
