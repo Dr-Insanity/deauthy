@@ -1,6 +1,3 @@
-from pyroute2 import IW
-from pyroute2 import IPRoute
-from pyroute2.netlink import NetlinkError
 from sys import argv
 
 class ESSID:
@@ -93,6 +90,9 @@ class Interface:
         - `True`[Bool] -The given NIC is a wireless NIC.
         - `False`[Bool] - The given NIC is NOT a wireless NIC.
         """
+        from pyroute2 import IW
+        from pyroute2 import IPRoute
+        from pyroute2.netlink import NetlinkError
         ip = IPRoute()
         iw = IW()
         index = ip.link_lookup(ifname=interface)[0]
