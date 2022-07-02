@@ -27,7 +27,7 @@ class Dependencies:
                         current_pkg += 1
                         successful += 1
                     elif f"Requirement already satisfied: {dep}" in out.decode():
-                        print(f"{Terminal.Light_green}Successfully installed {Terminal.White}{dep}{Terminal.End}")
+                        print(f"{Terminal.Yellow}Was already installed {Terminal.White}{dep}{Terminal.End}")
                         current_pkg += 1
                         successful += 1
                     else:
