@@ -182,6 +182,7 @@ It won't be me.{end}""")
                 pass
             elif not Checks.is_valid_MAC(target_mac_addr):
                 Terminal.tell_issue(f"{red}{bold}HEY!{end}{white} That's {red}{bold}not{end}{white} a valid MAC address!{red}{bold} >:({end}")
+                target_mac_addr = Terminal.prompt(question="Which client mac address are we going to send deauth packets to?", allowed_replies=["any"])
             if target_mac == f"":
                 target_mac += target_mac_addr
             elif target_mac != f"":
