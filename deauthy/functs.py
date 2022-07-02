@@ -85,7 +85,7 @@ class Functs:
         def hopper(channel_number: int):
             from deauthy.storage import current_wiface
             """Hop to a different channel"""
-            out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+            out = check_call(["airmon-ng", "start", f"{current_wiface}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
         def deauth(bssid: str):

@@ -157,7 +157,7 @@ It won't be me.{end}""")
                 if confirm_chnge_interf.lower() == "n":
                     print(f"{white}Leaving current set interface {light_green}{bold}unchanged{end}.")
                     return
-            current_wiface.replace(current_wiface, cardname)
+            current_wiface += cardname
             mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? {Terminal.y_n}""", ["y", "n"], light_green)
             if mon_or_not.lower() == "y":
                 Functs.switch(Interface(cardname), "monitor")
