@@ -1,7 +1,9 @@
 from socket import if_nameindex
 from deauthy.deauthy_types import Interface, BSSID, ESSID
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
-from halo import Halo
+import sys
+import threading
+import time
 
 class Functs:
     def prompt_for_ifaces():
@@ -43,6 +45,7 @@ class Functs:
         Accepts either "monitor" or "managed"
         """
         from deauthy.terminal import Terminal
+        from halo import Halo
         end = Terminal.End
         def managed():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
