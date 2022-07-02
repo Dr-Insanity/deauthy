@@ -41,6 +41,11 @@ class Functs:
             Terminal.inform(msg=f"{red}{bold}Hey! {end}{red}That's not a valid interface! >:(\n{red}{bold}AGAIN!")
             Functs.prompt_for_ifaces()
 
+    def is_in_monitor_mode(card: Interface):
+        if card.name.endswith(f"mon"):
+            return True
+        return False
+
     def switch(card: Interface, mode: str):
         """
         Accepts either "monitor" or "managed"

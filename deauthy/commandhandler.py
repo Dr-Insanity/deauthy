@@ -144,7 +144,7 @@ It won't be me.{end}""")
             """Sets the wireless network interface for DeAuthy to use."""
             from deauthy.terminal import Terminal
             from deauthy.checks import Checks
-            from deauthy.functs import mod_config
+            from deauthy.functs import mod_config, Functs
             Checks.Chipset_Support_Check()
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
@@ -154,22 +154,31 @@ It won't be me.{end}""")
                 return
 
             mod_config("interface", cardname)
-            mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? {Terminal.y_n}""", ["y", "n"], light_green)
-            if mon_or_not.lower() == "y":
-                Functs.switch(Interface(cardname), "monitor")
-                return
-            if mon_or_not.lower() == "n":
-                Terminal.inform(f"""{white}Leaving {cardname}'s mode unchanged.""")
-                return
+            if not Functs.is_in_monitor_mode(Interface(cardname)):
+                mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? {Terminal.y_n}""", ["y", "n"], light_green)
+                if mon_or_not.lower() == "y":
+                    Functs.switch(Interface(cardname), "monitor")
+                    return
+                if mon_or_not.lower() == "n":
+                    Terminal.inform(f"""{white}Leaving {cardname}'s mode unchanged.""")
+                    return
 
         def d_interfacemode():
             """Set the mode for a wireless network interface card."""
             from deauthy.terminal import Terminal
-            cardname = Functs.prompt_for_ifaces()
-            if not Interface.is_wireless(cardname):
-                Terminal.tell_issue(f"{red}{bold}HEY!{end}{white}That's {red}{bold}not{end}{white} a wireless interface!{red}{bold} >:({end}")
+            from deauthy.functs import Functs, get_var
+            if get_var('interface') is None:
+                Terminal.tell_issue(f"{red}{bold}Nuh-uh!{end}{white}How about you first set a wireless interface card, hmm?{end}")
                 return
+            cardname = get_var('interface')
             mode     = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
+            state = Functs.is_in_monitor_mode(Interface(cardname))
+            if state and mode.lower() == "monitor":
+                Terminal.tell_issue(f"{white}Nuh-uh, can't do. That card is already in {mode} mode :/{end}")
+                return
+            if not state and mode.lower() == f"managed":
+                Terminal.tell_issue(f"{white}Nuh-uh, can't do. That card is already in {mode} mode :/{end}")
+                return
             Functs.switch(Interface(cardname), mode.lower())
 
         def d_settarget():
