@@ -49,42 +49,11 @@ class Dependencies:
         - `False` - Some of the required dependencies were not installed/uninstalled. It was attempted to install all dependencies.
         """
         for dep in Dependencies.deps:
-            out = check_output(["python3", "-m", "pip", "show", dep])
-            if "not found" in out.decode():
-                print(f"{deAuThY}{d_wut} {Red}{Bold}HEY! {End} We're missing the {dep} library")
-                print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install it...")
-            elif "Name:" in out.decode():
-                pass
-        try:
-            import colorama
-            import halo
-            import pyroute2
-        except ModuleNotFoundError:
             try:
-                from colorama import Fore
-                White       = Fore.WHITE
-                Light_white = Fore.LIGHTBLACK_EX
-                Red         = Fore.RED
-                Yellow      = Fore.LIGHTYELLOW_EX
-                Light_green = Fore.LIGHTGREEN_EX
-                Magenta     = Fore.MAGENTA
-                Cyan        = Fore.CYAN
-                Blue        = Fore.BLUE
-                Light_blue  = Fore.LIGHTBLUE_EX
-                Bold        = '\033[1m'
-                Underline   = '\033[4m'
-                End         = '\033[0m'
-                deAuThY = White + "[" + Red + "D" + Yellow + "E" + Light_green + "A" + Magenta + "U" + Cyan + "T" + Blue + "H" + Red + "Y" + White + "]"
-                d_wut = White + f"{Bold}[" + Red + "!" + White + f"]{End}{Light_white} "
-                d_hey = White + f"{Bold}[" + Light_green + "+" + White + f"]{End}{Light_white} "
-                print(f"{deAuThY}{d_wut} {Red}{Bold}HEY! {End} We're missing some dependencies here...")
-                print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install them!")
-                Dependencies.install()
-                return False
-            except ModuleNotFoundError:
-                from deauthy.terminal import Terminal
-                Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
-                Terminal.inform(f"Attempting to install them!")
+                check_output(["python3", "-m", "pip", "show", dep])
+            except CalledProcessError:
+                print(f"[deauthy][!] HEY! We're missing the {dep} library")
+                print(f"[deauthy][+] Attempting to install it...")
                 Dependencies.install()
                 return False
         return True
