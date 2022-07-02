@@ -48,6 +48,13 @@ class Dependencies:
         - `True` - All required dependencies are installed.
         - `False` - Some of the required dependencies were not installed/uninstalled. It was attempted to install all dependencies.
         """
+        for dep in Dependencies.deps:
+            out = check_output(["python3", "-m", "pip", "show", dep])
+            if "not found" in out.decode():
+                print(f"{deAuThY}{d_wut} {Red}{Bold}HEY! {End} We're missing the {dep} library")
+                print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install it...")
+            elif "Name:" in out.decode():
+                pass
         try:
             import colorama
             import halo
