@@ -26,6 +26,10 @@ class Dependencies:
                         print(f"{Terminal.Light_green}Successfully installed {Terminal.White}{dep}{Terminal.End}")
                         current_pkg += 1
                         successful += 1
+                    elif f"Requirement already satisfied: {dep}" in out.decode():
+                        print(f"{Terminal.Light_green}Successfully installed {Terminal.White}{dep}{Terminal.End}")
+                        current_pkg += 1
+                        successful += 1
                     else:
                         print(f"""{Terminal.Warning} {Terminal.White}Something went wrong whilst installing "{dep}"\nI suggest you try to install it manually: {Terminal.White}"{Terminal.Bold}{Terminal.Light_white}pip3 install {dep}{Terminal.End}{Terminal.White}"{Terminal.End}""")
                         failed_pkgs += 1
