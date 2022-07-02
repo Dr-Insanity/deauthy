@@ -20,7 +20,7 @@ class Dependencies:
                 try:
                     out = check_output(["python3", "-m", "pip", "install", dep, "--upgrade", "--no-warn-conflicts", "--no-warn-script-location"])
                     if "PermissionError: [Errno 13]" in out.decode():
-                        print(text=f"{Terminal.Red}{Terminal.Bold}Failed installation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
+                        print(f"{Terminal.Red}{Terminal.Bold}Failed installation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
                         failed_pkgs += 1
                     elif f"Successfully installed {dep}" in out.decode():
                         print(f"{Terminal.Light_green}Successfully installed {Terminal.White}{dep}{Terminal.End}")
