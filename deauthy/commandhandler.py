@@ -102,7 +102,7 @@ You can keep an eye on the Testing branch, but I don't recommend cloning it, sin
                 if func == f"handle_own_cmd":
                     continue
                 a = getattr(CommandHandler.Own_Cmds, func)
-                print(f"""{light_white}- {light_green}{func} {light_white}-- {white}{a.__doc__}""")
+                print(f"""{light_white}- {light_green}{func[2:]} {light_white}-- {white}{a.__doc__}""")
 
         def d_about():
             """Displays information about the project."""
