@@ -218,4 +218,5 @@ It won't be me.{end}""")
             f"{prefix}remove":d_remove,
             f"{prefix}interface":d_set_iface,
             f"{prefix}interfacemode":d_set_iface_mode,
+            f"{prefix}settarget":d_set_target,
         }
