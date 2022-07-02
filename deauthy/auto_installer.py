@@ -1,5 +1,4 @@
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
-from sys import stdout
 
 class Dependencies:
     """
@@ -10,7 +9,6 @@ class Dependencies:
 
     def install():
         """Installs every non-standard lib dependency DeAuthy needs."""
-        from halo import Halo
         from deauthy.terminal import Terminal
         Terminal.inform(msg=f"{Terminal.White}Installing/updating {len(Dependencies.deps)} packages")
         def pkgs():
@@ -18,21 +16,21 @@ class Dependencies:
             failed_pkgs = 0
             successful  = 0
             for dep in Dependencies.deps:
-                with Halo(text=f"Installing {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(Dependencies.deps)}") as spinner:
-                    try:
-                        out = check_output(["python3", "-m", "pip", "install", dep, "--upgrade", "--no-warn-conflicts", "--no-warn-script-location"])
-                        if "PermissionError: [Errno 13]" in out.decode():
-                            spinner.fail(text=f"{Terminal.Red}{Terminal.Bold}Failed installation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
-                            failed_pkgs += 1
-                        elif f"Successfully installed {dep}" in out.decode():
-                            spinner.succeed(text=f"{Terminal.Light_green}Successfully installed {Terminal.White}{dep}{Terminal.End}")
-                            current_pkg += 1
-                            successful += 1
-                        else:
-                            spinner.fail(f"""{Terminal.Warning} {Terminal.White}Something went wrong whilst installing "{dep}"\nI suggest you try to uninstall it manually: {Terminal.White}"{Terminal.Bold}{Terminal.Light_white}pip3 uninstall {dep}{Terminal.End}{Terminal.White}"{Terminal.End}""")
-                            failed_pkgs += 1
-                    except CalledProcessError as e:
-                        e.returncode
+                print(f"{Terminal.White}Installing {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(Dependencies.deps)}")
+                try:
+                    out = check_output(["python3", "-m", "pip", "install", dep, "--upgrade", "--no-warn-conflicts", "--no-warn-script-location"])
+                    if "PermissionError: [Errno 13]" in out.decode():
+                        print(text=f"{Terminal.Red}{Terminal.Bold}Failed installation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
+                        failed_pkgs += 1
+                    elif f"Successfully installed {dep}" in out.decode():
+                        print(text=f"{Terminal.Light_green}Successfully installed {Terminal.White}{dep}{Terminal.End}")
+                        current_pkg += 1
+                        successful += 1
+                    else:
+                        print(f"""{Terminal.Warning} {Terminal.White}Something went wrong whilst installing "{dep}"\nI suggest you try to uninstall it manually: {Terminal.White}"{Terminal.Bold}{Terminal.Light_white}pip3 uninstall {dep}{Terminal.End}{Terminal.White}"{Terminal.End}""")
+                        failed_pkgs += 1
+                except CalledProcessError as e:
+                    e.returncode
             return {
                 "success":successful, "failed":failed_pkgs, "total":len(Dependencies.deps)}
         results = pkgs()
@@ -55,7 +53,7 @@ class Dependencies:
             import halo
             import pyroute2
             return True
-        except:
+        except ModuleNotFoundError:
             try:
                 from colorama import Fore
                 White       = Fore.WHITE
@@ -77,7 +75,7 @@ class Dependencies:
                 print(f"{deAuThY}{d_hey} {Light_green}{Bold}Attempting to install them!")
                 Dependencies.install()
                 return False
-            except:
+            except ModuleNotFoundError:
                 from deauthy.terminal import Terminal
                 Terminal.tell_issue(f"HEY! We're missing some dependencies here...")
                 Terminal.inform(f"Attempting to install them!")
