@@ -64,6 +64,8 @@ class CommandHandler:
             "ifconfig",
             "ls",
             "airmon-ng",
+            "cat",
+            "nano",
         ]
 
 
