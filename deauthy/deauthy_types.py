@@ -105,3 +105,17 @@ class Interface:
         finally:
             iw.close()
             ip.close()
+
+class MAC:
+    """A class representing a MAC address of a wireless device.\n
+    Attributes
+    ----------
+    - `value` - The actual MAC address
+    """
+    def __init__(self, value: str):
+        self._value = value
+
+    @property
+    def value(self):
+        val = self._value
+        return val

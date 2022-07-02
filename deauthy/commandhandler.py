@@ -204,6 +204,7 @@ It won't be me.{end}""")
                     bssids_added = 0
                     while bssids_added < numb_of_bssids:
                         Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
+                        bssids_added += 1
                     Functs.do_bssid_method()
                 except KeyboardInterrupt:
                     Functs.switch(Interface(current_wiface), "managed")
