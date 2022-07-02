@@ -25,12 +25,21 @@ class Checks:
         for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93", "82371AB"]:
             try:
                 out = check_output(f"lspci | grep {chipset_name}", shell=True)
+                if chipset_name in out.decode():
+                    put = out.decode('utf8', 'strict')
+                    return True
+            except CalledProcessError as e:
+                continue
+
+        for chipset_name in ["AR92", "RT3070", "RT3572", "8187L", "RTL8812AU", "AR93", "82371AB"]:
+            try:
                 out = check_output(f"lsusb | grep {chipset_name}", shell=True)
                 if chipset_name in out.decode():
                     put = out.decode('utf8', 'strict')
                     return True
             except CalledProcessError as e:
                 continue
+        
         Terminal.tell_issue(msg=f"{red}{bold}I'm so sorry!")
         Terminal.tell_issue(msg=f"{red}{bold}It seems your chipset is NOT SUPPORTED :/")
         Terminal.tell_issue(msg=f"{red}{bold}If you are very certain your chipset supports monitor mode and packet injection")
