@@ -75,7 +75,7 @@ class Dependencies:
             for dep in Dependencies.deps:
                 with Halo(text=f"Uninstalling {dep} {Terminal.Light_green}{current_pkg}{Terminal.White}/{len(Dependencies.deps)}") as spinner:
                     try:
-                        out = check_output(args=["uninstall ", dep, " --yes"], executable="pip")
+                        out = check_output(args=["uninstall", dep, "--yes"], executable="pip")
                         if "PermissionError: [Errno 13]" in out.decode():
                             spinner.fail(text=f"{Terminal.Red}{Terminal.Bold}Failed deinstallation of {Terminal.White}{dep}\n{Terminal.Bold}Error: {Terminal.Red}PermissionError: [Errno 13]{Terminal.End}...\n{Terminal.White}Skipping!")
                             failed_pkgs += 1
