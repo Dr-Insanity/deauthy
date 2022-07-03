@@ -248,7 +248,7 @@ It won't be me.{end}""")
             from deauthy.deauthy_types import ESSID, BSSID
             from deauthy.functs import get_var
             iface = get_var('interface')
-            if iface is None or iface not in [ifc[1] for ifc in if_nameindex()[0]]:
+            if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
                 Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
                 Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
