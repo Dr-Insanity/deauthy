@@ -249,8 +249,8 @@ It won't be me.{end}""")
             do_bssid = get_var('target_BSSIDs')
             do_essid = get_var('target_ESSID')
             if do_bssid is None and do_essid is None:
-                Terminal.tell_issue(f"{white}Wouldn't it be so much better if you actually set up targets?")
-                Terminal.tell_issue(f"{white}So you know, that I actually know who to target, maybe?")
+                Terminal.tell_issue(f"{red}{bold}Wouldn't it be so much better if you actually set up targets?")
+                Terminal.tell_issue(f"{red}{bold}So you know, that I actually know who to target, maybe?")
                 return
             elif do_bssid is None and do_essid is not None:
                 # do ESSID approach
