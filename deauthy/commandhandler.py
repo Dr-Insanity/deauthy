@@ -4,6 +4,7 @@ from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
 from halo import Halo
+from socket import if_nameindex
 
 prefix = f"!"
 
@@ -242,10 +243,16 @@ It won't be me.{end}""")
                 return
 
         def d_start():
-            """Ïn development!"""
+            """Initiate the attack"""
             from deauthy.terminal import Terminal
             from deauthy.deauthy_types import ESSID, BSSID
             from deauthy.functs import get_var
+            iface = get_var('interface')
+            if iface is None or iface not in [ifc[1] for ifc in if_nameindex()[0]]:
+                Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
+                Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
+                Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
+                return
             do_bssid = get_var('target_BSSIDs')
             do_essid = get_var('target_ESSID')
             if do_bssid is None and do_essid is None:
