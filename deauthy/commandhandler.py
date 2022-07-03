@@ -5,8 +5,6 @@ from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
 from halo import Halo
 
-from deauthy.terminal import Terminal
-
 prefix = f"!"
 
 red         = Fore.RED
@@ -245,6 +243,7 @@ It won't be me.{end}""")
 
         def d_start():
             """Ïn development!"""
+            from deauthy.terminal import Terminal
             from deauthy.deauthy_types import ESSID, BSSID
             from deauthy.functs import get_var
             do_bssid = get_var('target_BSSIDs')
