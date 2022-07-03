@@ -3,6 +3,9 @@ from subprocess import check_call
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
+from halo import Halo
+
+from deauthy.terminal import Terminal
 
 prefix = f"!"
 
@@ -204,18 +207,63 @@ It won't be me.{end}""")
                         channel = Terminal.prompt(f"{white}It's channel", allowed_replies=["any"])
                         bssids_added += 1
                         bssids_list[bss] = channel
-                    bssids = BSSID(bssids_list)
-                    Functs.do_bssid_method(bssids)
+                    with Halo(f"{white}{bold}Saving") as spinner:
+                        mod_config('target_BSSIDs', bssids_list)
+                        mod_config('use_bssids', True)
+                        mod_config('use_essid', False)
+                        mod_config('target_ESSID', None)
+                    spinner.succeed(f"{white}Configuration was {light_green}{bold}saved {end}{white}to:\n{yellow}{bold}'deauthy/conf.json' {end}{light_white}(Current Working Directory){end}")
+                    return
                 except KeyboardInterrupt:
                     current_wiface = get_var('interface')
                     Functs.switch(Interface(current_wiface), "managed")
                     return
             elif method == "ESSID":
-                Functs.ESSID_METHOD.deauth(Config.ESSID)
+                Terminal.inform(f"{Terminal.Yellow}{Terminal.Bold}Use this approach only if you're 100% SURE if the {Terminal.End}{Terminal.Red}{Terminal.Bold}target network has ONLY 1 BSSID!!!{Terminal.End}")
+                answ = Terminal.prompt(f"{Terminal.White}Are you {Terminal.Light_green}{Terminal.Bold}100% SURE{Terminal.End}{Terminal.White}? {Terminal.y_n}", ["y", "n"])
+                if answ.lower() == "y":
+                    pass
+                elif answ.lower() == "n":
+                    Terminal.inform(f"""{white}Cancelling. Set up BSSID approach with the same command. Then choose BSSID.""")
+                    return
+                
+                ess = Terminal.prompt(f"{white}Now, enter the ESSID of the target network", ["any"])
+                chn = Terminal.prompt(f"{white}It's channel?", ["any"])
+                try:
+                    int(ess)
+                except ValueError:
+                    Terminal.tell_issue(f"{red}{bold}That's not a number! >:(")
+
+                with Halo(f"{white}{bold}Saving") as spinner:
+                    mod_config('target_BSSIDs', None)
+                    mod_config('use_bssids', False)
+                    mod_config('use_essid', True)
+                    mod_config('target_ESSID', {ess:int(chn)})
+                
+                spinner.succeed(f"{white}Configuration was {light_green}{bold}saved {end}{white}to:\n{yellow}{bold}'deauthy/conf.json' {end}{light_white}(Current Working Directory){end}")
                 return
 
         def d_start():
             """Ïn development!"""
+            from deauthy.deauthy_types import ESSID, BSSID
+            from deauthy.functs import get_var
+            do_bssid = get_var('target_BSSIDs')
+            do_essid = get_var('target_ESSID')
+            if do_bssid is None and do_essid is None:
+                Terminal.tell_issue(f"{white}Wouldn't it be so much better if you actually set up targets?")
+                Terminal.tell_issue(f"{white}So you know, that I actually know who to target, maybe?")
+                return
+            elif do_bssid is None and do_essid is not None:
+                # do ESSID approach
+                do_essid: dict[str, int]
+                essiD, channeL = list(do_essid.items())[0]
+                Functs.ESSID_METHOD.deauth(ESSID(essiD, channeL))
+                return
+ 
+            elif do_essid is None and do_bssid is not None:
+                # do BSSID approach
+                bssids = BSSID(do_bssid)
+                Functs.BSSID_METHOD.deauth(bssids)
 
         handle_own_cmd = {
             f"{prefix}help":d_help,

