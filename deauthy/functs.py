@@ -107,6 +107,8 @@ class Functs:
                     except KeyboardInterrupt:
                         Functs.switch(Interface(get_var('interface')), "managed")
                         return
+                    except:
+                        check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')])
 
     class ESSID_METHOD:
         def deauth(eSSID: ESSID):
