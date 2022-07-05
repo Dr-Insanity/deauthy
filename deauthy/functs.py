@@ -117,7 +117,7 @@ class Functs:
             
             for bssid_aa in bssi:
                 do_bssid_method(bssid_aa)
-                Functs.BSSID_METHOD.deauth(bssid=_bssid)
+            Functs.BSSID_METHOD.deauth(bssid=_bssid)
 
 
     class ESSID_METHOD:
