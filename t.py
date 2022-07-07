@@ -26,4 +26,5 @@ def csv2blob(filename):
     
     return stations_list
 
-csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
+ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
+print(ai)
