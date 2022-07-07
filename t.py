@@ -29,4 +29,36 @@ def csv2blob(filename: str):
         print(line)
     print('=======================[TARGETS]=======================')
 
+    [
+        'BSSID', 
+        ' First time seen', 
+        ' Last time seen', 
+        ' channel', 
+        ' Speed', 
+        ' Privacy', 
+        ' Cipher', 
+        ' Authentication', 
+        ' Power', 
+        ' # beacons', 
+        ' # IV', 
+        ' LAN IP', 
+        ' ID-length', 
+        ' ESSID', 
+        ' Key'
+    ]
+    names = {}
+    networks = 2
+    for field in li:
+        print("ESSIDs: " + field[networks][13])
+        networks += 1
+    #for field in li:
+    #    f1 = field[1] # field containing names to index data for wireless networks
+    #    if f1 == "BSSID":
+    #        names["BSSID"] = {:}
+    #data = {}
+    #for field in li:
+    #    f1 = field[1] # field containing names to index data for wireless networks
+    #    if f1 == " ESSID":
+    #        data["ESSID"] = {"":}
+
 ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
