@@ -8,6 +8,6 @@ def csv2blob(filename: str, pos: int):
             n = line.strip('\r\n\r\n')
             li.append(n)
 
-    print(li[pos])
+    print(li[int(pos)])
 
 ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv', sys.argv[1])
