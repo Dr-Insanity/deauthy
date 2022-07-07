@@ -7,7 +7,8 @@ def csv2blob(filename: str):
         for line in f.readlines():
             n = line.strip('\r\n\r\n')
             if "time seen" in line:
-                li.append(line)
+                r = n.split(sep=',')
+                li.append(r)
             else:
                 r = n.split()
                 li.append(r)
