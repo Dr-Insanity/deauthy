@@ -22,7 +22,7 @@ def csv2blob(filename: str):
     # li[10] = mac
     print('=======================[TARGETS]=======================')
     for line in li:
-        print(line[])
+        print(line)
     print('=======================[TARGETS]=======================')
 
 ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
