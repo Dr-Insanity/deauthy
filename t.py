@@ -6,10 +6,9 @@ def csv2blob(filename):
         z = f.read()
 
     parts = z.split('\r\n\r\n')
-    p_parts = [part for part in parts]
-    print(p_parts)
+    print(parts)
     stations = parts[0]
-    p_stats = [stat for stat in stations]
+    p_stats = [stat for stat in stations.split()]
     print(p_stats)
 
 ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
