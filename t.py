@@ -9,8 +9,7 @@ def csv2blob(filename):
     print(parts)
     stations = parts[0]
     print(stations)
-    clients = parts[1]
-    print(clients)
+
     import sys
     if sys.version_info[0] < 3:
         from StringIO import StringIO
@@ -18,7 +17,6 @@ def csv2blob(filename):
         from io import StringIO
 
     stations_str = StringIO(stations)
-    clients_str  = StringIO(clients)
 
     r = csv.reader(stations_str)
     i = list(r)
