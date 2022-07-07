@@ -1,5 +1,5 @@
 from colorama import Fore
-from subprocess import check_call
+from subprocess import check_call, check_output
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
@@ -242,13 +242,29 @@ It won't be me.{end}""")
                 spinner.succeed(f"{white}Configuration was {light_green}{bold}saved {end}{white}to:\n{yellow}{bold}'deauthy/conf.json' {end}{light_white}(Current Working Directory){end}")
                 return
 
+        def d_discover():
+            import pandas
+            from deauthy.terminal import Terminal
+            from deauthy.functs import get_var
+            iface = get_var('interface')
+            if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
+                Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
+                Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
+                Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
+                return
+            Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?")
+            Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least a minute for target availability")
+            try:
+                out = check_output(["airodump-ng", "wlx00c0cab01dc1", "-w", "discovered_targets", "-o", "csv"])
+            except KeyboardInterrupt:
+                Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
+
         def d_start():
             """Initiate the attack"""
             from deauthy.terminal import Terminal
             from deauthy.deauthy_types import ESSID, BSSID
             from deauthy.functs import get_var
             iface = get_var('interface')
-            print(iface)
             if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
                 Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
