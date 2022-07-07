@@ -6,11 +6,11 @@ def csv2blob(filename):
         z = f.read()
 
     parts = z.split('\r\n\r\n')
-    
+    print(parts)
     stations = parts[0]
-    
+    print(stations)
     clients = parts[1]
-
+    print(clients)
     import sys
     if sys.version_info[0] < 3:
         from StringIO import StringIO
