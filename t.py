@@ -7,6 +7,6 @@ def csv2blob(filename):
             n = line.strip('\r\n\r\n')
             li.append(n)
 
-    print(li)
+    print(li[2])
 
 ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
