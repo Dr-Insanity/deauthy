@@ -6,7 +6,8 @@ def csv2blob(filename: str):
     with open(filename,'r') as f:
         for line in f.readlines():
             n = line.strip('\r\n\r\n\t')
-            li.append(list(n))
+            r = n.split()
+            li.append(r)
 
     print('=======================[TARGETS]=======================')
     for line in li:
