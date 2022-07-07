@@ -6,8 +6,11 @@ def csv2blob(filename: str):
     with open(filename,'r') as f:
         for line in f.readlines():
             n = line.strip('\r\n\r\n')
-            r = n.split()
-            li.append(r)
+            if "time seen" in line:
+                li.append(line)
+            else:
+                r = n.split()
+                li.append(r)
 
     # li[0] = station
     # li[1] = mac
