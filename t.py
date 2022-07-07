@@ -2,7 +2,7 @@ import csv
 
 def csv2blob(filename):
 
-    with open(filename,'rb') as f:
+    with open(filename,'r') as f:
         z = f.read()
 
     parts = z.split('\r\n\r\n')
