@@ -49,8 +49,11 @@ def csv2blob(filename: str):
     names = {}
     networks = 2
     for field in li:
-        print("ESSIDs: " + field[networks][13])
-        networks += 1
+        try:
+            print("ESSIDs: " + field[networks][14])
+            networks += 1
+        except IndexError:
+            pass
     #for field in li:
     #    f1 = field[1] # field containing names to index data for wireless networks
     #    if f1 == "BSSID":
