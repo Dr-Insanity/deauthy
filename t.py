@@ -50,7 +50,7 @@ def csv2blob(filename: str):
     networks = 2
     for field in li:
         try:
-            print("ESSIDs: " + field[networks][13])
+            print("ESSIDs: " + field[networks][12])
             networks += 1
         except IndexError:
             pass
