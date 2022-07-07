@@ -2,7 +2,7 @@ import csv
 import sys
 
 def csv2blob(filename: str):
-    li = [] # type: list[str]
+    li = [] # type: list[list[str]]
     with open(filename,'r') as f:
         for line in f.readlines():
             n = line.strip('\r\n\r\n\t')
