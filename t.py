@@ -9,9 +9,9 @@ def csv2blob(filename: str):
             n = n.strip(f" ")
             li.append(n)
 
-
     print('=======================[TARGETS]=======================')
-    print(li[2::])
+    for line in li:
+        print(line)
     print('=======================[TARGETS]=======================')
 
 ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
