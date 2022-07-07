@@ -23,13 +23,7 @@ def csv2blob(filename):
     z = [k for k in i if k != []]
 
     stations_list = z
-
-    r = csv.reader(clients_str)
-    i = list(r)
-    z = [k for k in i if k != []]
-
-    clients_list = z
     
-    return stations_list, clients_list
+    return stations_list
 
 csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
