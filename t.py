@@ -5,7 +5,7 @@ def csv2blob(filename: str, pos: int):
     li = []
     with open(filename,'r') as f:
         for line in f.readlines():
-            n = line.strip('\r\n\r\n')
+            n = line.strip('\r\n\r\n\t')
             li.append(n)
 
     print(li[int(pos)])
