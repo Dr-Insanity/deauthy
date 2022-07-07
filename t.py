@@ -10,7 +10,7 @@ def csv2blob(filename: str):
                 r = n.split(sep=',')
                 li.append(r)
             else:
-                r = n.split()
+                r = n.split(sep=',')
                 li.append(r)
 
     # li[0] = station
