@@ -25,9 +25,33 @@ def csv2blob(filename: str):
     # li[9] = mac
     # li[10] = mac
     print('=======================[TARGETS]=======================')
+    packed_data = {}
+    index_names = None
     for line in li:
-        print(line)
-    print('=======================[TARGETS]=======================')
+        if len(line) != 1:
+            print(line)
+        if ('BSSID' in line and
+            ' First time seen' in line and
+            ' Last time seen' in line and
+            ' channel' in line and
+            ' Speed' in line and
+            ' Privacy' in line and
+            ' Cipher' in line and
+            ' Authentication' in line and
+            ' Power' in line and
+            ' # beacons' in line and
+            ' # IV' in line and
+            ' LAN IP' in line and
+            ' ID-length' in line and
+            ' ESSID' in line and
+            ' Key' in line):
+            index_names = line
+            print(f"GOT INDEX NAMES. Creating Dict with these names as it's keys.")
+    print('===================================[AVAILABLE DATA]===================================')
+    if not index_names is None:
+        for name in index_names:
+            packed_data[name] = None
+        print(f"==========================[MADE DATA MODEL DICT for ESSIDs!]==========================")
 
     [
         'BSSID', 
@@ -49,8 +73,11 @@ def csv2blob(filename: str):
     names = {}
     networks = 2
     for field in li:
+        if ['Station MAC', ' First time seen', ' Last time seen', ' Power', ' # packets', ' BSSID', ' Probed ESSIDs'] == field:
+            break
         try:
-            print("ESSIDs: " + li[networks])
+            if len(field) != 1 and ['BSSID', ' First time seen', ' Last time seen', ' channel', ' Speed', ' Privacy', ' Cipher', ' Authentication', ' Power', ' # beacons', ' # IV', ' LAN IP', ' ID-length', ' ESSID', ' Key'] != field:
+                print(f"ESSIDs: {field}\nLength: {len(field)}")
             networks += 1
         except IndexError:
             pass
@@ -64,4 +91,4 @@ def csv2blob(filename: str):
     #    if f1 == " ESSID":
     #        data["ESSID"] = {"":}
 
-ai = csv2blob('/home/netmin/Desktop/discovered_targets-01.csv')
+ai = csv2blob('discovered_targets-01.csv')
