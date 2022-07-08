@@ -5,7 +5,7 @@ def csv2blob(filename: str):
     li = [] # type: list[list[str]]
     with open(filename,'r') as f:
         for line in f.readlines():
-            n = line.strip("\r\n\r\n',.")
+            n = line.strip("\r\n\r\n',.").strip()
             if "time seen" in line:
                 r = n.split(sep=',')
                 li.append(r)
@@ -77,8 +77,8 @@ def csv2blob(filename: str):
             break
         try:
             if len(field) != 1 and ['BSSID', ' First time seen', ' Last time seen', ' channel', ' Speed', ' Privacy', ' Cipher', ' Authentication', ' Power', ' # beacons', ' # IV', ' LAN IP', ' ID-length', ' ESSID', ' Key'] != field:
-                print(f"ESSIDs: {field}\nLength: {len(field)}")
-            networks += 1
+                print(f"ESSIDs: {field[13]}\nLength of CSV line: {len(field)}\nLength of ESSID: {len(field[13])}\n")
+                networks += 1
         except IndexError:
             pass
     #for field in li:
