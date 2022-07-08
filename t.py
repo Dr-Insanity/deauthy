@@ -5,7 +5,7 @@ def csv2blob(filename: str):
     li = [] # type: list[list[str]]
     with open(filename,'r') as f:
         for line in f.readlines():
-            n = line.strip("\r\n\r\n',.").strip('\t').strip('')
+            n = line.strip("\r\n\r\n\t ',.")
             if "time seen" in line:
                 r = n.split(sep=',')
                 li.append(r)
