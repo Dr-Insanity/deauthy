@@ -5,8 +5,7 @@ def csv2blob(filename: str):
     li = [] # type: list[list[str]]
     with open(filename,'r') as f:
         for line in f.readlines():
-            n = line.strip("\r\n\r\n\t ',.")
-            print(n)
+            n = line.strip("\r\n\r\n',.")
             if "time seen" in line:
                 r = n.split(sep=',')
                 li.append(r)
@@ -71,17 +70,27 @@ def csv2blob(filename: str):
         ' ESSID', 
         ' Key'
     ]
-    names = {}
-    networks = 2
+    names = []
+    same_names = 1
     for field in li:
         if ['Station MAC', ' First time seen', ' Last time seen', ' Power', ' # packets', ' BSSID', ' Probed ESSIDs'] == field:
             break
         try:
             if len(field) != 1 and ['BSSID', ' First time seen', ' Last time seen', ' channel', ' Speed', ' Privacy', ' Cipher', ' Authentication', ' Power', ' # beacons', ' # IV', ' LAN IP', ' ID-length', ' ESSID', ' Key'] != field:
-                print(f"ESSIDs: {field[13]}\nLength of CSV line: {len(field)}\nLength of ESSID: {len(field[13])}\n")
-                networks += 1
+                print(f"ESSID: {field[13][1::]}\nLength of CSV line: {len(field)}\nLength of ESSID: {len(field[13][1::])}\n")
+
+                names.append(field[13][1::])
+                
         except IndexError:
             pass
+    
+    print(names)
+    aLL_bssids = len(names)
+    cursor = 0
+    while aLL_bssids != 0:
+        print(f"# of APs for {name}: {names.count(names[cursor])}")
+        cursor += 1
+        aLL_bssids -= 1
     #for field in li:
     #    f1 = field[1] # field containing names to index data for wireless networks
     #    if f1 == "BSSID":
