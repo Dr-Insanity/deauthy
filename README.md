@@ -1,5 +1,8 @@
 # DeAuthy
 DeAuthy is a Python 3 application for keeping Wi-Fi devices, such as laptops, mobile phones, anything that can connect to a Wi-Fi network off multiple Wi-Fi networks.
+
+# DEAUTHY IS NOT WORKING YET.
+
 ## Requirements
 - The latest [Python 3](https://www.python.org/downloads/) version
 - [Git](https://git-scm.com/downloads)
