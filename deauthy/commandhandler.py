@@ -1,8 +1,10 @@
+import shutil
 from colorama import Fore
 from subprocess import check_call, check_output, DEVNULL, STDOUT
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
+import requests
 from halo import Halo
 from socket import if_nameindex
 
@@ -268,8 +270,13 @@ It won't be me.{end}""")
         def d_update():
             """Check for updates"""
             from deauthy.terminal import Terminal
-            out = check_call(["git", "pull", "origin", "Testing"])#, stdout=STDOUT, stderr=STDOUT)
-            print(out)
+            with Halo('Updating...') as spinner:
+                url = "https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip"
+                r = requests.get(url, allow_redirects=True)
+                open('update.zip', 'wb').write(r.content)
+
+                shutil.unpack_archive(filename='update.zip', extract_dir="..")
+            spinner.succeed(f"Restart DEAUTHY to complete.")
 
         def d_start():
             """Initiate the attack"""
