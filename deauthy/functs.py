@@ -57,7 +57,7 @@ class Functs:
         end = Terminal.End
         def managed():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
-                out = check_call(["airmon-ng", "stop", f"{card.name}{monsuffix}"], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["airmon-ng", "stop", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
                     spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}{monsuffix}" (MONITOR){end}""")
                 else:
