@@ -1,6 +1,4 @@
 import json
-from tkinter import N
-from tkinter.messagebox import NO
 import re
 
 def is_valid_MAC(mac: str):
@@ -13,12 +11,35 @@ def csv2json(filename: str):
     li = [] # type: list[list[str]]
     with open(filename,'r') as f:
         for line in f.readlines():
+            if "Station MAC" in line:
+                break
             n = line.strip("\r\n\r\n',.")
             if "time seen" in line:
                 r = n.split(sep=',')
                 li.append(r)
             else:
                 r = n.split(sep=',')
+                if not ' (not associated) ' in line:
+                    if (len(r) != 1):
+                        if is_valid_MAC(r[0]):
+                            if len(r[13]) == 1:
+                                _bssid = r[0].strip()
+                                _first_time_seen = r[1].strip()
+                                _last_time_seen = r[2].strip()
+                                _channel = r[3].strip()
+                                _speed = r[4].strip()
+                                _privacy = r[5].strip()
+                                _cipher = r[6].strip()
+                                _authentication = r[7].strip()
+                                _power = r[8].strip()
+                                _beacons = r[9].strip()
+                                _iv = r[10].strip()
+                                _lan_ip = r[11].strip()
+                                _id_length = r[12].strip()
+                                _essid = r[13].strip()
+                                _key = r[14].strip()
+                                li.append([_bssid,_first_time_seen,_last_time_seen,_channel,_speed,_privacy,_cipher,_authentication,_power,_beacons,_iv,_lan_ip,_id_length,f" <Hidden Network>", _key])
+                                continue
                 li.append(r)
 
     # li[0] = station
@@ -90,47 +111,43 @@ def csv2json(filename: str):
     def get_specs(name: str):
         data = []
         for line in li:
-            if (len(line) != 1):
-                if is_valid_MAC(line[0]):
-                    if ' (not associated) ' in line:
-                        continue
-                    if not f" {name}" in line:
+            if (len(line) != 1): # If it's not the line we're looking for
+                if is_valid_MAC(line[0].strip().lower()): # If it IS the line we ARE looking for
+                    if not f" {name}" in line: # if it's not the specific network we asked for
                         continue
                     data.append([line[0].strip(), line[1].strip(), line[2].strip(), line[3].strip(), line[4].strip(), line[5].strip(), line[6].strip(), line[7].strip(), line[8].strip(), line[9].strip(), line[10].strip(), line[11].strip(), line[12].strip(), line[13].strip(), line[14].strip()])
-
         cp_packed_data = packed_data.copy()
-        cp_packed_data["bssid"] = data[0][0]
-        cp_packed_data["first time seen"] = data[0][1]
-        cp_packed_data["last time seen"] = data[0][2]
-        cp_packed_data["channel"] = data[0][3]
-        cp_packed_data["speed"] = data[0][4]
-        cp_packed_data["privacy"] = data[0][5]
-        cp_packed_data["cipher"] = data[0][6]
-        cp_packed_data["authentication"] = data[0][7]
-        cp_packed_data["power"] = data[0][8]
-        cp_packed_data["beacons"] = data[0][9]
-        cp_packed_data["iv"] = data[0][10]
-        cp_packed_data["lan ip"] = data[0][11]
-        cp_packed_data["id-length"] = data[0][12]
-        cp_packed_data["essid"] = data[0][13]
-        cp_packed_data["key"] = data[0][14]
-        return cp_packed_data
+        try:
+            cp_packed_data["bssid"] = data[0][0]
+            cp_packed_data["first time seen"] = data[0][1]
+            cp_packed_data["last time seen"] = data[0][2]
+            cp_packed_data["channel"] = data[0][3]
+            cp_packed_data["speed"] = data[0][4]
+            cp_packed_data["privacy"] = data[0][5]
+            cp_packed_data["cipher"] = data[0][6]
+            cp_packed_data["authentication"] = data[0][7]
+            cp_packed_data["power"] = data[0][8]
+            cp_packed_data["beacons"] = data[0][9]
+            cp_packed_data["iv"] = data[0][10]
+            cp_packed_data["lan ip"] = data[0][11]
+            cp_packed_data["id-length"] = data[0][12]
+            cp_packed_data["essid"] = data[0][13]
+            cp_packed_data["key"] = data[0][14]
+            return cp_packed_data
+        except IndexError:
+            return cp_packed_data
 
     names = []
     same_names = 1
     for field in li:
         if ['Station MAC', ' First time seen', ' Last time seen', ' Power', ' # packets', ' BSSID', ' Probed ESSIDs'] == field:
             break
-        try:
-            if len(field) != 1 and ['BSSID', ' First time seen', ' Last time seen', ' channel', ' Speed', ' Privacy', ' Cipher', ' Authentication', ' Power', ' # beacons', ' # IV', ' LAN IP', ' ID-length', ' ESSID', ' Key'] != field:
-                # print(f"ESSID: {field[13][1::]}\nLength of CSV line: {len(field)}\nLength of ESSID: {len(field[13][1::])}\n")
 
+        if len(field) != 1 and [' Privacy', ' Cipher', ' Authentication', ' Power', ' # beacons', ' # IV', ' LAN IP', ' ID-length', ' ESSID', ' Key'] != field:
+            # print(f"ESSID: {field[13][1::]}\nLength of CSV line: {len(field)}\nLength of ESSID: {len(field[13][1::])}\n")
+            if is_valid_MAC(field[0].strip().lower()):
                 names.append(field[13][1::])
-                
-        except IndexError:
-            pass
-    
-    print(names)
+
     nets = {} # type: dict[str, None]
     for name in names:
         nets[name] = None
@@ -144,18 +161,37 @@ def csv2json(filename: str):
             print(f"# of APs for {key}: {names.count(key)}")
             numb_of_bssids[key] = names.count(key)
 
-    def numb_of_APs(times: int, name: str):
-        fill_data = get_specs(name=name)
-        dicts = [] # type: list[dict[str]]
-        while times != 0:
-            dicts.append(fill_data)
-            times -= 1
-        return dicts
+    def xxxx():
+        __dicts = []
+        cp_packed_data = packed_data.copy()
+        for line in li:
+            if (len(line) == 1): # If it's not the line we're looking for
+                continue
+            if is_valid_MAC(line[0].strip().lower()): # If it IS the line we ARE looking for
+                cp_packed_data["bssid"] = line[0].strip()
+                cp_packed_data["first time seen"] = line[1].strip()
+                cp_packed_data["last time seen"] = line[2].strip()
+                cp_packed_data["channel"] = line[3].strip()
+                cp_packed_data["speed"] = line[4].strip()
+                cp_packed_data["privacy"] = line[5].strip()
+                cp_packed_data["cipher"] = line[6].strip()
+                cp_packed_data["authentication"] = line[7].strip()
+                cp_packed_data["power"] = line[8].strip()
+                cp_packed_data["beacons"] = line[9].strip()
+                cp_packed_data["iv"] = line[10].strip()
+                cp_packed_data["lan ip"] = line[11].strip()
+                cp_packed_data["id-length"] = line[12].strip()
+                cp_packed_data["essid"] = line[13].strip()
+                cp_packed_data["key"] = line[14].strip()
+                __dicts.append(cp_packed_data)
+                li.remove(line)
+        return set(__dicts)
 
-    numb_of_bssids_cp = numb_of_bssids.copy()
-    for key, value in numb_of_bssids.items():
-        numb_of_bssids_cp[key] = {'BSSIDs':numb_of_APs(times=value, name=key)}
+    __dicts = xxxx()
 
-    print(json.dumps(numb_of_bssids_cp, indent=4))
+    numb_of_bssids_cp = {}
+    numb_of_bssids_cp["AccessPoints"] = __dicts
+
+    print(json.dumps(numb_of_bssids_cp, indent=2))
 
 ai = csv2json('discovered_targets-01.csv')

@@ -50,28 +50,28 @@ class Functs:
         """
         Accepts either "monitor" or "managed"
         """
+        monsuffix = get_var('monitor_suffix')
         from deauthy.terminal import Terminal
         from deauthy.functs import mod_config
         from halo import Halo
         end = Terminal.End
         def managed():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
-                out = check_call(["airmon-ng", "stop", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
+                out = check_call(["airmon-ng", "stop", f"{card.name}{monsuffix}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
                     spinner.succeed(f"{card.name} is now in {mode} mode")
-                    mod_config('interface', f"{card.name[0:card.name.find('mon')]}")
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
-                    mod_config('interface', None)
+
         def monitor():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
                 out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
                     spinner.succeed(f"{card.name} is now in {mode} mode")
-                    mod_config('interface', f"{card.name}mon")
+
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
-                    mod_config('interface', None)
+
             
         modes = {
             "managed":managed,
@@ -145,7 +145,7 @@ def mod_config(key: str, value):
         jsonfile.close()
         
     data[key] = value
-    with open("deauthy/conf.json", "w") as jsonfile:
+    with open("deauthy/conf.json", "w+") as jsonfile:
         myJSON = json.dump(data, jsonfile, indent=2)
         jsonfile.close()
 
