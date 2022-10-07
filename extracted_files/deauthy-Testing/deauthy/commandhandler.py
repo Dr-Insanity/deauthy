@@ -272,9 +272,9 @@ It won't be me.{end}""")
             """Check for updates"""
             from deauthy.terminal import Terminal
             with Halo('Updating...') as spinner:
-                response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
-                with zipfile.ZipFile(io.BytesIO(response.content)) as thezip:
-                    thezip.extractall('..')
+                urllib.request.urlopen("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip", 'update.zip')
+                z = zipfile.ZipFile('update.zip')
+                z.extractall("..")
             spinner.succeed(f"Restart DEAUTHY to complete.")
 
         def d_start():
