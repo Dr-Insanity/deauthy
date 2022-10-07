@@ -59,7 +59,7 @@ class Functs:
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
                 out = check_call(["airmon-ng", "stop", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
-                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}{monsuffix}" (MONITOR){end}""")
+                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MONITOR){end}""")
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
 
@@ -67,7 +67,7 @@ class Functs:
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
                 out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
-                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}{monsuffix}" (MANAGED){end}""")
+                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MANAGED){end}""")
 
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
