@@ -4,7 +4,7 @@ from subprocess import check_call, check_output, DEVNULL, STDOUT
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
-import requests
+import requests, zipfile, io
 from halo import Halo
 from socket import if_nameindex
 
@@ -272,10 +272,9 @@ It won't be me.{end}""")
             from deauthy.terminal import Terminal
             with Halo('Updating...') as spinner:
                 url = "https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip"
-                r = requests.get(url, allow_redirects=True)
-                open('update.zip', 'wb').write(r.content)
-
-                shutil.unpack_archive(filename='update.zip', extract_dir="..")
+                r = requests.get(url)
+                z = zipfile.ZipFile(io.BytesIO(r.content))
+                z.extractall("..")
             spinner.succeed(f"Restart DEAUTHY to complete.")
 
         def d_start():
