@@ -42,7 +42,7 @@ class Functs:
             Functs.prompt_for_ifaces()
 
     def is_in_monitor_mode(card: Interface):
-        if card.name.endswith(f"mon"):
+        if card.name.endswith(f"mon") or card.name.endswith(f"1"):
             return True
         return False
 
@@ -59,7 +59,7 @@ class Functs:
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
                 out = check_call(["airmon-ng", "stop", f"{card.name}{monsuffix}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
-                    spinner.succeed(f"{card.name} is now in {mode} mode")
+                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}{monsuffix}" (MONITOR){end}""")
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
 
@@ -67,7 +67,7 @@ class Functs:
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
                 out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
                 if out != 1:
-                    spinner.succeed(f"{card.name} is now in {mode} mode")
+                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}{monsuffix}" (MANAGED){end}""")
 
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
