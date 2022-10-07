@@ -1,4 +1,5 @@
 import shutil
+import urllib
 from colorama import Fore
 from subprocess import check_call, check_output, DEVNULL, STDOUT
 from deauthy.checks import Checks
@@ -273,6 +274,7 @@ It won't be me.{end}""")
             with Halo('Updating...') as spinner:
                 url = "https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip"
                 r = requests.get(url)
+                urllib.request.urlretrieve(url, 'update.zip')
                 z = zipfile.ZipFile(io.BytesIO(r.content))
                 z.extractall("..")
             spinner.succeed(f"Restart DEAUTHY to complete.")
