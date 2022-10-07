@@ -1,5 +1,5 @@
 from colorama import Fore
-from subprocess import check_call, check_output
+from subprocess import check_call, check_output, DEVNULL, STDOUT
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
@@ -82,6 +82,8 @@ class CommandHandler:
         f"{prefix}interfacemode",
         f"{prefix}settarget",
         f"{prefix}start",
+        f"{prefix}discover",
+        f"{prefix}update",
     ]
 
     class Own_Cmds:
@@ -246,6 +248,7 @@ It won't be me.{end}""")
                 return
 
         def d_discover():
+            """Discover targets in your area."""
             import pandas
             from deauthy.terminal import Terminal
             from deauthy.functs import get_var
@@ -261,6 +264,12 @@ It won't be me.{end}""")
                 out = check_output(["airodump-ng", "wlx00c0cab01dc1", "-w", "discovered_targets", "-o", "csv"])
             except KeyboardInterrupt:
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
+
+        def d_update():
+            """Check for updates"""
+            from deauthy.terminal import Terminal
+            out = check_call(["git", "pull", "origin", "Testing"], stdout=STDOUT, stderr=STDOUT)
+            print(out)
 
         def d_start():
             """Initiate the attack"""
