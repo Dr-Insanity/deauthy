@@ -311,4 +311,6 @@ It won't be me.{end}""")
             f"{prefix}interfacemode":d_interfacemode,
             f"{prefix}settarget":d_settarget,
             f"{prefix}start":d_start,
+            f"{prefix}discover":d_discover,
+            f"{prefix}update":d_update,
         }
