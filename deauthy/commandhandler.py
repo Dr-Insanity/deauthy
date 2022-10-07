@@ -268,7 +268,7 @@ It won't be me.{end}""")
         def d_update():
             """Check for updates"""
             from deauthy.terminal import Terminal
-            out = check_call(["git", "pull", "origin", "Testing"], stdout=STDOUT, stderr=STDOUT)
+            out = check_call(["git", "pull", "origin", "Testing"])#, stdout=STDOUT, stderr=STDOUT)
             print(out)
 
         def d_start():
