@@ -52,6 +52,7 @@ class Dependencies:
         - `True` - All required dependencies are installed.
         - `False` - Some of the required dependencies were not installed/uninstalled. It was attempted to install all dependencies.
         """
+        print(f"Enforcing the installation of all required dependencies...")
         for dep in Dependencies.deps:
             try:
                 check_output(["python3", "-m", "pip", "show", dep])
