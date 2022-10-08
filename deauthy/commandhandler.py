@@ -280,7 +280,18 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
                 os.rename('deauthy-Testing', 'deauthy')
-            spinner.succeed(f"Quitting...\n{Terminal.Cyan}Important: {Terminal.Light_white}CD out and back into deauthy.\nWe can't do this because\nwe've done some magic that made us unable to determine\nthe current working directory.\nAs a result, any command that we'd do (Including cd) fails.\nThis is Linux. So this must be done manually by the user.")
+            spinner.succeed(f"""{Terminal.Cyan}==============================================
+{Terminal.Red}Important:
+{Terminal.White}[{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}] {end} A command was pasted to your clipboard. Run it now.
+
+{Terminal.White}CD out and back into deauthy.
+We can't do this because we've done some magic that made us unable to determine
+the current working directory.
+As a result, any command that we'd do (Including cd) fails.
+This is Linux. So this must be done manually by the user.
+We're sorry for choosing such method of updating the application.
+{Terminal.Cyan}=============================================={end}
+Quitting...""")
             os.execv(sys.argv[0], sys.argv)
 
         def d_start():
