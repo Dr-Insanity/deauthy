@@ -278,9 +278,9 @@ It won't be me.{end}""")
                 shutil.rmtree('../deauthy')
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    update_zip.extractall()
+                    update_zip.extractall('..')
                 os.rename('../deauthy-Testing', 'deauthy')
-            spinner.succeed(f"""
+            spinner.succeed(f"""Done
 {Terminal.Cyan}==============================================
 {Terminal.Red}Important{Terminal.White}:
 [{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}]{end} A command was pasted to your clipboard. Run it now.
