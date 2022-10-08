@@ -139,7 +139,7 @@ class Functs:
                     Functs.switch(Interface(current_wiface), "managed")
                     return
 def del_pair(key: str):
-    with open("conf.json", "r") as jsonfile:
+    with open("deauthy/conf.json", "r") as jsonfile:
         data = json.load(jsonfile)
         jsonfile.close()
     try:
