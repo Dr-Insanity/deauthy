@@ -273,13 +273,7 @@ It won't be me.{end}""")
             """Check for updates"""
             from deauthy.terminal import Terminal
             with Halo('Updating...') as spinner:
-                filelist = [f for f in os.listdir('../deauthy') if os.path.isfile(f)]
-                for f in filelist:
-                    os.remove(os.path.join('../deauthy', f))
-                folderlist = [f for f in os.listdir('../deauthy') if not os.path.isfile(f)]
-                for f in folderlist:
-                    os.removedirs(f)
-                os.removedirs('../deauthy')
+                shutil.rmtree('../deauthy')
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     zipinfos = update_zip.infolist()
