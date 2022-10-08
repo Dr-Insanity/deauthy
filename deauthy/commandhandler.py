@@ -149,7 +149,7 @@ It won't be me.{end}""")
             from deauthy.checks import Checks
             from deauthy.functs import mod_config, Functs
             Checks.Chipset_Support_Check()
-            Terminal.inform(msg=f"{cyan}======================================{white}Sometimes, when a wireless interface is brought into monitor mode, it gets 'mon' right after the interface name\nSo, for example:\n\nInterface in managed mode:\nwlx12345\n\nInterface in monitor mode:\nwlx12345mon\n\nIt's also possible there's simply a 1 added after the interface name{cyan}======================================")
+            Terminal.inform(msg=f"{cyan}======================================{white}\nSometimes, when a wireless interface is brought into monitor mode, it gets 'mon' right after the interface name\nSo, for example:\n\nInterface in managed mode:\nwlx12345\n\nInterface in monitor mode:\nwlx12345mon\n\nIt's also possible there's simply a 1 added after the interface name\n{cyan}======================================")
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             monsuffix = Terminal.prompt(question=f"What's added when your interface goes into monitor mode?{end}", allowed_replies=["any"])
             mod_config('monitor_suffix', monsuffix)
