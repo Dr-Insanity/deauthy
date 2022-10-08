@@ -294,10 +294,10 @@ It won't be me.{end}""")
                     if os.path.isfile(f"deauthy-Testing/{file}"):
                         os.remove(file)
                         shutil.move(f"deauthy-Testing/{file}", "./")
-                    print(f"Moved 'deauthy-Testing/{file}' to current working directory")
                 time.sleep(5)
                 shutil.rmtree(f"deauthy-Testing/")
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+            time.sleep(2) # give the time to the user to read that we're restarting
             os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
         def d_start():
