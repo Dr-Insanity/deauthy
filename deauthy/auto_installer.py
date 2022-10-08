@@ -5,7 +5,7 @@ class Dependencies:
     DeAuthy's Dependencies class, full of code ensuring dependencies are all installed.
     The idea is give 0 errors: DeAuthy MUST run properly.
     """
-    deps = ["pyroute2", "colorama", "halo"]
+    deps = ["pyroute2", "colorama", "halo", "pyperclip"]
 
     def install():
         """Installs every non-standard lib dependency DeAuthy needs."""
