@@ -286,20 +286,15 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
                 for file in os.listdir(f"deauthy-Testing"):
-                    try:
-                        print(file)
-                        if file in [".git", ".vscode", ".gitignore", "t.py"]:
-                            continue
-                        shutil.move(f"deauthy-Testing/{file}", "./")
-                        print(f"Moved 'deauthy-Testing/{file}' to current working directory")
-                    except shutil.Error:
-                        try:
-                            os.remove(f"./deauthy-Testing/{file}")
-                            shutil.move(f"./deauthy-Testing/{file}", "./")
-                        except IsADirectoryError:
-                            shutil.rmtree(f"./deauthy-Testing/{file}")
-                            shutil.move(f"./deauthy-Testing/{file}", "./")
-                        print(f"[RETRY/Overwrite] Moved 'deauthy-Testing/{file}' to current working directory")
+                    if file in [".git", ".vscode", ".gitignore", "t.py"]:
+                        continue
+                    if os.path.isdir(f"deauthy-Testing/{file}"):
+                        shutil.rmtree(f"./deauthy-Testing/{file}")
+                        shutil.move(f"./deauthy-Testing/{file}", "./")
+                    if not os.path.isdir(f"deauthy-Testing/{file}"):
+                        os.remove(f"./deauthy-Testing/{file}")
+                        shutil.move(f"./deauthy-Testing/{file}", "./")
+                    print(f"Moved 'deauthy-Testing/{file}' to current working directory")
                 time.sleep(5)
                 shutil.rmtree(f"deauthy-Testing/")
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
