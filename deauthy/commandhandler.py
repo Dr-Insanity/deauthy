@@ -280,12 +280,14 @@ It won't be me.{end}""")
                     updatechecker_spinner.fail(f"There are no updates available right now.")
                     return
                 updatechecker_spinner.succeed(f"{Terminal.Light_green} Update Available! How nice!")
+            full_path = os.path.dirname(os.path.abspath(__file__))
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
-                shutil.move('deauthy-Testing', '..')
-                shutil.rmtree('./')
+                shutil.move('deauthy-Testing', f"{full_path}/..")
+                shutil.rmtree(full_path)
+                os.removedirs(full_path)
                 shutil.copytree('../deauthy-Testing', '../deauthy', dirs_exist_ok=True)
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
             os.execv(sys.executable, ['python'] + [sys.argv[0]])
