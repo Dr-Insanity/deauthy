@@ -276,12 +276,7 @@ It won't be me.{end}""")
                 shutil.rmtree('../deauthy')
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    zipinfos = update_zip.infolist()
-                    for zipinfo in zipinfos:
-                        if zipinfo.filename == "deauthy-Testing":
-                            zipinfo.filename = "deauthy"
-                            break
-                    update_zip.extract(zipinfo, "..")
+                    update_zip.extractall("..")
                 os.rename('../deauthy-Testing', '../deauthy')
             spinner.succeed(f"Restart DEAUTHY to complete.")
 
