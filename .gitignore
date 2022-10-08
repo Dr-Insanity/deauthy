@@ -1,2 +1,3 @@
 *.pyc
 __pycache__/
+discovered_targets-01.csv
