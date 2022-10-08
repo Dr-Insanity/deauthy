@@ -275,16 +275,15 @@ It won't be me.{end}""")
             """Check for updates"""
             from deauthy.terminal import Terminal
             with Halo('Updating...') as spinner:
-                os.system('cd ..')
-                shutil.rmtree('deauthy')
+                shutil.rmtree('../deauthy')
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
-                os.rename('deauthy-Testing', 'deauthy')
+                os.rename('../deauthy-Testing', 'deauthy')
             spinner.succeed(f"""
 {Terminal.Cyan}==============================================
 {Terminal.Red}Important{Terminal.White}:
-[{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}] {end} A command was pasted to your clipboard. Run it now.
+[{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}]{end} A command was pasted to your clipboard. Run it now.
 
 {Terminal.White}CD out and back into deauthy.
 We can't do this because we've done some magic that made us unable to determine
@@ -297,7 +296,7 @@ Quitting...""")
             try:
                 pyperclip.copy("cd .. && cd deauthy && sudo python3 main.py")
             except pyperclip.PyperclipException as e:
-                Terminal.tell_issue(f"We were not able to copy the command to your clipboard. Please run the following commands:\ncd .. && cd deauthy && sudo python3 main.py")
+                Terminal.tell_issue(f"{end}We were not able to copy the command to your clipboard. Please run the following commands:\ncd .. && cd deauthy && sudo python3 main.py")
             quit(0)
 
         def d_start():
