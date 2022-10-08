@@ -284,7 +284,7 @@ It won't be me.{end}""")
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
-                shutil.move('./deauthy-Testing', '../')
+                shutil.move('deauthy-Testing', '../deauthy')
                 shutil.move('../deauthy-Testing', '../deauthy')
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
             os.execv(sys.executable, ['python'] + [sys.argv[0]])
