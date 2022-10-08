@@ -278,7 +278,7 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     zipinfos = update_zip.infolist()
                     zipinfos[0].filename = "deauthy"
-                    update_zip.extractall("..", zipinfos)
+                    update_zip.extract(zipinfos[0], "..")
             spinner.succeed(f"Restart DEAUTHY to complete.")
 
         def d_start():
