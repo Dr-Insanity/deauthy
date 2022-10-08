@@ -280,8 +280,8 @@ It won't be me.{end}""")
                     for zipinfo in zipinfos:
                         if zipinfo.filename == "deauthy-Testing":
                             zipinfo.filename = "deauthy"
-                            update_zip.extract(zipinfo, "..")
                             break
+                    update_zip.extract(zipinfo, "..")
                 os.rename('deauthy-Testing', 'deauthy')
             spinner.succeed(f"Restart DEAUTHY to complete.")
 
