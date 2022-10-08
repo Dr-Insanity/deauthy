@@ -8,6 +8,7 @@ from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
 import requests, zipfile, io
 from halo import Halo
+import sys
 from socket import if_nameindex
 
 prefix = f"!"
@@ -278,7 +279,8 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall("..")
                 os.rename('../deauthy-Testing', '../deauthy')
-            spinner.succeed(f"Restart DEAUTHY to complete.")
+            spinner.succeed(f"Restarting!!!")
+            os.execv(sys.argv[0], sys.argv)
 
         def d_start():
             """Initiate the attack"""
