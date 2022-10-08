@@ -289,11 +289,11 @@ It won't be me.{end}""")
                     if file in [".git", ".vscode", ".gitignore", "t.py"]:
                         continue
                     if os.path.isdir(f"deauthy-Testing/{file}"):
-                        shutil.rmtree(f"./deauthy-Testing/{file}")
-                        shutil.move(f"./deauthy-Testing/{file}", "./")
+                        shutil.rmtree(f"deauthy-Testing/{file}")
+                        shutil.move(f"deauthy-Testing/{file}", "./")
                     if not os.path.isdir(f"deauthy-Testing/{file}"):
-                        os.remove(f"./deauthy-Testing/{file}")
-                        shutil.move(f"./deauthy-Testing/{file}", "./")
+                        os.remove(f"deauthy-Testing/{file}")
+                        shutil.move(f"deauthy-Testing/{file}", "./")
                     print(f"Moved 'deauthy-Testing/{file}' to current working directory")
                 time.sleep(5)
                 shutil.rmtree(f"deauthy-Testing/")
