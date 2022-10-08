@@ -279,7 +279,7 @@ It won't be me.{end}""")
                     update_zip.extractall('../')
                 shutil.move('../deauthy-Testing', '../deauthy')
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
-            os.execv(sys.argv[0], sys.argv)
+            os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
         def d_start():
             """Initiate the attack"""
