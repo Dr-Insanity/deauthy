@@ -284,11 +284,11 @@ It won't be me.{end}""")
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    update_zip.extractall()
-                shutil.move('deauthy-Testing', f"{full_path}/..")
-                shutil.rmtree(full_path)
-                os.removedirs(full_path)
-                shutil.copytree('../deauthy-Testing', '../deauthy', dirs_exist_ok=True)
+                    update_zip.extractall() #extract to current working directory
+                shutil.move('deauthy-Testing', f"{full_path}/..") #move to parent directory
+                shutil.rmtree(full_path) # delete contents of current working directory
+                os.removedirs(full_path) # delete the current working directory
+                shutil.move('../deauthy-Testing', '../deauthy', dirs_exist_ok=True) # rename updated version with old version
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
             os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
