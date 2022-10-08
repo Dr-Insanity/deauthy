@@ -294,7 +294,10 @@ This is Linux. So this must be done manually by the user.
 We're sorry for choosing such method of updating the application.
 {Terminal.Cyan}=============================================={end}
 Quitting...""")
-            pyperclip.copy("cd .. && cd deauthy && sudo python3 main.py")
+            try:
+                pyperclip.copy("cd .. && cd deauthy && sudo python3 main.py")
+            except pyperclip.PyperclipException as e:
+                Terminal.tell_issue(f"We were not able to copy the command to your clipboard. Please run the following commands:\ncd .. && cd deauthy && sudo python3 main.py")
             quit(0)
 
         def d_start():
