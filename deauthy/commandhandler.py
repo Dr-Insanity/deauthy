@@ -274,13 +274,14 @@ It won't be me.{end}""")
             """Check for updates"""
             from deauthy.terminal import Terminal
             with Halo('Updating...') as spinner:
-                shutil.rmtree('../deauthy')
+                os.system('cd ..')
+                shutil.rmtree('deauthy')
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    update_zip.extractall("..")
-                os.rename('../deauthy-Testing', '../deauthy')
+                    update_zip.extractall()
+                os.rename('deauthy-Testing', 'deauthy')
             spinner.succeed(f"Restarting!!!")
-            os.system('cd ..')
+            os.system('cd deauthy')
             os.execv(sys.argv[0], sys.argv)
 
         def d_start():
