@@ -1,6 +1,8 @@
 from deauthy.auto_installer import Dependencies
-
-Dependencies.installed()
+from deauthy.functs import mod_config, del_pair, get_var
+if get_var('not_setup_yet'):
+    Dependencies.installed()
+    del_pair('not_setup_yet')
 from socket import if_nameindex
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 from sys import exit

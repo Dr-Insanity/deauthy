@@ -138,6 +138,17 @@ class Functs:
                 except KeyboardInterrupt:
                     Functs.switch(Interface(current_wiface), "managed")
                     return
+def del_pair(key: str):
+    with open("conf.json", "r") as jsonfile:
+        data = json.load(jsonfile)
+        jsonfile.close()
+    try:
+        del data[key]
+        with open("deauthy/conf.json", "w+") as jsonfile:
+            myJSON = json.dump(data, jsonfile, indent=2)
+            jsonfile.close()
+    except KeyError:
+        return
 
 def mod_config(key: str, value):
     with open("deauthy/conf.json", "r") as jsonfile:
