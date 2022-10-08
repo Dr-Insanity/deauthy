@@ -293,12 +293,12 @@ It won't be me.{end}""")
                         shutil.move(f"deauthy-Testing/{file}", "./")
                         print(f"Moved 'deauthy-Testing/{file}' to current working directory")
                     except shutil.Error:
-                        os.remove(f"./deauthy-Testing/{file}")
-                        shutil.move(f"./deauthy-Testing/{file}", "./")
-                        print(f"[RETRY/Overwrite] Moved 'deauthy-Testing/{file}' to current working directory")
-                    except IsADirectoryError:
-                        shutil.rmtree(f"./deauthy-Testing/{file}")
-                        shutil.move(f"./deauthy-Testing/{file}", "./")
+                        try:
+                            os.remove(f"./deauthy-Testing/{file}")
+                            shutil.move(f"./deauthy-Testing/{file}", "./")
+                        except IsADirectoryError:
+                            shutil.rmtree(f"./deauthy-Testing/{file}")
+                            shutil.move(f"./deauthy-Testing/{file}", "./")
                         print(f"[RETRY/Overwrite] Moved 'deauthy-Testing/{file}' to current working directory")
                 time.sleep(5)
                 shutil.rmtree(f"deauthy-Testing/")
