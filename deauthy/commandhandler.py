@@ -292,11 +292,10 @@ It won't be me.{end}""")
                             continue
                         shutil.move(f"deauthy-Testing/{file}", "./")
                         print(f"Moved 'deauthy-Testing/{file}' to current working directory")
-                    except shutil.Error as e:
-                        if f"already exists" in str(e):
-                            os.remove(f"deauthy-Testing/{file}")
-                            shutil.move(f"deauthy-Testing/{file}", "./")
-                            print(f"[RETRY/Overwrite] Moved 'deauthy-Testing/{file}' to current working directory")
+                    except shutil.Error:
+                        os.remove(f"./deauthy-Testing/{file}")
+                        shutil.move(f"./deauthy-Testing/{file}", "./")
+                        print(f"[RETRY/Overwrite] Moved 'deauthy-Testing/{file}' to current working directory")
                 time.sleep(5)
                 shutil.rmtree(f"deauthy-Testing/")
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
