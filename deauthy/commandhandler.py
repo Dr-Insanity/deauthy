@@ -273,6 +273,10 @@ It won't be me.{end}""")
         def d_update():
             """Check for updates"""
             from deauthy.terminal import Terminal
+            with Halo('Checking for updates...') as updatechecker_spinner:
+                response = requests.get("https://raw.githubusercontent.com/Dr-Insanity/deauthy/Testing/deauthy/VERSION")
+                print(response.content.decode())
+                return
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
