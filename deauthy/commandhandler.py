@@ -276,8 +276,9 @@ It won't be me.{end}""")
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    update_zip.extractall('../')
+                    update_zip.extractall('..')
                 shutil.move('../deauthy-Testing', '../deauthy')
+                os.remove('deauthy-Testing')
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
             os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
