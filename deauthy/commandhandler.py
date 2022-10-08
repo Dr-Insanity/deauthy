@@ -291,7 +291,7 @@ It won't be me.{end}""")
                     if os.path.isdir(f"deauthy-Testing/{file}"):
                         shutil.rmtree(file)
                         shutil.move(f"deauthy-Testing/{file}", "./")
-                    if not os.path.isdir(f"deauthy-Testing/{file}"):
+                    if os.path.isfile(f"deauthy-Testing/{file}"):
                         os.remove(file)
                         shutil.move(f"deauthy-Testing/{file}", "./")
                     print(f"Moved 'deauthy-Testing/{file}' to current working directory")
