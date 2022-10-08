@@ -275,7 +275,11 @@ It won't be me.{end}""")
             from deauthy.terminal import Terminal
             with Halo('Checking for updates...') as updatechecker_spinner:
                 response = requests.get("https://raw.githubusercontent.com/Dr-Insanity/deauthy/Testing/deauthy/VERSION")
-                print(response.content.decode())
+                version = open('deauthy/VERSION', 'r').readline()
+                print(version)
+                return
+                if response.content.decode() == version
+                updatechecker_spinner.succeed(response.content.decode())
                 return
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
