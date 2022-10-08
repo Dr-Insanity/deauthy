@@ -7,7 +7,6 @@ from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
 import requests, zipfile, io
-import pyperclip
 from halo import Halo
 import sys
 from socket import if_nameindex
@@ -279,24 +278,8 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall('../')
                 shutil.move('../deauthy-Testing', 'deauthy')
-            spinner.succeed(f"""Done
-{Terminal.Cyan}==============================================
-{Terminal.Red}Important{Terminal.White}:
-[{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}]{end} A command was pasted to your clipboard. Run it now.
-
-{Terminal.White}CD out and back into deauthy.
-We can't do this because we've done some magic that made us unable to determine
-the current working directory.
-As a result, any command that we'd do (Including cd) fails.
-This is Linux. So this must be done manually by the user.
-We're sorry for choosing such method of updating the application.
-{Terminal.Cyan}=============================================={end}
-Quitting...""")
-            try:
-                pyperclip.copy("cd .. && cd deauthy && sudo python3 main.py")
-            except pyperclip.PyperclipException as e:
-                Terminal.tell_issue(f"{end}We were not able to copy the command to your clipboard. Please run the following commands:\ncd .. && cd deauthy && sudo python3 main.py")
-            quit(0)
+            spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+            os.execv(sys.argv[0], sys.argv)
 
         def d_start():
             """Initiate the attack"""
