@@ -280,6 +280,7 @@ It won't be me.{end}""")
                     update_zip.extractall("..")
                 os.rename('../deauthy-Testing', '../deauthy')
             spinner.succeed(f"Restarting!!!")
+            os.system('cd .. && cd deauthy')
             os.execv(sys.argv[0], sys.argv)
 
         def d_start():
