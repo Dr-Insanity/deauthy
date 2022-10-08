@@ -1,4 +1,5 @@
 import shutil
+import time
 import urllib.request
 from colorama import Fore
 import os
@@ -279,16 +280,25 @@ It won't be me.{end}""")
                 if response.content.decode() == version:
                     updatechecker_spinner.fail(f"There are no updates available right now.")
                     return
-                updatechecker_spinner.succeed(f"{Terminal.Light_green} Update Available! How nice!")
-            full_path = os.path.dirname(os.path.abspath(__file__))
+                updatechecker_spinner.succeed(f"Update Available! How nice!")
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    update_zip.extractall() #extract to current working directory
-                shutil.move('deauthy-Testing', f"{full_path}/..") #move to parent directory
-                shutil.rmtree(full_path) # delete contents of current working directory
-                os.removedirs(full_path) # delete the current working directory
-                shutil.move('../deauthy-Testing', '../deauthy', dirs_exist_ok=True) # rename updated version with old version
+                    update_zip.extractall()
+                for file in os.listdir(f"deauthy-Testing"):
+                    try:
+                        print(file)
+                        if file in [".git", ".vscode", ".gitignore", "t.py"]:
+                            continue
+                        shutil.move(f"deauthy-Testing/{file}", "./")
+                        print(f"Moved 'deauthy-Testing/{file}' to current working directory")
+                    except shutil.Error as e:
+                        if f"already exists" in str(e):
+                            os.remove(f"deauthy-Testing/{file}")
+                            shutil.move(f"deauthy-Testing/{file}", "./")
+                            print(f"[RETRY/Overwrite] Moved 'deauthy-Testing/{file}' to current working directory")
+                time.sleep(5)
+                shutil.rmtree(f"deauthy-Testing/")
             spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
             os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
