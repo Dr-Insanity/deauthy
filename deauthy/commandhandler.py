@@ -280,8 +280,7 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
                 os.rename('deauthy-Testing', 'deauthy')
-            spinner.succeed(f"Restarting!!!")
-            os.system('cd deauthy')
+            spinner.succeed(f"Quitting...\n{Terminal.Cyan}Important: {Terminal.Light_white}CD out and back into deauthy.\nWe can't do this because\nwe've done some magic that made us unable to determine\nthe current working directory.\nAs a result, any command that we'd do (Including cd) fails.\nThis is Linux. So this must be done manually by the user.")
             os.execv(sys.argv[0], sys.argv)
 
         def d_start():
