@@ -290,7 +290,6 @@ It won't be me.{end}""")
                         continue
                     if os.path.isdir(f"deauthy-Testing/{file}"):
                         shutil.rmtree(file)
-                        os.removedirs(file)
                         shutil.move(f"deauthy-Testing/{file}", "./")
                     if not os.path.isdir(f"deauthy-Testing/{file}"):
                         os.remove(file)
