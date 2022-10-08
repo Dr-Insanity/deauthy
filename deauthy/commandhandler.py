@@ -1,6 +1,7 @@
 import shutil
 import urllib.request
 from colorama import Fore
+import os
 from subprocess import check_call, check_output, DEVNULL, STDOUT
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
@@ -272,6 +273,7 @@ It won't be me.{end}""")
             """Check for updates"""
             from deauthy.terminal import Terminal
             with Halo('Updating...') as spinner:
+                os.remove(path="../deauthy")
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     zipinfos = update_zip.infolist()
