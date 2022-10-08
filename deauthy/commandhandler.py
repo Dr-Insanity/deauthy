@@ -7,6 +7,7 @@ from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
 import requests, zipfile, io
+import pyperclip
 from halo import Halo
 import sys
 from socket import if_nameindex
@@ -179,7 +180,7 @@ It won't be me.{end}""")
                 Terminal.tell_issue(f"{red}{bold}Nuh-uh!{end}{white}How about you first set a wireless interface card, hmm?{end}")
                 return
             cardname = get_var('interface')
-            mode     = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
+            mode = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
             state = Functs.is_in_monitor_mode(Interface(cardname))
             if state and mode.lower() == "monitor":
                 Terminal.tell_issue(f"{white}Nuh-uh, can't do. That card is already in {mode} mode :/{end}")
@@ -280,9 +281,10 @@ It won't be me.{end}""")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                     update_zip.extractall()
                 os.rename('deauthy-Testing', 'deauthy')
-            spinner.succeed(f"""{Terminal.Cyan}==============================================
-{Terminal.Red}Important:
-{Terminal.White}[{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}] {end} A command was pasted to your clipboard. Run it now.
+            spinner.succeed(f"""
+{Terminal.Cyan}==============================================
+{Terminal.Red}Important{Terminal.White}:
+[{Terminal.Light_green}TL{Terminal.White};{Terminal.Light_green}DR{Terminal.White}] {end} A command was pasted to your clipboard. Run it now.
 
 {Terminal.White}CD out and back into deauthy.
 We can't do this because we've done some magic that made us unable to determine
@@ -292,7 +294,8 @@ This is Linux. So this must be done manually by the user.
 We're sorry for choosing such method of updating the application.
 {Terminal.Cyan}=============================================={end}
 Quitting...""")
-            os.execv(sys.argv[0], sys.argv)
+            pyperclip.copy("cd .. && cd deauthy && sudo python3 main.py")
+            quit(0)
 
         def d_start():
             """Initiate the attack"""
