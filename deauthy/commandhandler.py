@@ -278,7 +278,8 @@ It won't be me.{end}""")
                 version = open('deauthy/VERSION', 'r').readline()
                 print(version)
                 return
-                if response.content.decode() == version
+                if response.content.decode() == version:
+                    ""
                 updatechecker_spinner.succeed(response.content.decode())
                 return
             with Halo('Updating...') as spinner:
