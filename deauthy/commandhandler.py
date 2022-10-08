@@ -276,12 +276,10 @@ It won't be me.{end}""")
             with Halo('Checking for updates...') as updatechecker_spinner:
                 response = requests.get("https://raw.githubusercontent.com/Dr-Insanity/deauthy/Testing/deauthy/VERSION")
                 version = open('deauthy/VERSION', 'r').readline()
-                print(version)
-                return
                 if response.content.decode() == version:
-                    ""
-                updatechecker_spinner.succeed(response.content.decode())
-                return
+                    updatechecker_spinner.fail(f"There are no updates available right now.")
+                    return
+                updatechecker_spinner.succeed(f"{Terminal.Light_green} Update Available! How nice!")
             with Halo('Updating...') as spinner:
                 response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
                 with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
