@@ -282,7 +282,7 @@ It won't be me.{end}""")
                             zipinfo.filename = "deauthy"
                             break
                     update_zip.extract(zipinfo, "..")
-                os.rename('deauthy-Testing', 'deauthy')
+                os.rename('../deauthy-Testing', '../deauthy')
             spinner.succeed(f"Restart DEAUTHY to complete.")
 
         def d_start():
