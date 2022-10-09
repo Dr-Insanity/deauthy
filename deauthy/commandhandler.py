@@ -80,7 +80,7 @@ class CommandHandler:
 
     own_commands = [
         f"{prefix}help",
-        f"{prefix}reinstall"
+        f"{prefix}reinstall",
         f"{prefix}disclaimer",
         f"{prefix}about",
         f"{prefix}repo",
