@@ -146,11 +146,14 @@ def csv2json(filename: str):
         if len(field) != 1 and [' Privacy', ' Cipher', ' Authentication', ' Power', ' # beacons', ' # IV', ' LAN IP', ' ID-length', ' ESSID', ' Key'] != field:
             # print(f"ESSID: {field[13][1::]}\nLength of CSV line: {len(field)}\nLength of ESSID: {len(field[13][1::])}\n")
             if is_valid_MAC(field[0].strip().lower()):
+                print(field[13][1::])
                 names.append(field[13][1::])
 
     nets = {} # type: dict[str, None]
     for name in names:
         nets[name] = None
+
+    print(nets)
 
     numb_of_bssids = {} # type: dict[str, int]
     for key, value in nets.items():
@@ -160,6 +163,8 @@ def csv2json(filename: str):
         elif len(key) != 0:
             print(f"# of APs for {key}: {names.count(key)}")
             numb_of_bssids[key] = names.count(key)
+
+    print(numb_of_bssids)
 
     def xxxx():
         __dicts = []
@@ -184,8 +189,7 @@ def csv2json(filename: str):
                 cp_packed_data["essid"] = line[13].strip()
                 cp_packed_data["key"] = line[14].strip()
                 __dicts.append(cp_packed_data)
-                li.remove(line)
-        return set(__dicts)
+        return __dicts
 
     __dicts = xxxx()
 
