@@ -42,8 +42,7 @@ def printBanner():
 ██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝ 
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
-╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝                             
-        """ + light_green + "Time to kick off some assholes from yer net" + f"DeAuthy{end} {white}version: {light_white}{version()}")
+╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""" + light_green + "\nTime to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
     return True
 
 def main():
