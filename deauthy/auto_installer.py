@@ -1,4 +1,5 @@
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
+import requests, zipfile, shutil, io, os, sys, time
 
 class Dependencies:
     """
@@ -105,3 +106,71 @@ class Dependencies:
         Terminal.inform(msg=f"""{Terminal.White}{Terminal.Bold}{results["total"]}{Terminal.End}{Terminal.White} total dependencies were in use by DeAuthy""", entire_color=Terminal.White)
         Terminal.inform(msg=f"{Terminal.White}Exiting!{Terminal.End}")
         exit(0)
+
+class DeAuthy():
+    """Class representing the application itself. Contains code for managing it's installation/configuration."""
+
+    def reinstall():
+        """Reinstalls DeAuthy from the github repository (Force update, without version check)
+
+        Returns
+        -------
+        - `True` - Reinstallation succeeded.
+        - `False` - Reinstallation failed.
+        """
+        from deauthy.terminal import Terminal
+        from halo import Halo
+        with Halo('Reinstalling...') as spinner:
+            response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
+            with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
+                update_zip.extractall()
+            for file in os.listdir(f"deauthy-Testing"):
+                if file in [".git", ".vscode", ".gitignore", "t.py"]:
+                    continue
+                if os.path.isdir(f"deauthy-Testing/{file}"):
+                    shutil.rmtree(file)
+                    shutil.move(f"deauthy-Testing/{file}", "./")
+                if os.path.isfile(f"deauthy-Testing/{file}"):
+                    os.remove(file)
+                    shutil.move(f"deauthy-Testing/{file}", "./")
+            time.sleep(5)
+            shutil.rmtree(f"deauthy-Testing/")
+        spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+        time.sleep(2) # give the time to the user to read that we're restarting
+        os.execv(sys.executable, ['python'] + [sys.argv[0]])
+
+    def update():
+        """Updates DeAuthy straight from the github repository
+
+        Returns
+        -------
+        - `True` - Update succeeded.
+        - `False` - Update failed.
+        """
+        from deauthy.terminal import Terminal
+        from halo import Halo
+        with Halo('Checking for updates...') as updatechecker_spinner:
+            response = requests.get("https://raw.githubusercontent.com/Dr-Insanity/deauthy/Testing/deauthy/VERSION")
+            version = open('deauthy/VERSION', 'r').readline()
+            if response.content.decode() == version:
+                updatechecker_spinner.fail(f"There are no updates available right now.")
+                return
+            updatechecker_spinner.succeed(f"Update Available! How nice!")
+        with Halo('Updating...') as spinner:
+            response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
+            with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
+                update_zip.extractall()
+            for file in os.listdir(f"deauthy-Testing"):
+                if file in [".git", ".vscode", ".gitignore", "t.py"]:
+                    continue
+                if os.path.isdir(f"deauthy-Testing/{file}"):
+                    shutil.rmtree(file)
+                    shutil.move(f"deauthy-Testing/{file}", "./")
+                if os.path.isfile(f"deauthy-Testing/{file}"):
+                    os.remove(file)
+                    shutil.move(f"deauthy-Testing/{file}", "./")
+            time.sleep(5)
+            shutil.rmtree(f"deauthy-Testing/")
+        spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+        time.sleep(2) # give the time to the user to read that we're restarting
+        os.execv(sys.executable, ['python'] + [sys.argv[0]])

@@ -4,6 +4,7 @@ import urllib.request
 from colorama import Fore
 import os
 from subprocess import check_call, check_output, DEVNULL, STDOUT
+from deauthy.auto_installer import DeAuthy
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
 from deauthy.functs import Functs
@@ -79,6 +80,7 @@ class CommandHandler:
 
     own_commands = [
         f"{prefix}help",
+        f"{prefix}reinstall"
         f"{prefix}disclaimer",
         f"{prefix}about",
         f"{prefix}repo",
@@ -272,33 +274,12 @@ It won't be me.{end}""")
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
 
         def d_update():
-            """Check for updates"""
-            from deauthy.terminal import Terminal
-            with Halo('Checking for updates...') as updatechecker_spinner:
-                response = requests.get("https://raw.githubusercontent.com/Dr-Insanity/deauthy/Testing/deauthy/VERSION")
-                version = open('deauthy/VERSION', 'r').readline()
-                if response.content.decode() == version:
-                    updatechecker_spinner.fail(f"There are no updates available right now.")
-                    return
-                updatechecker_spinner.succeed(f"Update Available! How nice!")
-            with Halo('Updating...') as spinner:
-                response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
-                with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-                    update_zip.extractall()
-                for file in os.listdir(f"deauthy-Testing"):
-                    if file in [".git", ".vscode", ".gitignore", "t.py"]:
-                        continue
-                    if os.path.isdir(f"deauthy-Testing/{file}"):
-                        shutil.rmtree(file)
-                        shutil.move(f"deauthy-Testing/{file}", "./")
-                    if os.path.isfile(f"deauthy-Testing/{file}"):
-                        os.remove(file)
-                        shutil.move(f"deauthy-Testing/{file}", "./")
-                time.sleep(5)
-                shutil.rmtree(f"deauthy-Testing/")
-            spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
-            time.sleep(2) # give the time to the user to read that we're restarting
-            os.execv(sys.executable, ['python'] + [sys.argv[0]])
+            """Check for updates. Will also update if there's a newer version."""
+            DeAuthy.update()
+
+        def d_reinstall():
+            """Reinstalls DeAuthy from the github repository."""
+            DeAuthy.reinstall()
 
         def d_start():
             """Initiate the attack"""
@@ -331,6 +312,7 @@ It won't be me.{end}""")
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
+            f"{prefix}reinstall":d_reinstall,
             f"{prefix}disclaimer":d_disclaimer,
             f"{prefix}repo":d_repo,
             f"{prefix}about":d_about,
