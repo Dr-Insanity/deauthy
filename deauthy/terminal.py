@@ -81,6 +81,7 @@ class Terminal:
                 if allowed_replies[0].lower() == "deauthy | sh" and reply.split()[0] not in CommandHandler.own_commands:
                     print(reply.split()[0])
                     print(len(reply.split()[0]))
+                    print(CommandHandler.own_commands)
                     Terminal.tell_issue(msg=f"{Terminal.Red}That's not a valid {Terminal.Bold}{Terminal.White}DeAuthy command{Terminal.End}{Terminal.Red} :/")
                     reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
                     return reply
