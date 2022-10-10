@@ -133,14 +133,15 @@ class DeAuthy():
             for file in os.listdir(f"deauthy-Testing"):
                 if file in [".git", ".vscode", ".gitignore", "t.py"]:
                     continue
-                if file in ["conf.json"] and keep_config:
-                    continue
                 if os.path.isdir(f"deauthy-Testing/{file}"):
                     shutil.rmtree(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
                 if os.path.isfile(f"deauthy-Testing/{file}"):
-                    os.remove(file)
-                    shutil.move(f"deauthy-Testing/{file}", "./")
+                    if file in ["conf.json"] and keep_config:
+                        continue
+                    else:
+                        os.remove(file)
+                        shutil.move(f"deauthy-Testing/{file}", "./")
                 if file in ["conf.json"]:
                     if not keep_config:
                         Terminal.tell_issue("Config file is reset.")
