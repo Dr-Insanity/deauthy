@@ -120,6 +120,12 @@ class DeAuthy():
         """
         from deauthy.terminal import Terminal
         from halo import Halo
+        keep_config = False
+        answ = Terminal.prompt(question=f"Keep config file? {Terminal.Light_green}Y{Terminal.White}/{Terminal.Red}N{Terminal.White})", allowed_replies=["y", "n"])
+        if answ.lower() == "y":
+            keep_config = True
+        if answ.lower() == "n":
+            pass
         with Halo('Reinstalling...') as spinner:
             response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
             with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
@@ -127,6 +133,12 @@ class DeAuthy():
             for file in os.listdir(f"deauthy-Testing"):
                 if file in [".git", ".vscode", ".gitignore", "t.py"]:
                     continue
+                if file in ["conf.json"]:
+                    if not keep_config:
+                        Terminal.tell_issue("Config file is reset.")
+                    else:
+                        Terminal.tell_issue("Config file is kept as-is.")
+                        continue
                 if os.path.isdir(f"deauthy-Testing/{file}"):
                     shutil.rmtree(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
@@ -161,12 +173,14 @@ class DeAuthy():
             with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
                 update_zip.extractall()
             for file in os.listdir(f"deauthy-Testing"):
-                if file in [".git", ".vscode", ".gitignore", "t.py"]:
+                if file in [".git", ".vscode", ".gitignore", "t.py", "conf.json"]:
                     continue
                 if os.path.isdir(f"deauthy-Testing/{file}"):
                     shutil.rmtree(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
                 if os.path.isfile(f"deauthy-Testing/{file}"):
+                    if file == "conf.json":
+                        continue
                     os.remove(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
             time.sleep(5)
