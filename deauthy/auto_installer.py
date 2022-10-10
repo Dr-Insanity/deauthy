@@ -158,7 +158,7 @@ class DeAuthy():
             Terminal.inform(f"{Terminal.Red}Config file is reset.")
         else:
             Terminal.inform(f"{Terminal.Light_green}Config file is kept as-is.")
-        spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+        #spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
         time.sleep(5) # give the time to the user to read that we're restarting
         os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
