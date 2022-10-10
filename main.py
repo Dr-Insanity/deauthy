@@ -1,3 +1,5 @@
+import time
+from typing import Union
 from deauthy.auto_installer import Dependencies
 from deauthy.functs import mod_config, del_pair, get_var
 if get_var('not_setup_yet'):
@@ -33,17 +35,29 @@ underline   = Terminal.Underline
 def clear():
     check_call(["clear"])
 
-def printBanner():
+def printBanner(bounce_pos:Union[int, None]=None):
     clear()
-    print(red + """
+    if bounce_pos is None:
+        time.sleep(1)
+        print(red + """
 
 ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
 ██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝
 ██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝ 
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
-╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""" + light_green + "\nTime to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
-    return True
+╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""")
+    else:
+        time.sleep(1)
+        print(red + """
+
+
+██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
+██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝
+██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝ 
+██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
+██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
+╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""")
 
 def main():
     Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
@@ -57,6 +71,15 @@ try:
         Terminal.tell_issue(msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
     printBanner()
+    printBanner(1)
+    printBanner()
+    printBanner(1)
+    printBanner()
+    printBanner(1)
+    printBanner()
+    printBanner(1)
+    printBanner()
+    print(light_green + "\nTime to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
     main()
 except KeyboardInterrupt:
     quit(0)
