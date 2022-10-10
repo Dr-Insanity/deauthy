@@ -133,11 +133,11 @@ class DeAuthy():
             if keep_config:
                 for file in os.listdir(f"deauthy-Testing/deauthy"):
                     print(file)
-                    if file == "conf.json":
+                    if file in ["conf.json"]:
                         continue
                     else:
-                        os.remove(f"./deauthy/{file}")
-                        shutil.move(f"deauthy-Testing/deauthy/{file}", f"./deauthy/{file}")
+                        os.remove(f"deauthy/{file}")
+                        shutil.move(f"deauthy-Testing/deauthy/{file}", f"deauthy/{file}")
             for file in os.listdir(f"deauthy-Testing"):
                 if file in [".git", ".vscode", ".gitignore", "t.py"]:
                     continue
