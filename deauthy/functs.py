@@ -175,6 +175,6 @@ def get_var(key: str):
         Terminal.inform(f"{Terminal.Red}Config file got corrupted.\nResetting it...")
         with open("deauthy/conf.json", "w") as f:
             f.truncate()
-            f.write("{ not_setup_yet:true }")
+            f.write("""{ "not_setup_yet":true }""")
             f.close()
         os.execv(sys.executable, ['python'] + [sys.argv[0]])
