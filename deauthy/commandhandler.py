@@ -267,8 +267,8 @@ It won't be me.{end}""")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
                 Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
                 return
-            Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?")
-            Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least a minute for target availability")
+            Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
+            Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least 2 minutes so that you will have all the access points of a network. Quitting too early can result in the target device to be able to hop over to that one access point we don't know of. So please lay back, take a breather, take some coffee, and let it run for at least 2 minutes.")
             try:
                 out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
             except KeyboardInterrupt:
