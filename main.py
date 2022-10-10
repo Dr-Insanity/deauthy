@@ -36,7 +36,6 @@ def clear():
     check_call(["clear"])
 
 def printBanner(bounce_pos:Union[int, None]=None):
-    clear()
     if bounce_pos is None:
         time.sleep(1)
         print(red + """
