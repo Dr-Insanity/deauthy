@@ -316,8 +316,17 @@ It won't be me.{end}""")
 
         def d_config():
             """View the current configuration (RAW JSON)"""
+            from deauthy.terminal import Terminal
             f = open("deauthy/conf.json", "r")
-            print(json.dumps(json.load(f), indent=2))
+            try:
+                print(json.dumps(json.load(f), indent=2))
+            except json.decoder.DecodeError:
+                Terminal.inform(f"{Terminal.Red}Config file got corrupted.\nResetting it...")
+                with open("deauthy/conf.json", "w") as f:
+                    f.truncate()
+                    f.write("""{ "not_setup_yet":true }""")
+                    f.close()
+                os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
