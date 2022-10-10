@@ -137,7 +137,7 @@ class DeAuthy():
                     shutil.rmtree(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
                 if os.path.isfile(f"deauthy-Testing/{file}"):
-                    if file in ["conf.json"] and keep_config is True:
+                    if file in ["conf.json"] and str(keep_config) == "True":
                         spinner.stop_and_persist()
                         print("We need to keep config!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                         continue
