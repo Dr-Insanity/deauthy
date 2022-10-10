@@ -137,7 +137,7 @@ class DeAuthy():
                 shutil.rmtree(file)
                 shutil.move(f"deauthy-Testing/{file}", "./")
             if os.path.isfile(f"deauthy-Testing/{file}"):
-                #spinner.stop_and_persist()
+                spinner.stop_and_persist()
                 print(file)
                 print(answ.lower())
                 if file in ["conf.json"] and answ.lower() == "y":
@@ -152,13 +152,13 @@ class DeAuthy():
                 else:
                     Terminal.tell_issue("Config file is kept as-is.")
                     continue
-            time.sleep(5)
-            shutil.rmtree(f"deauthy-Testing/")
+        time.sleep(5)
+        shutil.rmtree(f"deauthy-Testing/")
         if not keep_config:
             Terminal.inform(f"{Terminal.Red}Config file is reset.")
         else:
             Terminal.inform(f"{Terminal.Light_green}Config file is kept as-is.")
-        #spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+        spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
         time.sleep(5) # give the time to the user to read that we're restarting
         os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
