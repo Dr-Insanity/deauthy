@@ -57,6 +57,7 @@ def printBanner(bounce_pos:Union[int, None]=None):
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
 ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""")
+    clear()
 
 def main():
     Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
