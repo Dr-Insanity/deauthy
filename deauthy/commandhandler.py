@@ -7,7 +7,6 @@ from subprocess import check_call, check_output, DEVNULL, STDOUT
 from deauthy.auto_installer import DeAuthy
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
-from deauthy.functs import Functs
 import requests, zipfile, io
 from halo import Halo
 import sys
@@ -288,6 +287,7 @@ It won't be me.{end}""")
         def d_start():
             """Initiate the attack"""
             from deauthy.terminal import Terminal
+            from deauthy.functs import Functs
             from deauthy.deauthy_types import ESSID, BSSID
             from deauthy.functs import get_var
             iface = get_var('interface')
