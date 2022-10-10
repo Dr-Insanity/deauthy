@@ -11,6 +11,7 @@ from deauthy.functs import Functs
 import requests, zipfile, io
 from halo import Halo
 import sys
+import json
 from socket import if_nameindex
 
 prefix = f"!"
@@ -311,6 +312,11 @@ It won't be me.{end}""")
                 # do BSSID approach
                 bssids = BSSID(do_bssid)
                 Functs.BSSID_METHOD.deauth(bssids)
+
+        def d_config():
+            """View the current configuration (RAW JSON)"""
+            with open("deauthy/conf.json", "r") as f:
+                print(json.dumps(f.read(), indent=2))
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
