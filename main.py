@@ -37,7 +37,6 @@ def clear():
 
 def printBanner(bounce_pos:Union[int, None]=None):
     if bounce_pos is None:
-        time.sleep(1)
         print(red + """
 
 ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗
@@ -46,8 +45,8 @@ def printBanner(bounce_pos:Union[int, None]=None):
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
 ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""")
+        time.sleep(1)
     else:
-        time.sleep(1)
         print(red + """
 
 
@@ -57,6 +56,7 @@ def printBanner(bounce_pos:Union[int, None]=None):
 ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝  
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
 ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""")
+    time.sleep(1)
     clear()
 
 def main():
