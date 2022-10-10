@@ -150,11 +150,11 @@ class DeAuthy():
             time.sleep(5)
             shutil.rmtree(f"deauthy-Testing/")
         if not keep_config:
-            Terminal.tell_issue("Config file is reset.")
+            Terminal.inform(f"{Terminal.Red}Config file is reset.")
         else:
-            Terminal.tell_issue("Config file is kept as-is.")
+            Terminal.inform(f"{Terminal.Light_green}Config file is kept as-is.")
         spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
-        time.sleep(2) # give the time to the user to read that we're restarting
+        time.sleep(5) # give the time to the user to read that we're restarting
         os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
     def update():
