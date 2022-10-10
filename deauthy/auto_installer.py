@@ -137,10 +137,10 @@ class DeAuthy():
                     shutil.rmtree(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
                 if os.path.isfile(f"deauthy-Testing/{file}"):
+                    spinner.stop_and_persist()
                     print(file)
                     print(answ.lower())
                     if file in ["conf.json"] and answ.lower() == "y":
-                        spinner.stop_and_persist()
                         print("We need to keep config!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                         continue
                     else:
