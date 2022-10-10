@@ -259,7 +259,6 @@ It won't be me.{end}""")
 
         def d_discover():
             """Discover targets in your area."""
-            import pandas
             from deauthy.terminal import Terminal
             from deauthy.functs import get_var
             iface = get_var('interface')
