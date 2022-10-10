@@ -71,6 +71,7 @@ class CommandHandler:
     class Debian:
         supported_commands_debian_based_distros = [
             "ifconfig",
+            "apt",
             "ls",
             "airmon-ng",
             "cat",
