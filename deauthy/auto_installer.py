@@ -134,6 +134,7 @@ class DeAuthy():
                 for file in os.listdir(f"deauthy-Testing/deauthy"):
                     print(file)
                     if file in ["conf.json"]:
+                        print(f"Don't copy {file}")
                         continue
                     else:
                         os.remove(f"deauthy/{file}")
