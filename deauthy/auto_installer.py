@@ -132,9 +132,9 @@ class DeAuthy():
                 update_zip.extractall()
             if keep_config:
                 for file in os.listdir(f"deauthy-Testing/deauthy"):
-                    if file not in ["conf.json"]:
-                        continue
                     if file in ["conf.json"]:
+                        continue
+                    if file not in ["conf.json"]:
                         os.remove(f"deauthy/{file}")
                         shutil.move(f"deauthy-Testing/deauthy/{file}", f"deauthy/{file}")
             for file in os.listdir(f"deauthy-Testing"):
