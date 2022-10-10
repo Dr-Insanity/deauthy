@@ -126,37 +126,41 @@ class DeAuthy():
             keep_config = True
         if answ.lower() == "n":
             pass
-        #with Halo('Reinstalling...') as spinner:
-        response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
-        with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
-            update_zip.extractall()
-        for file in os.listdir(f"deauthy-Testing"):
-            print(file)
-            if file in [".git", ".vscode", ".gitignore", "t.py"]:
-                continue
-            if os.path.isdir(f"deauthy-Testing/{file}"):
-                shutil.rmtree(file)
-                shutil.move(f"deauthy-Testing/{file}", "./")
-            if os.path.isfile(f"deauthy-Testing/{file}"):
-                if file in ["conf.json"] and answ.lower() == "y":
-                    print("We need to keep config!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        with Halo('Reinstalling...') as spinner:
+            response = requests.get("https://github.com/Dr-Insanity/deauthy/archive/refs/heads/Testing.zip")
+            with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
+                update_zip.extractall()
+            if keep_config:
+                for file in os.listdir(f"deauthy-Testing/deauthy"):
+                    if file == "conf.json": continue
+                    else:
+                        os.remove(f"deauthy/{file}")
+                        shutil.move(f"deauthy-Testing/deauthy/{file}", "./deauthy")
+            for file in os.listdir(f"deauthy-Testing"):
+                if file in [".git", ".vscode", ".gitignore", "t.py"]:
                     continue
-                else:
-                    os.remove(file)
+                if os.path.isdir(f"deauthy-Testing/{file}"):
+                    shutil.rmtree(file)
                     shutil.move(f"deauthy-Testing/{file}", "./")
-            if file in ["conf.json"]:
-                if not keep_config:
-                    Terminal.tell_issue("Config file is reset.")
-                else:
-                    Terminal.tell_issue("Config file is kept as-is.")
-                    continue
+                if os.path.isfile(f"deauthy-Testing/{file}"):
+                    if file == "deauthy" and keep_config:
+                        continue
+                    else:
+                        os.remove(file)
+                        shutil.move(f"deauthy-Testing/{file}", "./")
+                if file in ["conf.json"]:
+                    if not keep_config:
+                        Terminal.tell_issue("Config file is reset.")
+                    else:
+                        Terminal.tell_issue("Config file is kept as-is.")
+                        continue
         time.sleep(5)
         shutil.rmtree(f"deauthy-Testing/")
         if not keep_config:
             Terminal.inform(f"{Terminal.Red}Config file is reset.")
         else:
             Terminal.inform(f"{Terminal.Light_green}Config file is kept as-is.")
-        #spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
+        spinner.succeed(f"{Terminal.Light_green} Success! Restarting...")
         time.sleep(5) # give the time to the user to read that we're restarting
         os.execv(sys.executable, ['python'] + [sys.argv[0]])
 
