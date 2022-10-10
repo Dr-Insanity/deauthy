@@ -320,7 +320,7 @@ It won't be me.{end}""")
             f = open("deauthy/conf.json", "r")
             try:
                 print(json.dumps(json.load(f), indent=2))
-            except json.decoder.DecodeError:
+            except json.decoder.JSONDecodeError:
                 Terminal.inform(f"{Terminal.Red}Config file got corrupted.\nResetting it...")
                 with open("deauthy/conf.json", "w") as f:
                     f.truncate()
