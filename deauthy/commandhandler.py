@@ -281,11 +281,6 @@ It won't be me.{end}""")
 
         def d_reinstall():
             """Reinstalls DeAuthy straight from the github repository."""
-            {Fore.LIGHTGREEN_EX}Y{Fore.WHITE}/{Fore.RED}N{Fore.WHITE})
-            if answ.lower() == "y":
-                check_output(["nano", "deauthy/conf.json"])
-            if answ.lower() == "n":
-                pass
             DeAuthy.reinstall()
 
         def d_start():
