@@ -1,10 +1,11 @@
 from socket import if_nameindex
-from deauthy.deauthy_types import Interface, BSSID, ESSID, MAC
-from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
+from deauthy.deauthy_types import Interface, BSSID, ESSID
+from subprocess import DEVNULL, STDOUT, check_call, check_output
 import sys
 import json
-import threading
-import time
+import os
+
+from deauthy.terminal import Terminal
 
 class Functs:
     def prompt_for_ifaces():
@@ -161,11 +162,19 @@ def mod_config(key: str, value):
         jsonfile.close()
 
 def get_var(key: str):
-    with open("deauthy/conf.json", "r") as jsonfile:
-        data = json.load(jsonfile)
-        jsonfile.close()
-        try:
-            val = data[key]
-            return val
-        except KeyError:
-            return None
+    try:
+        with open("deauthy/conf.json", "r") as jsonfile:
+            data = json.load(jsonfile)
+            jsonfile.close()
+            try:
+                val = data[key]
+                return val
+            except KeyError:
+                return None
+    except json.decoder.JSONDecodeError:
+        Terminal.inform(f"{Terminal.Red}Config file got corrupted.\nResetting it...")
+        with open("deauthy/conf.json", "w") as f:
+            f.truncate()
+            f.write("{ not_setup_yet:true }")
+            f.close()
+        os.execv(sys.executable, ['python'] + [sys.argv[0]])
