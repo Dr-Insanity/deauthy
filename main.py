@@ -37,7 +37,6 @@ def clear():
 
 def printBanner(bounce_pos:Union[int, None]=None):
     if bounce_pos is None:
-        clear()
         time.sleep(1)
         print(red + """
 
@@ -48,7 +47,6 @@ def printBanner(bounce_pos:Union[int, None]=None):
 ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   
 ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝""")
     else:
-        clear()
         time.sleep(1)
         print(red + """
 
@@ -71,6 +69,7 @@ try:
     if not Checks.has_root():
         Terminal.tell_issue(msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
+    clear()
     printBanner()
     printBanner(1)
     printBanner()
