@@ -95,6 +95,7 @@ class CommandHandler:
         f"{prefix}start",
         f"{prefix}discover",
         f"{prefix}update",
+        f"{prefix}config",
     ]
 
     class Own_Cmds:
@@ -332,4 +333,5 @@ It won't be me.{end}""")
             f"{prefix}start":d_start,
             f"{prefix}discover":d_discover,
             f"{prefix}update":d_update,
+            f"{prefix}update":d_config,
         }
