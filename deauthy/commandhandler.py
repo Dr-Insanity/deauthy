@@ -100,10 +100,7 @@ class CommandHandler:
     class Own_Cmds:
         def d_announcements():
             """Displays important note(s) that are very recommended to read."""
-            print(f"""{end}As of right now, saving configuration is not possible.
-this due to me getting a better understanding of JSON. 
-It's something I still have to take under the loop, but saving will be possible in the future.
-You can keep an eye on the Testing branch, but I don't recommend cloning it, since it may contain code that renders the application useless.""")
+            print(f"""{end}As of right now, the core function is not working.""")
 
         def d_help():
             """Views this message."""
