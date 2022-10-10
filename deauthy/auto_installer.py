@@ -136,7 +136,7 @@ class DeAuthy():
                         continue
                     else:
                         os.remove(f"./deauthy/{file}")
-                        shutil.move(f"deauthy-Testing/deauthy/{file}", "./deauthy")
+                        shutil.move(f"deauthy-Testing/deauthy/{file}", f"./deauthy/{file}")
             for file in os.listdir(f"deauthy-Testing"):
                 if file in [".git", ".vscode", ".gitignore", "t.py"]:
                     continue
