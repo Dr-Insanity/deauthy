@@ -37,8 +37,7 @@ def clear():
 
 def printBanner(bounce_pos:Union[int, None]=None):
     if bounce_pos is None:
-        print(red + """
- .     *  .   * .         *          . *     .    .    *   .    *  .
+        print(red + """ .     *  .   * .         *          . *     .    .    *   .    *  .
     *   .     *      *    .      *    .     *      *    .   *   .   *
 .  *    .   *    .    .     * .          *         . *   .  *     .  .
 .    ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ .
