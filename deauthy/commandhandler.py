@@ -317,7 +317,7 @@ It won't be me.{end}""")
         def d_config():
             """View the current configuration (RAW JSON)"""
             with open("deauthy/conf.json", "r") as f:
-                print(json.dumps(f.read(), indent=2))
+                print(json.dumps(f.readline(), indent=2))
 
         handle_own_cmd = {
             f"{prefix}help":d_help,
