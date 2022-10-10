@@ -131,15 +131,13 @@ class DeAuthy():
         with zipfile.ZipFile(io.BytesIO(response.content)) as update_zip:
             update_zip.extractall()
         for file in os.listdir(f"deauthy-Testing"):
+            print(file)
             if file in [".git", ".vscode", ".gitignore", "t.py"]:
                 continue
             if os.path.isdir(f"deauthy-Testing/{file}"):
                 shutil.rmtree(file)
                 shutil.move(f"deauthy-Testing/{file}", "./")
             if os.path.isfile(f"deauthy-Testing/{file}"):
-                #spinner.stop_and_persist()
-                print(file)
-                print(answ.lower())
                 if file in ["conf.json"] and answ.lower() == "y":
                     print("We need to keep config!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     continue
