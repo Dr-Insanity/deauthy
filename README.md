@@ -7,6 +7,7 @@ DeAuthy is a Python 3 application for keeping Wi-Fi devices, such as laptops, mo
 - The latest [Python 3](https://www.python.org/downloads/) version
 - [Git](https://git-scm.com/downloads)
 - [Aircrack-ng](https://www.aircrack-ng.org/doku.php?id=Main)
+- [`tshark`]()
 - **[Hardware Requirement]**-**[Internal/External]** A [NIC](https://en.wikipedia.org/wiki/Network_interface_controller) with a chipset that supports monitor/promiscuous mode & packet/frame injection.
 
 that is pretty much all for the dependencies. The rest is auto-installed, assuming [`pip`](https://pypi.org/project/pip/) is on your system variables, better known as PATH.

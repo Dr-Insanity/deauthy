@@ -76,6 +76,7 @@ class CommandHandler:
             "airmon-ng",
             "cat",
             "nano",
+            "vim"
         ]
 
 
@@ -270,16 +271,17 @@ It won't be me.{end}""")
             Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?")
             Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least a minute for target availability")
             try:
-                out = check_output(["airodump-ng", "wlx00c0cab01dc1", "-w", "discovered_targets", "-o", "csv"])
+                out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
             except KeyboardInterrupt:
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
+            out = check_output(["tshark", "–r" "discovered_targets.pcap", "–T", "json", ">", "discovered_targets.json"])
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
             DeAuthy.update()
 
         def d_reinstall():
-            """Reinstalls DeAuthy from the github repository."""
+            """Reinstalls DeAuthy straight from the github repository."""
             DeAuthy.reinstall()
 
         def d_start():
