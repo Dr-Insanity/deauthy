@@ -37,8 +37,7 @@ def clear():
 
 def printBanner(bounce_pos:Union[int, None]=None):
     if bounce_pos is None:
-        print(red + """ .     *  .   * .         *          . *     .    .    *   .    *  .
-    *   .     *      *    .      *    .     *      *    .   *   .   *
+        print(red + """*   .     *      *    .      *    .     *      *    .   *   .   *
 .  *    .   *    .    .     * .          *         . *   .  *     .  .
 .    ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ .
    . ██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ * .
@@ -85,7 +84,7 @@ try:
     printBanner()
     printBanner(1)
     printBanner()
-    print(light_green + "\nTime to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
+    print(light_green + "Time to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
     main()
 except KeyboardInterrupt:
     quit(0)
