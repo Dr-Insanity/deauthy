@@ -138,6 +138,7 @@ class DeAuthy():
                     shutil.move(f"deauthy-Testing/{file}", "./")
                 if os.path.isfile(f"deauthy-Testing/{file}"):
                     if file in ["conf.json"] and keep_config:
+                        print("We need to keep config!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                         continue
                     else:
                         os.remove(file)
