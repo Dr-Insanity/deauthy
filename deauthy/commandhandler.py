@@ -3,7 +3,7 @@ import time
 import urllib.request
 from colorama import Fore
 import os
-from subprocess import check_call, check_output, DEVNULL, STDOUT
+from subprocess import check_call, check_output, DEVNULL, STDOUT, run
 from deauthy.auto_installer import DeAuthy
 from deauthy.checks import Checks
 from deauthy.deauthy_types import Interface
@@ -276,7 +276,7 @@ It won't be me.{end}""")
                 out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
             except KeyboardInterrupt:
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
-            out = check_output('tshark –r discovered_targets.pcap –T json > discovered_targets.json', shell=True)
+            out = run('tshark –r discovered_targets.pcap –T json > discovered_targets.json', shell=True)
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
