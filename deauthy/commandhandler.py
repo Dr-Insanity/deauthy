@@ -277,7 +277,7 @@ It won't be me.{end}""")
             except KeyboardInterrupt:
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
 
-            out = check_call('tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json', shell=True, )
+            out = check_output('tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json', shell=True, )
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
                     print(file)
