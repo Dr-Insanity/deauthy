@@ -276,7 +276,7 @@ It won't be me.{end}""")
                 out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
             except KeyboardInterrupt:
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
-            out = run('tshark –r discovered_targets.pcap –T json > discovered_targets.json', shell=True)
+            out = run('tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json', shell=True)
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
