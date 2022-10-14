@@ -76,7 +76,6 @@ class Banner:
 
     def __exit__(self, exception, value, tb):
         self.busy = False
-        time.sleep(self.delay)
         if exception is not None:
             return False
 
