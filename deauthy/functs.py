@@ -161,7 +161,9 @@ def mod_config(key: str, value):
         myJSON = json.dump(data, jsonfile, indent=2)
         jsonfile.close()
 
-def get_var(key: str):
+def get_var(key: str, from_file: str=None):
+    if from_file is None:
+        from_file = "deauthy/conf.json"
     try:
         with open("deauthy/conf.json", "r") as jsonfile:
             data = json.load(jsonfile)

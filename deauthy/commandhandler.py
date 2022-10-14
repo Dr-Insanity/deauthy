@@ -270,6 +270,7 @@ It won't be me.{end}""")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
                 Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
                 return
+            print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
             answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
             Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least 2 minutes so that you will have all the access points of a network. Quitting too early can result in the target device to be able to hop over to that one access point we don't know of. So please lay back, take a breather, take some coffee, and let it run for at least 2 minutes.")
             try:
@@ -280,8 +281,12 @@ It won't be me.{end}""")
             out = run('tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json', shell=True, )
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
-                    print(file)
                     os.remove(file)
+            if not os.path.isfile("discovered_targets.json"):
+                Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
+                return
+            get_var()
+                
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
