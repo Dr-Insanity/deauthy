@@ -147,7 +147,10 @@ class DeAuthy():
                         shutil.rmtree(file)
                         shutil.move(f"deauthy-Testing/{file}", "./")
                 if os.path.isfile(f"deauthy-Testing/{file}"):
-                    os.remove(file)
+                    try:
+                        os.remove(file)
+                    except FileNotFoundError:
+                        pass
                     shutil.move(f"deauthy-Testing/{file}", "./")
                 if file in ["conf.json"]:
                     if not keep_config:
