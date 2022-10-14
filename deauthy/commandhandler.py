@@ -286,8 +286,11 @@ It won't be me.{end}""")
             if not os.path.isfile("discovered_targets.json"):
                 Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
                 return
-            get_var()
-                
+            with open("discovered_targets.json", "r") as jsonfile:
+                data = json.load(jsonfile)
+                jsonfile.close()
+                for d in data:
+                    print(d)                
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
