@@ -259,6 +259,7 @@ It won't be me.{end}""")
                 spinner.succeed(f"{white}Configuration was {light_green}{bold}saved {end}{white}to:\n{yellow}{bold}'deauthy/conf.json' {end}{light_white}(Current Working Directory){end}")
                 return
 
+
         def d_discover():
             """Discover targets in your area."""
             from deauthy.terminal import Terminal
