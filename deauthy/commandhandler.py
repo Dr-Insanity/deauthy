@@ -290,7 +290,7 @@ It won't be me.{end}""")
                 data = json.load(jsonfile)
                 jsonfile.close()
                 for d in data:
-                    print(d)                
+                    print(type(d))
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
