@@ -55,7 +55,7 @@ class Terminal:
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
-            if reply.split()[0].lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
+            if reply.split()[0].lower() in CommandHandler.Debian.supported_commands:
                 try:
                     if len(reply.split()) >= 2:
                         cmd = CommandHandler.stage_args(reply)

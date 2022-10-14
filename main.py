@@ -13,6 +13,7 @@ from deauthy.deauthy_types import BSSID, ESSID, Interface
 from deauthy.terminal import Terminal
 from deauthy.checks import Checks
 from deauthy.functs import Functs
+import threading
 
 def version():
     with open('deauthy/VERSION', 'r') as f:
@@ -35,33 +36,49 @@ underline   = Terminal.Underline
 def clear():
     check_call(["clear"])
 
-def printBanner(bounce_pos:Union[int, None]=None):
-    if bounce_pos is None:
-        print(red + """*   .     *      *    .      *    .     *      *    .   *   .   *
-.  *    .   *    .    .     * .          *         . *   .  *     .  .
-.    ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ .
-   . ██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ * .
-*    ██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝  .
-. .  ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝   * .
-*    ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║    .
-.  . ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝  .
- .     *  .   * .         *          . *     .    .    *   .    *  .
-    *   .     *      *    .      *    .     *      *    .   *   .   *
-""")
-        time.sleep(0.5)
-    else:
-        print(red + """*   .   *   .    *      *     .    *      .    *      *     .   *    *
-.  *    .   *    .    .     * .          *         . *   .  *     .  .
-.    ██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ .
-   . ██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ * .
-*    ██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝  .
-. .  ██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝   * .
-*    ██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║    .
-.  . ╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝  .
-*   .   *   .    *      *     .    *      .    *      *     .   *    
-.  *    .   *    .    .     * .          *         . *   .  *     . """)
-    time.sleep(0.5)
-    clear()
+class Banner:
+    busy = False
+    delay = 0.1
+    frame1 = f"""{cyan}*   {blue}.     {cyan}*      {cyan}*    {blue}.      {cyan}*    {blue}.     {cyan}*      {cyan}*    {blue}.   {cyan}*   {blue}.   {cyan}*
+.  {cyan}*    {blue}.   {cyan}*    {blue}.    {blue}.     {cyan}* {blue}.          {cyan}*         {blue}. {cyan}*   {blue}.  {cyan}*     {blue}.  .
+.    {red}██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ {blue}.
+   {blue}. {red}██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ {cyan}* {blue}.
+{cyan}*    {red}██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝  {blue}.
+{blue}. {blue}.  {red}██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝   {cyan}* {blue}.
+{cyan}*    {red}██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║    {blue}.
+{blue}.  {blue}. {red}╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝  {blue}.
+ {blue}.     {cyan}*  {blue}.   {cyan}* {blue}.         {cyan}*          {blue}. {cyan}*     {blue}.    {blue}.    {cyan}*   {blue}.    {cyan}*  .
+    {cyan}*   {blue}.     {cyan}*      {cyan}*    {blue}.      {cyan}*    {blue}.     {cyan}*      {cyan}*    {blue}.   {cyan}*   {blue}.   {cyan}*{end}"""
+
+    frame2 = f"""{blue}.   {cyan}*     {blue}.      {blue}.    {cyan}*      {blue}.    {cyan}*     {blue}.      {blue}.    {cyan}*   {blue}.   {cyan}*   {blue}.
+{cyan}*  {blue}.    {cyan}*   {blue}.    {cyan}*    {cyan}*     {blue}. {cyan}*          {blue}.         {cyan}* {blue}.   {cyan}*  {blue}.     {cyan}*  {cyan}*
+{cyan}*    {red}██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ {cyan}*
+   {cyan}* {red}██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ {blue}. {cyan}*
+{blue}.    {red}██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝{white}  {cyan}*
+{cyan}* {cyan}*  {red}██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝{white}   {blue}. {cyan}*
+{blue}.    {red}██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║{white}    {cyan}*
+{cyan}*  {cyan}* {red}╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝{white}  {cyan}*
+ {cyan}*     {blue}.  {cyan}*   {blue}. {cyan}*         {blue}.          {cyan}* {blue}.     {cyan}*    {cyan}*    {blue}.   {cyan}*    {blue}.  {cyan}*
+    {blue}.   {cyan}*     {blue}.      {blue}.    {cyan}*      {blue}.    {cyan}*     {blue}.      {blue}.    {cyan}*   {blue}.   {cyan}*   .{end}"""
+
+    def banner_task(self):
+        while self.busy:
+            clear()
+            print(self.frame1)
+            time.sleep(0.2)
+            clear()
+            print(self.frame2)
+            time.sleep(0.2)
+
+    def __enter__(self):
+        self.busy = True
+        threading.Thread(target=self.banner_task).start()
+
+    def __exit__(self, exception, value, tb):
+        self.busy = False
+        time.sleep(self.delay)
+        if exception is not None:
+            return False
 
 def main():
     Terminal.inform(msg=f"{bold}{light_green}Hey! {end}{light_white}Tip of the day: Parrot Security or Kali Linux is recommended! Although, real control freaks use ArchLinux")
@@ -75,15 +92,8 @@ try:
         Terminal.tell_issue(msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
     clear()
-    printBanner()
-    printBanner(1)
-    printBanner()
-    printBanner(1)
-    printBanner()
-    printBanner(1)
-    printBanner()
-    printBanner(1)
-    printBanner()
+    with Banner():
+        time.sleep(5)
     print(light_green + "Time to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
     main()
 except KeyboardInterrupt:

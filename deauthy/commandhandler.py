@@ -37,9 +37,11 @@ def inform(msg: str, entire_color=white):
     print(deAuThY + d_hey + entire_color + msg)
 
 def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
-    d_huh = white + f"{bold}[" + light_blue + "?" + white + f"]{end}{light_white} "
-    reply = input(deAuThY + d_huh + f"{light_white}{question}{bold}>{end} {ending_color}")
-    if reply.lower() in CommandHandler.Debian.supported_commands_debian_based_distros:
+    d_huh = f"{white}{bold}[{light_blue}?{white}]{end}{light_white} "
+    if question == "deauthy | sh":
+        d_huh = f"{white}{bold}[{Fore.GREEN}#{white}]{end}{light_white} "
+    reply = input(f"{deAuThY}{d_huh}{light_white}{question}{bold}>{end} ")
+    if reply.lower() in CommandHandler.Debian.supported_commands:
         print(end)
         args = CommandHandler.stage_args(reply)[1:]
         executable = CommandHandler.stage_args(reply)[0]
@@ -69,7 +71,7 @@ class CommandHandler:
         return fragmented_cmd
 
     class Debian:
-        supported_commands_debian_based_distros = [
+        supported_commands = [
             "ifconfig",
             "apt",
             "ls",
