@@ -275,7 +275,7 @@ It won't be me.{end}""")
                 out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
             except KeyboardInterrupt:
                 Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
-            out = check_output(['tshark', '–r ' 'discovered_targets.pcap', '–T', 'json', '>', 'discovered_targets.json'])
+            out = check_output('tshark –r discovered_targets.pcap –T json > discovered_targets.json', shell=True)
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
