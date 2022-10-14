@@ -282,6 +282,7 @@ It won't be me.{end}""")
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
                     #os.remove(file)
+                    """"""
             if not os.path.isfile("discovered_targets.json"):
                 Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
                 return
