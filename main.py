@@ -39,27 +39,27 @@ def clear():
 class Banner:
     busy = False
     delay = 0.1
-    frame1 = f"""{cyan}*   {blue}.     {cyan}*      {cyan}*    {blue}.      {cyan}*    {blue}.     {cyan}*      {cyan}*    {blue}.   {cyan}*   {blue}.   {cyan}*
-.  {cyan}*    {blue}.   {cyan}*    {blue}.    {blue}.     {cyan}* {blue}.          {cyan}*         {blue}. {cyan}*   {blue}.  {cyan}*     {blue}.  .
-.    {red}██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ {blue}.
-   {blue}. {red}██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ {cyan}* {blue}.
-{cyan}*    {red}██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝  {blue}.
-{blue}. {blue}.  {red}██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝   {cyan}* {blue}.
-{cyan}*    {red}██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║    {blue}.
-{blue}.  {blue}. {red}╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝  {blue}.
- {blue}.     {cyan}*  {blue}.   {cyan}* {blue}.         {cyan}*          {blue}. {cyan}*     {blue}.    {blue}.    {cyan}*   {blue}.    {cyan}*  .
-    {cyan}*   {blue}.     {cyan}*      {cyan}*    {blue}.      {cyan}*    {blue}.     {cyan}*      {cyan}*    {blue}.   {cyan}*   {blue}.   {cyan}*{end}"""
+    frame1 = f"""{cyan}*   {blue}°     {cyan}*      {cyan}*    {blue}°      {cyan}*    {blue}°     {cyan}*      {cyan}*    {blue}°   {cyan}*   {blue}°   {cyan}*
+.  {cyan}*    {blue}°   {cyan}*    {blue}°    {blue}°     {cyan}* {blue}°          {cyan}*         {blue}° {cyan}*   {blue}°  {cyan}*     {blue}°  .
+.    {red}██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ {blue}°
+   {blue}° {red}██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ {cyan}* {blue}°
+{cyan}*    {red}██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝  {blue}°
+{blue}° {blue}°  {red}██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝   {cyan}* {blue}°
+{cyan}*    {red}██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║    {blue}°
+{blue}°  {blue}° {red}╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝  {blue}°
+ {blue}°     {cyan}*  {blue}°   {cyan}* {blue}°         {cyan}*          {blue}° {cyan}*     {blue}°    {blue}°    {cyan}*   {blue}°    {cyan}*  .
+    {cyan}*   {blue}°     {cyan}*      {cyan}*    {blue}°      {cyan}*    {blue}°     {cyan}*      {cyan}*    {blue}°   {cyan}*   {blue}°   {cyan}*{end}"""
 
-    frame2 = f"""{blue}.   {cyan}*     {blue}.      {blue}.    {cyan}*      {blue}.    {cyan}*     {blue}.      {blue}.    {cyan}*   {blue}.   {cyan}*   {blue}.
-{cyan}*  {blue}.    {cyan}*   {blue}.    {cyan}*    {cyan}*     {blue}. {cyan}*          {blue}.         {cyan}* {blue}.   {cyan}*  {blue}.     {cyan}*  {cyan}*
+    frame2 = f"""{blue}°   {cyan}*     {blue}°      {blue}°    {cyan}*      {blue}°    {cyan}*     {blue}°      {blue}°    {cyan}*   {blue}°   {cyan}*   {blue}°
+{cyan}*  {blue}°    {cyan}*   {blue}°    {cyan}*    {cyan}*     {blue}° {cyan}*          {blue}°         {cyan}* {blue}°   {cyan}*  {blue}°     {cyan}*  {cyan}*
 {cyan}*    {red}██████╗ ███████╗     █████╗ ██╗   ██╗████████╗██╗  ██╗██╗   ██╗ {cyan}*
-   {cyan}* {red}██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ {blue}. {cyan}*
-{blue}.    {red}██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝{white}  {cyan}*
-{cyan}* {cyan}*  {red}██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝{white}   {blue}. {cyan}*
-{blue}.    {red}██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║{white}    {cyan}*
+   {cyan}* {red}██╔══██╗██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██║  ██║╚██╗ ██╔╝ {blue}° {cyan}*
+{blue}°    {red}██║  ██║█████╗█████╗███████║██║   ██║   ██║   ███████║ ╚████╔╝{white}  {cyan}*
+{cyan}* {cyan}*  {red}██║  ██║██╔══╝╚════╝██╔══██║██║   ██║   ██║   ██╔══██║  ╚██╔╝{white}   {blue}° {cyan}*
+{blue}°    {red}██████╔╝███████╗    ██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║{white}    {cyan}*
 {cyan}*  {cyan}* {red}╚═════╝ ╚══════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝{white}  {cyan}*
- {cyan}*     {blue}.  {cyan}*   {blue}. {cyan}*         {blue}.          {cyan}* {blue}.     {cyan}*    {cyan}*    {blue}.   {cyan}*    {blue}.  {cyan}*
-    {blue}.   {cyan}*     {blue}.      {blue}.    {cyan}*      {blue}.    {cyan}*     {blue}.      {blue}.    {cyan}*   {blue}.   {cyan}*   .{end}"""
+ {cyan}*     {blue}°  {cyan}*   {blue}° {cyan}*         {blue}°          {cyan}* {blue}°     {cyan}*    {cyan}*    {blue}°   {cyan}*    {blue}°  {cyan}*
+    {blue}°   {cyan}*     {blue}°      {blue}°    {cyan}*      {blue}°    {cyan}*     {blue}°      {blue}°    {cyan}*   {blue}°   {cyan}*   .{end}"""
 
     def banner_task(self):
         while self.busy:
