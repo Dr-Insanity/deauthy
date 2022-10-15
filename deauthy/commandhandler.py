@@ -273,14 +273,15 @@ It won't be me.{end}""")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
             answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
-            Terminal.inform(f"{yellow+bold}1{white+bold}.) {red+bold}lay back")
+            Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_green+bold}lay back")
             Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_blue+bold}take a breather")
-            Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_green+bold}take some coffee")
+            Terminal.inform(f"{yellow+bold}1{white+bold}.) {red+bold}take some coffee")
             Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least 2 minutes so that you will have all the access points of a network. Quitting too early can result in the target device to be able to hop over to that one access point we don't know of. So please lay back, take a breather, take some coffee, and let it run for at least 2 minutes.")
-            try:
-                out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
-            except KeyboardInterrupt:
-                Terminal.inform(f"{white}CTRL + C pressed! Stopping monitoring.")
+            with Halo(f"{cyan+bold+underline}Monitoring networks nearby...") as spinner:
+                try:
+                    out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
+                except KeyboardInterrupt:
+                    spinner.succeed(f"{light_green+bold+underline}CTRL + C pressed! Stopping monitoring.")
 
             out = run('tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json', shell=True, )
             for file in os.listdir():
