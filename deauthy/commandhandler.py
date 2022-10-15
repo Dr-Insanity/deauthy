@@ -16,6 +16,7 @@ from socket import if_nameindex
 prefix = f"!"
 
 red         = Fore.RED
+mag         = Fore.MAGENTA
 blue        = Fore.BLUE
 white       = Fore.WHITE
 bold        = '\033[1m'
@@ -261,9 +262,9 @@ It won't be me.{end}""")
 
 
         def d_discover():
-            """Discover targets in your area."""
+            """Discover target networks (Access Points) in your area."""
             from deauthy.terminal import Terminal
-            from deauthy.functs import get_var
+            from deauthy.functs import get_var, mod_config
             iface = get_var('interface')
             if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
                 Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
@@ -286,11 +287,48 @@ It won't be me.{end}""")
             if not os.path.isfile("discovered_targets.json"):
                 Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
                 return
-            with open("discovered_targets.json", "r") as jsonfile:
-                data = json.load(jsonfile) # type: dict[dict]
+            with open("C:/Users/cicho/Downloads/discovered_targets.json", "r") as jsonfile:
+                data: list[dict] = json.load(jsonfile)
                 jsonfile.close()
-                for d in data:
-                    pr
+                numb = 1
+                pos = 1
+                cursor = 1
+                longest_ssid = None
+                ssids: set[str] = set()
+                bssids: dict[str, dict[str, str]] = {}
+                print(f"{mag+bold}===========================[{yellow+bold}AVAILABLE NETWORKS{mag+bold}]==========================={end}")
+                for network in data:
+                    ssids.add(network["_source"]["layers"]["wlan.ssid"][0])
+                    bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1]}
+                    cursor += 1
+                
+                charlength = 0
+                for ssid in ssids:
+                    if ssid.count(ssid) > charlength:
+                        charlength = ssid.count(ssid)
+                
+                for network in data:
+                    print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}{network["_source"]["layers"]["wlan.ssid"][0]} {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
+                    pos += 1
+
+                print(f"{white+bold}Usage:{end}{light_white} Choose e.g. 1, 3, 5, 8, 16")
+                def select_nets():
+                    selected_nets = prompt(f"{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client", ["any"], light_green)
+                    selected_nets = selected_nets.split(", ")
+                    selected_bssids: list[str] = []
+                    nets = f""
+                    for selected_net in selected_nets:
+                        try:
+                            nets += f"""{light_blue+bold+list(bssids[selected_net].keys())[0]} {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
+                            selected_bssids.append(list(bssids[selected_net].values())[0])
+                        except KeyError:
+                            print(f"{red}{bold}Please just select like {light_white}1, 2, 3\n{red}{underline}Include spaces in your selections{end}")
+                            select_nets()
+                    mod_config("target_BSSIDs", selected_bssids)
+                    return nets
+                selected_networks = select_nets()
+                if isinstance(selected_networks, str):
+                    print(f"{mag+bold}===========================[{yellow+bold}SELECTED NETWORKS{mag+bold}]==========================={end}\n{selected_networks}")
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
