@@ -56,7 +56,7 @@ with open("C:/Users/cicho/Downloads/discovered_targets.json", "r") as jsonfile:
     longest_ssid = None
     ssids: set[str] = set()
     bssids: dict[str, dict[str, str]] = {}
-    print(f"{mag+bold}================[{yellow+bold}AVAILABLE NETWORKS{mag+bold}]================{end}")
+    print(f"{mag+bold}===========================[{yellow+bold}AVAILABLE NETWORKS{mag+bold}]==========================={end}")
     for network in data:
         ssids.add(network["_source"]["layers"]["wlan.ssid"][0])
         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1]}
@@ -85,4 +85,4 @@ with open("C:/Users/cicho/Downloads/discovered_targets.json", "r") as jsonfile:
         return nets
     selected_networks = select_nets()
     if isinstance(selected_networks, str):
-        print(f"{mag+bold}================[{yellow+bold}SELECTED NETWORKS{mag+bold}]================{end}\n{selected_networks}")
+        print(f"{mag+bold}===========================[{yellow+bold}SELECTED NETWORKS{mag+bold}]==========================={end}\n{selected_networks}")
