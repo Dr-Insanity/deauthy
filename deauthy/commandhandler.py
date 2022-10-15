@@ -323,7 +323,7 @@ It won't be me.{end}""")
                     for selected_net in selected_nets:
                         try:
                             nets += f"""{light_blue+bold+list(bssids[selected_net].keys())[0]} {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
-                            selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].keys())[1]
+                            selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].values())[1]
                         except KeyError as e:
                             print(f"{red}{bold}Please just select like {light_white}1, 2, 3\n{red}{underline}Include spaces in your selections{end}")
                             select_nets()
