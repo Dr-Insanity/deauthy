@@ -287,7 +287,7 @@ It won't be me.{end}""")
             if not os.path.isfile("discovered_targets.json"):
                 Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
                 return
-            with open("C:/Users/cicho/Downloads/discovered_targets.json", "r") as jsonfile:
+            with open("discovered_targets.json", "r") as jsonfile:
                 data: list[dict] = json.load(jsonfile)
                 jsonfile.close()
                 numb = 1
