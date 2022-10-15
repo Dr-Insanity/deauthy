@@ -324,8 +324,9 @@ It won't be me.{end}""")
                         try:
                             nets += f"""{light_blue+bold+list(bssids[selected_net].keys())[0]} {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
                             selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].values())[1]
+                            print(bssids)
                         except KeyError as e:
-                            print(e.args)
+                            print(e)
                             print(f"{red}{bold}Please just select like {light_white}1, 2, 3\n{red}{underline}Include spaces in your selections{end}")
                             select_nets()
                     mod_config("target_BSSIDs", selected_bssids)
