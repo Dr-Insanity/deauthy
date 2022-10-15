@@ -287,10 +287,10 @@ It won't be me.{end}""")
                 Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
                 return
             with open("discovered_targets.json", "r") as jsonfile:
-                data = json.load(jsonfile)
+                data = json.load(jsonfile) # type: dict[dict]
                 jsonfile.close()
                 for d in data:
-                    print(type(d))
+                    pr
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
