@@ -91,7 +91,8 @@ class Terminal:
                 print(f"{Terminal.White+Terminal.Bold+Terminal.Underline}CTRL + C was pressed.\n{Terminal.End}Quitting DeAuthy...")
                 quit(0)
             else:
-                return
+                print(f"{Terminal.End}Cancelled.")
+                return None
         except IndexError:
             Terminal.tell_issue(f"{Terminal.Red}{Terminal.Bold}HEY!{Terminal.End}{Terminal.White} Come on! Fill something in!{Terminal.Red}{Terminal.Bold} >:({Terminal.End}")
             reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)

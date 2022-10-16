@@ -29,45 +29,6 @@ underline   = '\033[4m'
 cyan        = Fore.CYAN
 deAuThY = Fore.WHITE + "[" + Fore.RED + "D" + Fore.LIGHTYELLOW_EX + "E" + Fore.LIGHTGREEN_EX + "A" + Fore.MAGENTA + "U" + Fore.CYAN + "T" + Fore.BLUE + "H" + Fore.RED + "Y" + Fore.WHITE + "]"
 
-def tell_issue(msg: str):
-    d_wut = white + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
-    print(deAuThY + d_wut + msg)
-
-def inform(msg: str, entire_color=white):
-    d_hey = white + f"{bold}[" + light_green + "+" + white + f"]{end}{light_white} "
-    print(deAuThY + d_hey + entire_color + msg)
-
-def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
-    d_huh = f"{white}{bold}[{light_blue}?{white}]{end}{light_white} "
-    print(question)
-    if question == "deauthy | sh":
-        d_huh = f"{white}{bold}[{Fore.GREEN}#{white}]{end}{light_white} "
-    try:
-        reply = input(f"{deAuThY}{d_huh}{light_white}{question}{bold}>{end} ")
-        if reply.lower() in CommandHandler.Debian.supported_commands:
-            print(end)
-            args = CommandHandler.stage_args(reply)[1:]
-            executable = CommandHandler.stage_args(reply)[0]
-            exitcode = check_call(args=args, executable=executable)
-            reply = prompt(question, allowed_replies, ending_color)
-            return reply
-        elif reply in CommandHandler.own_commands:
-            CommandHandler.Own_Cmds.handle_own_cmd[reply]()
-            reply = prompt(question, allowed_replies, ending_color)
-            return reply
-        elif reply.lower() in allowed_replies:
-            return reply
-        else:
-            if allowed_replies[0].lower() == "any":
-                return reply
-            else:
-                tell_issue(msg=f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
-                reply = prompt(question=question, allowed_replies=allowed_replies)
-                return reply
-    except KeyboardInterrupt:
-        print(f"\n\nCTRL+C Pressed!!!\n\n")
-        return None
-
 class CommandHandler:
     """A class made to handle Deauthy's own commands as well as SOME linux commands."""
 
@@ -151,7 +112,9 @@ It won't be me.{end}""")
 
         def d_remove():
             """Attempts to remove DeAuthy's dependencies that are not from the standard python library."""
-            res = prompt(f"{white}Are you very sure you want to do this? ({light_green}Y{white}/{red}N{white})", ["y", "n"], ending_color=red)
+            from deauthy.terminal import Terminal
+            res = Terminal.prompt(f"{white}Are you very sure you want to do this? ({light_green}Y{white}/{red}N{white})", ["y", "n"], ending_color=red)
+            if res is None: return
             if res.lower() == "y":
                 from deauthy.auto_installer import Dependencies
                 Dependencies.remove()
@@ -167,6 +130,7 @@ It won't be me.{end}""")
             Terminal.inform(msg=f"{cyan}======================================{white}\nSometimes, when a wireless interface is brought into monitor mode, it gets 'mon' right after the interface name\nSo, for example:\n\nInterface in managed mode:\nwlx12345\n\nInterface in monitor mode:\nwlx12345mon\n\nIt's also possible there's simply a 1 added after the interface name\n{cyan}======================================")
             Terminal.inform(msg=f"{white}Found a {light_green}{bold}supported {white}Chipset!{end}")
             monsuffix = Terminal.prompt(question=f"What's added when your interface goes into monitor mode?{end}", allowed_replies=["any"])
+            if monsuffix is None: return
             mod_config('monitor_suffix', monsuffix)
             Terminal.inform(msg=f"{cyan}Choose a {bold}{cyan}wireless{end}{cyan} interface {white}({light_white}{bold}step {light_green}1{end}{light_white}/{white}3)")
             cardname = Functs.prompt_for_ifaces()
@@ -177,6 +141,7 @@ It won't be me.{end}""")
             mod_config("interface", cardname)
             if not Functs.is_in_monitor_mode(Interface(cardname)):
                 mon_or_not = Terminal.prompt(f"""{white}Do you want to put "{cardname}" into monitor mode now? {Terminal.y_n}""", ["y", "n"], light_green)
+                if mon_or_not is None: return
                 if mon_or_not.lower() == "y":
                     Functs.switch(Interface(cardname), "monitor")
                     return
@@ -193,6 +158,7 @@ It won't be me.{end}""")
                 return
             cardname = get_var('interface')
             mode = Terminal.prompt(f"""{white}Preferred mode for network interface "{cardname}"? ({light_white}managed{white}/{light_white}monitor{white})""", ["managed", "monitor"], yellow)
+            if mode is None: return
             state = Functs.is_in_monitor_mode(Interface(cardname))
             if state and mode.lower() == "monitor":
                 Terminal.tell_issue(f"{white}Nuh-uh, can't do. That card is already in {mode} mode :/{end}")
@@ -209,6 +175,7 @@ It won't be me.{end}""")
             from deauthy.checks import Checks
             from deauthy.deauthy_types import BSSID
             target_mac_addr = Terminal.prompt(question="Which client mac address are we going to send deauth packets to?", allowed_replies=["any"])
+            if target_mac_addr is None: return
             if Checks.is_valid_MAC(target_mac_addr):
                 pass
             elif not Checks.is_valid_MAC(target_mac_addr):
@@ -218,15 +185,19 @@ It won't be me.{end}""")
             mod_config('target_mac', target_mac_addr)
             Terminal.inform(f"{white}Now we need to specify which network(s) are forbidden for our target to connect to{end}")
             method = Terminal.prompt(question="Use ESSID or BSSIDs (BSSID / ESSID)", allowed_replies=["bssid", "essid"])
+            if method is None: return
             if method == "BSSID":
                 bssids_list = {}
                 try:
                     amt_of_bssids   = Terminal.prompt(question=f"How many BSSIDs?", allowed_replies=["any"])
+                    if amt_of_bssids is None: return
                     numb_of_bssids  = int(amt_of_bssids)
                     bssids_added = 0
                     while bssids_added < numb_of_bssids:
                         bss     = Terminal.prompt(question=f"{white}Enter BSSID {light_green}{bold}{bssids_added+1}{end}{white}/{amt_of_bssids}", allowed_replies=["any"])
+                        if bss is None: return
                         channel = Terminal.prompt(f"{white}It's channel", allowed_replies=["any"])
+                        if channel is None: return
                         bssids_added += 1
                         bssids_list[bss] = channel
                     with Halo(f"{white}{bold}Saving") as spinner:
@@ -243,6 +214,7 @@ It won't be me.{end}""")
             elif method == "ESSID":
                 Terminal.inform(f"{Terminal.Yellow}{Terminal.Bold}Use this approach only if you're 100% SURE if the {Terminal.End}{Terminal.Red}{Terminal.Bold}target network has ONLY 1 BSSID!!!{Terminal.End}")
                 answ = Terminal.prompt(f"{Terminal.White}Are you {Terminal.Light_green}{Terminal.Bold}100% SURE{Terminal.End}{Terminal.White}? {Terminal.y_n}", ["y", "n"])
+                if answ is None: return
                 if answ.lower() == "y":
                     pass
                 elif answ.lower() == "n":
@@ -250,7 +222,9 @@ It won't be me.{end}""")
                     return
                 
                 ess = Terminal.prompt(f"{white}Now, enter the ESSID of the target network", ["any"])
+                if ess is None: return
                 chn = Terminal.prompt(f"{white}It's channel?", ["any"])
+                if chn is None: return
                 try:
                     int(ess)
                 except ValueError:
@@ -277,6 +251,7 @@ It won't be me.{end}""")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
             answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
+            if answ is None: return
             Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_green+bold}lay back")
             Terminal.inform(f"{yellow+bold}2{white+bold}.) {light_blue+bold}take a breather")
             Terminal.inform(f"{yellow+bold}3{white+bold}.) {red+bold}take some coffee")
@@ -300,6 +275,7 @@ It won't be me.{end}""")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
             answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
+            if answ is None: return
             Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_green+bold}lay back")
             Terminal.inform(f"{yellow+bold}2{white+bold}.) {light_blue+bold}take a breather")
             Terminal.inform(f"{yellow+bold}3{white+bold}.) {red+bold}take some coffee")
@@ -348,7 +324,9 @@ It won't be me.{end}""")
                 for file in os.listdir():
                     if file == "discovered_targets.json": os.remove(file)
                 def select_nets():
-                    selected_nets = prompt(f"{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client", ["any"], light_green)
+                    from deauthy.terminal import Terminal
+                    selected_nets = Terminal.prompt(f"{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client", ["any"], light_green)
+                    if selected_nets is None: return
                     selected_nets = selected_nets.split(", ")
                     selected_bssids = {}
                     nets = f""
