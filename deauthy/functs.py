@@ -43,7 +43,7 @@ class Functs:
             Functs.prompt_for_ifaces()
 
     def is_in_monitor_mode(card: Interface):
-        if card.name.endswith(f"mon") or card.name.endswith(f"1"):
+        if "monitor" in check_output(["iw", card.name, "info"]).decode():
             return True
         return False
 
