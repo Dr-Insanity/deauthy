@@ -51,6 +51,7 @@ class Functs:
         """
         Accepts either "monitor" or "managed"
         """
+        monmethod = get_var("mon_method")
         monsuffix = get_var('monitor_suffix')
         from deauthy.terminal import Terminal
         from deauthy.functs import mod_config
@@ -58,26 +59,51 @@ class Functs:
         end = Terminal.End
         def managed():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
-                out = check_call(["airmon-ng", "stop", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
-                if out != 1:
+                succeeded = False
+                if monmethod == "iw":
+                    out1 = check_call(["ip", "link", "set", card.name, "down"], stdout=DEVNULL, stderr=STDOUT)
+                    out2 = check_call(["iw", "dev", card.name, "set", "type", "managed"], stdout=DEVNULL, stderr=STDOUT)
+                    out3 = check_call(["ip", "link", "set", card.name, "up"], stdout=DEVNULL, stderr=STDOUT)
+                    out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
+                    if out1 == 1 and out2 == 1 and out3 == 1 and out4 == 1:
+                        succeeded = True
+                if monmethod == "airmon":
+                    out = check_call(["airmon-ng", "stop", card.name], stdout=DEVNULL, stderr=STDOUT)
+                    if out == 1:
+                        succeeded = True
+                if succeeded:
                     spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MONITOR){end}""")
                 else:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
 
         def monitor():
             with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
-                out = check_call(["airmon-ng", "start", f"{card.name}"], stdout=DEVNULL, stderr=STDOUT)
-                if out != 1:
+                succeeded = False
+                if monmethod == "iw":
+                    out1 = check_call(["ip", "link", "set", card.name, "down"], stdout=DEVNULL, stderr=STDOUT)
+                    out2 = check_call(["iw", "dev", card.name, "set", "type", "monitor"], stdout=DEVNULL, stderr=STDOUT)
+                    out3 = check_call(["ip", "link", "set", card.name, "up"], stdout=DEVNULL, stderr=STDOUT)
+                    out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
+                    if out1 == 1 and out2 == 1 and out3 == 1 and out4 == 1:
+                        succeeded = True
+                if monmethod == "airmon":
+                    out = check_call(["airmon-ng", "start", card.name], stdout=DEVNULL, stderr=STDOUT)
+                    if out == 1:
+                        succeeded = True
+                if succeeded:
                     spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MANAGED){end}""")
 
-                else:
+                if not succeeded:
                     spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
 
-            
         modes = {
             "managed":managed,
             "monitor":monitor,
         }
+
+        if monmethod is None:
+            Terminal.tell_issue(f"""{Terminal.Red+Terminal.Bold+Terminal.Underline}Uh-Oh. Help! {Terminal.White}I don't know how I should put {Terminal.Light_white}{card.name} {Terminal.White}into {Terminal.Light_white}{mode}.\nYou can specify a way simply with the "{Terminal.Light_green}!interfacemode{Terminal.White}" command.""")
+            return
         try:
             modes[mode]()
         except KeyError:
