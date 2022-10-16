@@ -127,7 +127,7 @@ It won't be me.{end}""")
             from deauthy.terminal import Terminal
             from deauthy.checks import Checks
             from deauthy.functs import mod_config, Functs
-            Terminal.inform(msg=f"{cyan}======================================{white}\nSometimes, when a wireless interface is brought into monitor mode, it gets 'mon' right after the interface name\nSo, for example:\n\nInterface in managed mode:\nwlx12345\n\nInterface in monitor mode:\nwlx12345mon\n\nIt's also possible there's simply a 1 added after the interface name\n{cyan}======================================")
+            Terminal.inform(msg=f"\n{cyan}======================================{white}\nSometimes, when a wireless interface is brought into monitor mode, it gets 'mon' right after the interface name\nSo, for example:\n\nInterface in managed mode:\nwlx12345\n\nInterface in monitor mode:\nwlx12345mon\n\nIt's also possible there's simply a 1 added after the interface name\n{cyan}======================================")
             monsuffix = Terminal.prompt(question=f"What's added when your interface goes into monitor mode?{end}", allowed_replies=["any"])
             if monsuffix is None: return
             Checks.Chipset_Support_Check()
@@ -158,7 +158,7 @@ It won't be me.{end}""")
                 Terminal.tell_issue(f"{red}{bold}Nuh-uh!{end}{white}How about you first set a wireless interface card, hmm?{end}")
                 return
             cardname = get_var('interface')
-            Terminal.inform(msg=f"""{cyan}======================================{white}\nVarious ways are available to put a wireless interface into monitor mode.\nSome drivers have may have specified how it should be done for that driver. Personally, I know airmon-ng is a way. But it's {Terminal.Underline}possible{end+white} yours should be put into monitor mode by "iw" and "ip link"\n{cyan}======================================""")
+            Terminal.inform(msg=f"""\n{cyan}======================================{white}\nVarious ways are available to put a wireless interface into monitor mode.\nSome drivers have may have specified how it should be done for that driver. Personally, I know airmon-ng is a way. But it's {Terminal.Underline}possible{end+white} yours should be put into monitor mode by "iw" and "ip link"\n{cyan}======================================""")
             monmethod = Terminal.prompt(question=f"Please specify what the method for your card is{end} (IW / AIRMON)", allowed_replies=["iw", "airmon"])
             if monmethod is None: return
             mod_config('mon_method', {"iw":"iw", "airmon":"airmon"}[monmethod.lower()])
