@@ -336,7 +336,7 @@ It won't be me.{end}""")
                     print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}{network["_source"]["layers"]["wlan.ssid"][0]} {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
                     pos += 1
                 print(f"{white+bold}Usage:{end}{light_white} Choose e.g. 1, 3, 5, 8, 16")
-                for file in os.listdir(f""):
+                for file in os.listdir():
                     if file == "discovered_targets.json": os.remove(file)
                 def select_nets():
                     selected_nets = prompt(f"{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client", ["any"], light_green)
