@@ -64,6 +64,7 @@ def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str
                 reply = prompt(question=question, allowed_replies=allowed_replies)
                 return reply
     except KeyboardInterrupt:
+        print(f"CTRL+C Pressed!!!")
         return None
 
 class CommandHandler:
