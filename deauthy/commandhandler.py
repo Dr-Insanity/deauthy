@@ -295,7 +295,9 @@ It won't be me.{end}""")
                 return
             with open("discovered_targets.json", "r") as jsonfile:
                 data: list[dict] = json.load(jsonfile)
-                print(data)
+                if len(data) == 0:
+                    Terminal.tell_issue(f"{red+bold+underline}No networks were found. {white}Please wait a little longer.")
+                    return
                 jsonfile.close()
                 pos = 1
                 cursor = 1
