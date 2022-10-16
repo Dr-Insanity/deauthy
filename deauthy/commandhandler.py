@@ -41,27 +41,30 @@ def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str
     d_huh = f"{white}{bold}[{light_blue}?{white}]{end}{light_white} "
     if question == "deauthy | sh":
         d_huh = f"{white}{bold}[{Fore.GREEN}#{white}]{end}{light_white} "
-    reply = input(f"{deAuThY}{d_huh}{light_white}{question}{bold}>{end} ")
-    if reply.lower() in CommandHandler.Debian.supported_commands:
-        print(end)
-        args = CommandHandler.stage_args(reply)[1:]
-        executable = CommandHandler.stage_args(reply)[0]
-        exitcode = check_call(args=args, executable=executable)
-        reply = prompt(question, allowed_replies, ending_color)
-        return reply
-    elif reply in CommandHandler.own_commands:
-        CommandHandler.Own_Cmds.handle_own_cmd[reply]()
-        reply = prompt(question, allowed_replies, ending_color)
-        return reply
-    elif reply.lower() in allowed_replies:
-        return reply
-    else:
-        if allowed_replies[0].lower() == "any":
+    try:
+        reply = input(f"{deAuThY}{d_huh}{light_white}{question}{bold}>{end} ")
+        if reply.lower() in CommandHandler.Debian.supported_commands:
+            print(end)
+            args = CommandHandler.stage_args(reply)[1:]
+            executable = CommandHandler.stage_args(reply)[0]
+            exitcode = check_call(args=args, executable=executable)
+            reply = prompt(question, allowed_replies, ending_color)
+            return reply
+        elif reply in CommandHandler.own_commands:
+            CommandHandler.Own_Cmds.handle_own_cmd[reply]()
+            reply = prompt(question, allowed_replies, ending_color)
+            return reply
+        elif reply.lower() in allowed_replies:
             return reply
         else:
-            tell_issue(msg=f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
-            reply = prompt(question=question, allowed_replies=allowed_replies)
-            return reply
+            if allowed_replies[0].lower() == "any":
+                return reply
+            else:
+                tell_issue(msg=f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
+                reply = prompt(question=question, allowed_replies=allowed_replies)
+                return reply
+    except KeyboardInterrupt:
+        return None
 
 class CommandHandler:
     """A class made to handle Deauthy's own commands as well as SOME linux commands."""
