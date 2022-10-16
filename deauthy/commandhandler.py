@@ -14,8 +14,6 @@ import sys
 import json
 from socket import if_nameindex
 
-from test import mod_config
-
 prefix = f"!"
 
 red         = Fore.RED
@@ -155,7 +153,7 @@ It won't be me.{end}""")
         def d_interfacemode():
             """Set the mode for a wireless network interface card."""
             from deauthy.terminal import Terminal
-            from deauthy.functs import Functs, get_var
+            from deauthy.functs import Functs, get_var, mod_config
             if get_var('interface') is None:
                 Terminal.tell_issue(f"{red}{bold}Nuh-uh!{end}{white}How about you first set a wireless interface card, hmm?{end}")
                 return
