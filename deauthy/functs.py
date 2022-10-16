@@ -114,12 +114,15 @@ class Functs:
                         print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
                 except KeyboardInterrupt:
                     Functs.switch(Interface(get_var('interface')), "managed")
-                    return
+                    return "stop"
                 except:
                     Functs.BSSID_METHOD.deauth(_bssid=_bssid)
             
             for bssid_aa in bssi:
-                ado_bssid_method(bssid_aa)
+                status = ado_bssid_method(bssid_aa)
+                if status == "stop":
+                    Terminal.inform(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
+                    return
             Functs.BSSID_METHOD.deauth(_bssid=_bssid)
 
 
