@@ -1,3 +1,4 @@
+import subprocess
 import shutil
 import time
 import urllib.request
@@ -287,7 +288,7 @@ It won't be me.{end}""")
                     spinner.succeed(f"{light_green+bold+underline}CTRL + C pressed! Stopping monitoring.")
 
             # ['tshark', '-Y', 'wlan.fc.type_subtype==0x08', '-e', 'wlan.ssid', '-e', 'wlan.ds.current_channel', '-e', 'wlan.addr', '-T', 'json', '-r', 'discovered_targets-01.cap', '>', 'discovered_targets.json'], stdout=DEVNULL, stderr=STDOUT)
-            os.system("tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json")
+            subprocess.Popen(['tshark', '-Y', 'wlan.fc.type_subtype==0x08', '-e', 'wlan.ssid', '-e', 'wlan.ds.current_channel', '-e', 'wlan.addr', '-T', 'json', '-r', 'discovered_targets-01.cap', '>', 'discovered_targets.json'], stdout=DEVNULL, stderr=STDOUT)
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
                     os.remove(file)
@@ -296,9 +297,9 @@ It won't be me.{end}""")
                 return
             with open("discovered_targets.json", "r") as jsonfile:
                 data: list[dict] = json.load(jsonfile)
-                #if len(data) == 0:
-                    #Terminal.tell_issue(f"{red+bold+underline}No networks were found. {white}Please wait a little longer.")
-                    #return
+                if len(data) == 0:
+                    Terminal.tell_issue(f"{red+bold+underline}No networks were found. {white}Please wait a little longer.")
+                    return
                 jsonfile.close()
                 pos = 1
                 cursor = 1
