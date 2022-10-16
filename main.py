@@ -1,5 +1,4 @@
 import time
-from typing import Union
 from deauthy.auto_installer import Dependencies
 from deauthy.functs import mod_config, del_pair, get_var
 if get_var('not_setup_yet'):
@@ -7,7 +6,7 @@ if get_var('not_setup_yet'):
     del_pair('not_setup_yet')
 from socket import if_nameindex
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
-from sys import exit
+from sys import exit, argv
 from halo import Halo
 from deauthy.deauthy_types import BSSID, ESSID, Interface
 from deauthy.terminal import Terminal
@@ -91,8 +90,9 @@ try:
         Terminal.tell_issue(msg=f"{bold}{red}Run it as root...{end}")
         exit(1)
     clear()
-    with Banner():
-        time.sleep(5)
+    if not "--no-banner" in argv:
+        with Banner():
+            time.sleep(5)
     time.sleep(2)
     print(light_green + "Time to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
     main()
