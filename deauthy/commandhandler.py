@@ -39,6 +39,7 @@ def inform(msg: str, entire_color=white):
 
 def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
     d_huh = f"{white}{bold}[{light_blue}?{white}]{end}{light_white} "
+    print(question)
     if question == "deauthy | sh":
         d_huh = f"{white}{bold}[{Fore.GREEN}#{white}]{end}{light_white} "
     try:
