@@ -295,6 +295,7 @@ It won't be me.{end}""")
                 return
             with open("discovered_targets.json", "r") as jsonfile:
                 data: list[dict] = json.load(jsonfile)
+                print(data)
                 jsonfile.close()
                 pos = 1
                 cursor = 1
