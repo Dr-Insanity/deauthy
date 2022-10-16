@@ -65,7 +65,7 @@ class Functs:
                     out2 = check_call(["iw", "dev", card.name, "set", "type", "managed"], stdout=DEVNULL, stderr=STDOUT)
                     out3 = check_call(["ip", "link", "set", card.name, "up"], stdout=DEVNULL, stderr=STDOUT)
                     out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
-                    if out1 == 1 and out2 == 1 and out3 == 1 and out4 == 1:
+                    if out1 == 0 and out2 == 0 and out3 == 0 and out4 == 0:
                         succeeded = True
                     else:
                         print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
@@ -89,7 +89,7 @@ class Functs:
                     out2 = check_call(["iw", "dev", card.name, "set", "type", "monitor"], stdout=DEVNULL, stderr=STDOUT)
                     out3 = check_call(["ip", "link", "set", card.name, "up"], stdout=DEVNULL, stderr=STDOUT)
                     out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
-                    if out1 == 1 and out2 == 1 and out3 == 1 and out4 == 1:
+                    if out1 == 0 and out2 == 0 and out3 == 0 and out4 == 0:
                         succeeded = True
                     else:
                         print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
