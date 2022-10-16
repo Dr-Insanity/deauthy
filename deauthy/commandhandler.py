@@ -288,7 +288,7 @@ It won't be me.{end}""")
                     spinner.succeed(f"{light_green+bold+underline}CTRL + C pressed! Stopping monitoring.")
 
             # ['tshark', '-Y', 'wlan.fc.type_subtype==0x08', '-e', 'wlan.ssid', '-e', 'wlan.ds.current_channel', '-e', 'wlan.addr', '-T', 'json', '-r', 'discovered_targets-01.cap', '>', 'discovered_targets.json'], stdout=DEVNULL, stderr=STDOUT)
-            subprocess.check_output("tshark -Y -q wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json". shell=True)
+            subprocess.check_output("tshark -Y -q wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json", shell=True)
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
                     os.remove(file)
