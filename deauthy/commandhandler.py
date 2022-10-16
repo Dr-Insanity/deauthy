@@ -300,6 +300,7 @@ It won't be me.{end}""")
                 cursor = 1
                 ssids: set[str] = set()
                 bssids: dict[str, dict[str, str]] = {}
+                print(data)
                 print(f"{mag+bold}===========================[{yellow+bold}AVAILABLE NETWORKS{mag+bold}]==========================={end}")
                 for network in data:
                     try:
