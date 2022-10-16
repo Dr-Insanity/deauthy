@@ -37,7 +37,7 @@ def stage_args(entire_cmd: str):
 
 def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
     d_huh = f"{white}{bold}[{light_blue}?{white}]{end}{light_white} "
-    if question == "deauthy | sh":
+    if allowed_replies[0].lower() == "deauthy | sh":
         d_huh = f"{white}{bold}[{Fore.GREEN}#{white}]{end}{light_white} "
     reply = input(f"{deAuThY}{d_huh}{light_white}{question}{bold}>{end} ")
     if reply.lower() in ["ifconfig","lspci","lsusb","apt","ls","airmon-ng","cat","nano","vim"]:
