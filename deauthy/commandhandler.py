@@ -332,8 +332,12 @@ It won't be me.{end}""")
                         charlength = ssid.count(ssid)
                 
                 for network in data:
-                    print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}{network["_source"]["layers"]["wlan.ssid"][0]} {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
-                    pos += 1
+                    if len(network["_source"]["layers"]["wlan.ssid"][0]) > 0:
+                        print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}{network["_source"]["layers"]["wlan.ssid"][0]} {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
+                        pos += 1
+                    elif len(network["_source"]["layers"]["wlan.ssid"][0]) == 0:
+                        print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}<Hidden Network> {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
+                        pos += 1
                 print(f"{white+bold}Usage:{end}{light_white} Choose e.g. 1, 3, 5, 8, 16")
                 for file in os.listdir():
                     if file == "discovered_targets.json": os.remove(file)
