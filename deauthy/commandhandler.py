@@ -325,7 +325,9 @@ It won't be me.{end}""")
                         ssids.add(network["_source"]["layers"]["wlan.ssid"][0])
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1], "channel":network["_source"]["layers"]["wlan.ds.current_channel"][0]}
                         cursor += 1
-                    except KeyError: pass
+                    except KeyError as e:
+                        print(e)
+                        pass
                 charlength = 0
                 for ssid in ssids:
                     if ssid.count(ssid) > charlength:
