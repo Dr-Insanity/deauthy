@@ -286,7 +286,8 @@ It won't be me.{end}""")
                 except KeyboardInterrupt:
                     spinner.succeed(f"{light_green+bold+underline}CTRL + C pressed! Stopping monitoring.")
 
-            check_call(['tshark', '-Y', 'wlan.fc.type_subtype==0x08', '-e', 'wlan.ssid', '-e', 'wlan.ds.current_channel', '-e', 'wlan.addr', '-T', 'json', '-r', 'discovered_targets-01.cap', '>', 'discovered_targets.json'], stdout=DEVNULL, stderr=STDOUT)
+            # ['tshark', '-Y', 'wlan.fc.type_subtype==0x08', '-e', 'wlan.ssid', '-e', 'wlan.ds.current_channel', '-e', 'wlan.addr', '-T', 'json', '-r', 'discovered_targets-01.cap', '>', 'discovered_targets.json'], stdout=DEVNULL, stderr=STDOUT)
+            os.system("tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json")
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
                     os.remove(file)
