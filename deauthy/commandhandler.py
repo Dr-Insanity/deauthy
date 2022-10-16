@@ -282,7 +282,7 @@ It won't be me.{end}""")
             Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least 2 minutes so that you will have all the access points of a network. Quitting too early can result in the target device to be able to hop over to that one access point we don't know of. So please lay back, take a breather, take some coffee, and let it run for at least 2 minutes.")
             with Halo(f"{cyan+bold+underline}Monitoring networks nearby...") as spinner:
                 try:
-                    run(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"], stdout=DEVNULL, stderr=STDOUT)
+                    check_call(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"], stdout=DEVNULL, stderr=STDOUT)
                 except KeyboardInterrupt:
                     spinner.succeed(f"{light_green+bold+underline}CTRL + C pressed! Stopping monitoring.")
 
