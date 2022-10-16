@@ -67,6 +67,11 @@ class Functs:
                     out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
                     if out1 == 1 and out2 == 1 and out3 == 1 and out4 == 1:
                         succeeded = True
+                    else:
+                        print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
+                        print(f"""Command "iw dev {card.name} set type managed" exited with exit code {out2}""")
+                        print(f"""Command "ip link set {card.name} up" exited with exit code {out3}""")
+                        print(f"""Command "iw {card.name} set txpower fixed 3000" exited with exit code {out4}""")
                 if monmethod == "airmon":
                     out = check_call(["airmon-ng", "stop", card.name], stdout=DEVNULL, stderr=STDOUT)
                     if out == 1:
@@ -86,6 +91,11 @@ class Functs:
                     out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
                     if out1 == 1 and out2 == 1 and out3 == 1 and out4 == 1:
                         succeeded = True
+                    else:
+                        print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
+                        print(f"""Command "iw dev {card.name} set type monitor" exited with exit code {out2}""")
+                        print(f"""Command "ip link set {card.name} up" exited with exit code {out3}""")
+                        print(f"""Command "iw {card.name} set txpower fixed 3000" exited with exit code {out4}""")
                 if monmethod == "airmon":
                     out = check_call(["airmon-ng", "start", card.name], stdout=DEVNULL, stderr=STDOUT)
                     if out == 1:
