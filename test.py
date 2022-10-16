@@ -26,38 +26,6 @@ def mod_config(key: str, value):
         myJSON = json.dump(data, jsonfile, indent=2)
         jsonfile.close()
 
-def tell_issue(msg: str):
-    d_wut = white + f"{bold}[" + red + "!" + white + f"]{end}{light_white} "
-    print(deAuThY + d_wut + msg)
-
-def stage_args(entire_cmd: str):
-    """Get an entire command, with or without arguments, as parts into a list, to make it work with subprocess\n\nParameters\n----------\n- `entire_cmd` [str] - An entire command, with/without args.\n\nReturns\n-------\n- `fragmented_cmd` [list[str]] - The command you gave in, just in parts in a LIST"""
-    fragmented_cmd = entire_cmd.split()
-    return fragmented_cmd
-
-def prompt(question: str, allowed_replies: list[str], ending_color=white) -> str:
-    d_huh = f"{white}{bold}[{light_blue}?{white}]{end}{light_white} "
-    print(allowed_replies[0].lower())
-    if allowed_replies[0].lower() == "deauthy | sh":
-        d_huh = f"{white}{bold}[{Fore.GREEN}#{white}]{end}{light_white} "
-    reply = input(f"{deAuThY}{d_huh}{light_white}{question}{bold}>{end} ")
-    if reply.lower() in ["ifconfig","lspci","lsusb","apt","ls","airmon-ng","cat","nano","vim"]:
-        print(end)
-        args = stage_args(reply)[1:]
-        executable = stage_args(reply)[0]
-        exitcode = check_call(args=args, executable=executable)
-        reply = prompt(question, allowed_replies, ending_color)
-        return reply
-    elif reply.lower() in allowed_replies:
-        return reply
-    else:
-        if allowed_replies[0].lower() == "any":
-            return reply
-        else:
-            tell_issue(msg=f"{red}That's not a valid {bold}{red}reply{end}{red} :/")
-            reply = prompt(question=question, allowed_replies=allowed_replies)
-            return reply
-
 with open("C:/Users/cicho/Downloads/discovered_targets.json", "r") as jsonfile:
     data: list[dict] = json.load(jsonfile)
     jsonfile.close()

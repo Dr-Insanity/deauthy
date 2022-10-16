@@ -53,8 +53,7 @@ class Terminal:
 
     def prompt(question: str, allowed_replies: list[str], ending_color=End) -> str:
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
-        
-        if question == "deauthy | sh":
+        if allowed_replies[0].lower() == "deauthy | sh":
             d_huh = f"{Terminal.White}{Terminal.Bold}[{Fore.GREEN}#{Terminal.White}]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
