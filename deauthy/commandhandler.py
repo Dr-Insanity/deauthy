@@ -246,9 +246,7 @@ It won't be me.{end}""")
             from deauthy.functs import get_var, mod_config
             iface = get_var('interface')
             if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
-                Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
-                Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
             answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
@@ -257,7 +255,7 @@ It won't be me.{end}""")
             Terminal.inform(f"{yellow+bold}2{white+bold}.) {light_blue+bold}take a breather")
             Terminal.inform(f"{yellow+bold}3{white+bold}.) {red+bold}take some coffee")
             Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least 2 minutes so that you will have all the clients (devices) listed. Quitting too early can result in not having all the devices. So please lay back, take a breather, take some coffee, and let it run for at least 2 minutes.")
-            with Halo(f"{cyan+bold+underline}Monitoring networks nearby...") as spinner:
+            with Halo(f"{light_blue+bold+underline}Monitoring networks nearby...") as spinner:
                 try:
                     out = check_output(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"])
                 except KeyboardInterrupt:
@@ -270,9 +268,7 @@ It won't be me.{end}""")
             from deauthy.functs import get_var, mod_config
             iface = get_var('interface')
             if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
-                Terminal.tell_issue(f"{red}{bold}You know what I'm thinking? What kind of retarded user is using me?")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
-                Terminal.inform(f"{red}{bold}Also, put it into monitor mode, while you're at it.")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
             answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
@@ -385,6 +381,7 @@ It won't be me.{end}""")
  
             elif do_essid is None and do_bssid is not None:
                 # do BSSID approach
+                print(do_bssid)
                 bssids = BSSID(do_bssid)
                 Functs.BSSID_METHOD.deauth(bssids)
 
