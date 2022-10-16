@@ -339,10 +339,10 @@ It won't be me.{end}""")
                             nets += f"""{light_blue+bold+list(bssids[selected_net].keys())[0]} {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
                             selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].values())[1]
                         except KeyError as e:
-                            if e not in list(bssids.keys())[0]:
+                            if e.args[0] not in list(bssids.keys())[0]:
                                 print(f"{red}{bold}Please just select like {light_white}1, 2, 3\n{red}{underline}Include spaces in your selections{end}")
                                 select_nets()
-                            elif e in list(bssids.keys())[0]:
+                            elif e.args[0] in list(bssids.keys())[0]:
                                 selected_bssids[str(list(bssids[selected_net].values())[0])] = None
                     mod_config("target_BSSIDs", selected_bssids)
                     return nets
