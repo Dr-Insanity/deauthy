@@ -93,7 +93,7 @@ try:
     if not "--no-banner" in argv:
         with Banner():
             time.sleep(5)
-    time.sleep(2)
+    time.sleep(1)
     print(light_green + "Time to kick off some assholes from yer net" + f"\n{white}DeAuthy version: {light_white}{version()}")
     main()
 except KeyboardInterrupt:
