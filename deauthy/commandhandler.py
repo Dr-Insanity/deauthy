@@ -355,8 +355,8 @@ It won't be me.{end}""")
                             if e not in list(bssids.keys())[0]:
                                 print(f"{red}{bold}Please just select like {light_white}1, 2, 3\n{red}{underline}Include spaces in your selections{end}")
                                 select_nets()
-                            elif e in list(bssids[selected_net].keys())[0]:
-                                selected_bssids[str(list(bssids.values())[0])] = None
+                            elif e in list(bssids.keys())[0]:
+                                selected_bssids[str(list(bssids[selected_net].values())[0])] = None
                     mod_config("target_BSSIDs", selected_bssids)
                     return nets
                 selected_networks = select_nets()
