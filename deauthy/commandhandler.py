@@ -308,8 +308,7 @@ It won't be me.{end}""")
             out = run('tshark -Y wlan.fc.type_subtype==0x08 -e wlan.ssid -e wlan.ds.current_channel -e wlan.addr -T json -r discovered_targets-01.cap > discovered_targets.json', shell=True)
             for file in os.listdir():
                 if file.startswith("discovered_targets") and file.endswith(".cap"):
-                    #os.remove(file)
-                    """"""
+                    os.remove(file)
             if not os.path.isfile("discovered_targets.json"):
                 Terminal.inform(f"{Terminal.Red}Could not load up the discovered targets json file\n{white}Reason: {red}Not Found")
                 return
