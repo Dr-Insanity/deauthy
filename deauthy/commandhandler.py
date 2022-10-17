@@ -311,6 +311,7 @@ It won't be me.{end}""")
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1], "channel":network["_source"]["layers"]["wlan.ds.current_channel"][0]}
                         cursor += 1
                     except KeyError as e:
+                        print(e.args)
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1]}
                 charlength = 0
                 for ssid in ssids:
