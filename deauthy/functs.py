@@ -1,4 +1,5 @@
 from socket import if_nameindex
+import time
 from typing import Union
 from deauthy.deauthy_types import Interface, BSSID, ESSID
 from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
@@ -50,6 +51,7 @@ class Functs:
             return False
         except CalledProcessError as e:
             if e.returncode == 151:
+                time.sleep(10000)
                 Functs.is_in_monitor_mode(card)
 
     def switch(card: Interface, mode: str, silent: bool=False):
