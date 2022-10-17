@@ -99,6 +99,7 @@ class Terminal:
         except IndexError as e:
             if "access points to blacklist for" in question:
                 return reply
-            Terminal.tell_issue(f"{Terminal.Red}{Terminal.Bold}HEY!{Terminal.End}{Terminal.White} Come on! Fill something in!{Terminal.Red}{Terminal.Bold} >:({Terminal.End}")
-            reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
+            else:
+                Terminal.tell_issue(f"{Terminal.Red}{Terminal.Bold}HEY!{Terminal.End}{Terminal.White} Come on! Fill something in!{Terminal.Red}{Terminal.Bold} >:({Terminal.End}")
+                reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
             return reply
