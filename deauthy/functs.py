@@ -171,9 +171,10 @@ class Functs:
                 status = ado_bssid_method(bssi, chan)
                 if status == "stop":
                     Terminal.inform(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
-                    return
+                    return "stop"
 
-            Functs.BSSID_METHOD.deauth(_bssid=_bssid)
+            if Functs.BSSID_METHOD.deauth(_bssid=_bssid) == "stop":
+                return
 
 
     class ESSID_METHOD:
