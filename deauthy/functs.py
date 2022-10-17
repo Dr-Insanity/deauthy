@@ -45,9 +45,13 @@ class Functs:
             Functs.prompt_for_ifaces()
 
     def is_in_monitor_mode(card: Interface):
-        if "803" in check_output(["cat", f"/sys/class/net/{card.name}/type"]).decode():
+        mode = check_output(["cat", f"/sys/class/net/{card.name}/type"]).decode()
+        if "803" in mode:
             return True
-        return False
+        elif "1" in mode:
+            return False
+        else:
+            return "unknown mode"
 
     def switch(card: Interface, mode: str, silent: bool=False):
         """
