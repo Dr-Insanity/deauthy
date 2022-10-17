@@ -48,7 +48,7 @@ class Functs:
             return True
         return False
 
-    def switch(card: Interface, mode: str):
+    def switch(card: Interface, mode: str, silent: bool=False):
         """
         Accepts either "monitor" or "managed"
         """
@@ -59,53 +59,62 @@ class Functs:
         from halo import Halo
         end = Terminal.End
         def managed():
-            with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
-                succeeded = False
+            iw_mtd_cmd1, iw_mtd_cmd2, iw_mtd_cmd3, iw_mtd_cmd4, ai_mtd_cmd1 = ["ip", "link", "set", card.name, "down"], ["iw", "dev", card.name, "set", "type", "managed"], ["ip", "link", "set", card.name, "up"], ["iw", card.name, "set", "txpower", "fixed", "3000"], ["airmon-ng", "stop", card.name]
+            if not silent:
+                with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
+                    succeeded = False
+                    if monmethod == "iw":
+                        out1, out2, out3, out4 = check_call(iw_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd2, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd3, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd4, stdout=DEVNULL, stderr=STDOUT)
+                        if out1 == 0 and out2 == 0 and out3 == 0 and out4 == 0:
+                            succeeded = True
+                        else:
+                            print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
+                            print(f"""Command "iw dev {card.name} set type managed" exited with exit code {out2}""")
+                            print(f"""Command "ip link set {card.name} up" exited with exit code {out3}""")
+                            print(f"""Command "iw {card.name} set txpower fixed 3000" exited with exit code {out4}""")
+                    elif monmethod == "airmon":
+                        out = check_call(ai_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT)
+                        if out == 1:
+                            succeeded = True
+                    if succeeded:
+                        spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MONITOR){end}""")
+                    elif not succeeded:
+                        spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
+                    return
+            elif silent:
                 if monmethod == "iw":
-                    out1 = check_call(["ip", "link", "set", card.name, "down"], stdout=DEVNULL, stderr=STDOUT)
-                    out2 = check_call(["iw", "dev", card.name, "set", "type", "managed"], stdout=DEVNULL, stderr=STDOUT)
-                    out3 = check_call(["ip", "link", "set", card.name, "up"], stdout=DEVNULL, stderr=STDOUT)
-                    out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
-                    if out1 == 0 and out2 == 0 and out3 == 0 and out4 == 0:
-                        succeeded = True
-                    else:
-                        print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
-                        print(f"""Command "iw dev {card.name} set type managed" exited with exit code {out2}""")
-                        print(f"""Command "ip link set {card.name} up" exited with exit code {out3}""")
-                        print(f"""Command "iw {card.name} set txpower fixed 3000" exited with exit code {out4}""")
-                if monmethod == "airmon":
-                    out = check_call(["airmon-ng", "stop", card.name], stdout=DEVNULL, stderr=STDOUT)
-                    if out == 1:
-                        succeeded = True
-                if succeeded:
-                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MONITOR){end}""")
-                else:
-                    spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
+                    out1, out2, out3, out4 = check_call(iw_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd2, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd3, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd4, stdout=DEVNULL, stderr=STDOUT)
+                elif monmethod == "airmon":
+                    out = check_call(ai_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT)
 
         def monitor():
-            with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
-                succeeded = False
+            iw_mtd_cmd1, iw_mtd_cmd2, iw_mtd_cmd3, iw_mtd_cmd4, ai_mtd_cmd1 = ["ip", "link", "set", card.name, "down"], ["iw", "dev", card.name, "set", "type", "monitor"], ["ip", "link", "set", card.name, "up"], ["iw", card.name, "set", "txpower", "fixed", "3000"], ["airmon-ng", "start", card.name]
+            if not silent:
+                with Halo(f"Putting {card.name} into {mode} mode...") as spinner:
+                    succeeded = False
+                    if monmethod == "iw":
+                        out1, out2, out3, out4 = check_call(iw_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd2, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd3, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd4, stdout=DEVNULL, stderr=STDOUT)
+                        if out1 == 0 and out2 == 0 and out3 == 0 and out4 == 0:
+                            succeeded = True
+                        else:
+                            print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
+                            print(f"""Command "iw dev {card.name} set type monitor" exited with exit code {out2}""")
+                            print(f"""Command "ip link set {card.name} up" exited with exit code {out3}""")
+                            print(f"""Command "iw {card.name} set txpower fixed 3000" exited with exit code {out4}""")
+                    elif monmethod == "airmon":
+                        out = check_call(ai_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT)
+                        if out == 1:
+                            succeeded = True
+                    if succeeded:
+                        spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MANAGED){end}""")
+                    elif not succeeded:
+                        spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
+                    return
+            elif silent:
                 if monmethod == "iw":
-                    out1 = check_call(["ip", "link", "set", card.name, "down"], stdout=DEVNULL, stderr=STDOUT)
-                    out2 = check_call(["iw", "dev", card.name, "set", "type", "monitor"], stdout=DEVNULL, stderr=STDOUT)
-                    out3 = check_call(["ip", "link", "set", card.name, "up"], stdout=DEVNULL, stderr=STDOUT)
-                    out4 = check_call(["iw", card.name, "set", "txpower", "fixed", "3000"], stdout=DEVNULL, stderr=STDOUT)
-                    if out1 == 0 and out2 == 0 and out3 == 0 and out4 == 0:
-                        succeeded = True
-                    else:
-                        print(f"""Command "ip link set {card.name} down" exited with exit code {out1}""")
-                        print(f"""Command "iw dev {card.name} set type monitor" exited with exit code {out2}""")
-                        print(f"""Command "ip link set {card.name} up" exited with exit code {out3}""")
-                        print(f"""Command "iw {card.name} set txpower fixed 3000" exited with exit code {out4}""")
-                if monmethod == "airmon":
-                    out = check_call(["airmon-ng", "start", card.name], stdout=DEVNULL, stderr=STDOUT)
-                    if out == 1:
-                        succeeded = True
-                if succeeded:
-                    spinner.succeed(f"""Done.\n{Terminal.Light_green} + {Terminal.White}"{card.name}" ({mode.upper()})\n{Terminal.Red} - {Terminal.White}"{card.name}" (MANAGED){end}""")
-
-                if not succeeded:
-                    spinner.fail(f"Could not put {card.name} in {mode} mode{end}")
+                    check_call(iw_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd2, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd3, stdout=DEVNULL, stderr=STDOUT), check_call(iw_mtd_cmd4, stdout=DEVNULL, stderr=STDOUT)
+                elif monmethod == "airmon":
+                    check_call(ai_mtd_cmd1, stdout=DEVNULL, stderr=STDOUT)
 
         modes = {
             "managed":managed,
