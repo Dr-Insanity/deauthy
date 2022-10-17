@@ -363,6 +363,7 @@ It won't be me.{end}""")
                 selected_networks = select_nets()
                 if isinstance(selected_networks, str):
                     print(f"{mag+bold}===========================[{yellow+bold}SELECTED NETWORKS{mag+bold}]==========================={end}\n{selected_networks}")
+                    print(f"I proudly These targeted Access Points were SAVED successfully.")
 
         def d_update():
             """Check for updates. Will also update if there's a newer version."""
