@@ -1,7 +1,7 @@
 from socket import if_nameindex
 from typing import Union
 from deauthy.deauthy_types import Interface, BSSID, ESSID
-from subprocess import DEVNULL, STDOUT, check_call, check_output
+from subprocess import DEVNULL, STDOUT, check_call, check_output, CalledProcessError
 import sys
 import json
 import os
@@ -44,9 +44,13 @@ class Functs:
             Functs.prompt_for_ifaces()
 
     def is_in_monitor_mode(card: Interface):
-        if "monitor" in check_output(["iw", card.name, "info"]).decode():
-            return True
-        return False
+        try:
+            if "monitor" in check_output(["iw", card.name, "info"]).decode():
+                return True
+            return False
+        except CalledProcessError as e:
+            if e.returncode == 151:
+                Functs.is_in_monitor_mode(card)
 
     def switch(card: Interface, mode: str, silent: bool=False):
         """
