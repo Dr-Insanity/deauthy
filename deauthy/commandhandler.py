@@ -269,7 +269,7 @@ It won't be me.{end}""")
         def d_discover():
             """Discover target networks (Access Points) in your area."""
             from deauthy.terminal import Terminal
-            from deauthy.functs import get_var, mod_config
+            from deauthy.functs import get_var, mod_config, Functs
             iface = get_var('interface')
             if iface is None or iface not in [ifc[1] for ifc in if_nameindex()]:
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
@@ -281,6 +281,8 @@ It won't be me.{end}""")
             Terminal.inform(f"{yellow+bold}2{white+bold}.) {light_blue+bold}take a breather")
             Terminal.inform(f"{yellow+bold}3{white+bold}.) {red+bold}take some coffee")
             Terminal.inform(f"{white}Press CTRL + C to stop doing discovery. It is recommended to wait at least 2 minutes so that you will have all the access points of a network. Quitting too early can result in the target device to be able to hop over to that one access point we don't know of. So please lay back, take a breather, take some coffee, and let it run for at least 2 minutes.")
+            if Functs.is_in_monitor_mode(Interface(iface)):
+                Functs.switch(Interface(iface))
             with Halo(f"{cyan+bold+underline}Monitoring networks nearby...") as spinner:
                 try:
                     check_call(["airodump-ng", iface, "-w", "discovered_targets", "-o", "pcap"], stdout=DEVNULL, stderr=STDOUT)
@@ -313,6 +315,7 @@ It won't be me.{end}""")
                     except KeyError as e:
                         print(e.args)
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1]}
+                        cursor += 1
                 charlength = 0
                 for ssid in ssids:
                     if ssid.count(ssid) > charlength:

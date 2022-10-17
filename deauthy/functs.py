@@ -1,4 +1,5 @@
 from socket import if_nameindex
+from typing import Union
 from deauthy.deauthy_types import Interface, BSSID, ESSID
 from subprocess import DEVNULL, STDOUT, check_call, check_output
 import sys
@@ -207,7 +208,7 @@ def get_var(key: str, from_file: str=None):
             data = json.load(jsonfile)
             jsonfile.close()
             try:
-                val = data[key]
+                val: Union[str, list, dict, int] = data[key]
                 return val
             except KeyError:
                 return None
