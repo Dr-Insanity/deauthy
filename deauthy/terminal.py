@@ -52,12 +52,13 @@ class Terminal:
         print(Terminal.deAuThY + d_hey + entire_color + msg)
 
     def prompt(question: str, allowed_replies: list[str], ending_color=End) -> str:
-        print(question)
         d_huh = Terminal.White + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} "
         if allowed_replies[0].lower() == "deauthy | sh":
             d_huh = f"{Terminal.White}{Terminal.Bold}[{Terminal.Light_white}#{Terminal.White}]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
+            if "access points to blacklist for" in question:
+                return reply
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands:
                 try:
                     if len(reply.split()) >= 2:
