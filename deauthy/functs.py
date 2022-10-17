@@ -147,8 +147,8 @@ class Functs:
         def hopper(channel_number: int):
             """Hop to a different channel"""
             from deauthy.functs import get_var
-            out = check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
-
+            if get_var("mon_method") == "airmon": check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+            elif get_var("mon_method") == "iw": check_call(["iwconfig", get_var('interface'), "channel", channel_number])
     class BSSID_METHOD:
         def deauth(_bssid: BSSID):
             """"""
