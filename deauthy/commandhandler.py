@@ -402,7 +402,8 @@ It won't be me.{end}""")
                 # do BSSID approach
                 print(do_bssid)
                 bssids = BSSID(do_bssid)
-                Functs.BSSID_METHOD.deauth(bssids)
+                with Halo(f"{white+bold}[{red+bold}!{white+bold}] {red+bold+underline}Deauthenticating {get_var('target_mac')} ...")
+                    Functs.BSSID_METHOD.deauth(bssids)
 
         def d_config():
             """View the current configuration (RAW JSON)"""
