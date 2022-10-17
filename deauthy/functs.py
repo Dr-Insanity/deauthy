@@ -45,14 +45,9 @@ class Functs:
             Functs.prompt_for_ifaces()
 
     def is_in_monitor_mode(card: Interface):
-        try:
-            if "monitor" in check_output(["iw", card.name, "info"]).decode():
-                return True
-            return False
-        except CalledProcessError as e:
-            if e.returncode == 151:
-                time.sleep(10000)
-                Functs.is_in_monitor_mode(card)
+        if "803" in check_output(["cat", f"/sys/class/net/{card.name}/type"]).decode():
+            return True
+        return False
 
     def switch(card: Interface, mode: str, silent: bool=False):
         """
