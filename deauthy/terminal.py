@@ -96,7 +96,8 @@ class Terminal:
                 print(f"{Terminal.End}\nCancelled.")
                 return None
         except IndexError as e:
-            print(e)
+            if question.lower() == "select access points to blacklist for 1 client":
+                return reply
             Terminal.tell_issue(f"{Terminal.Red}{Terminal.Bold}HEY!{Terminal.End}{Terminal.White} Come on! Fill something in!{Terminal.Red}{Terminal.Bold} >:({Terminal.End}")
             reply = Terminal.prompt(question=question, allowed_replies=allowed_replies)
             return reply
