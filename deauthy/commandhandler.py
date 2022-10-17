@@ -344,8 +344,12 @@ It won't be me.{end}""")
                     print(bssids)
                     for selected_net in selected_nets:
                         try:
-                            nets += f"""{light_blue+bold+list(bssids[selected_net].keys())[0]} {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
-                            selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].values())[1]
+                            if len(list(bssids[selected_net].keys())[0]) == 0:
+                                nets += f"""{light_blue+bold}<Hidden Network> {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
+                                selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].values())[1]
+                            else:
+                                nets += f"""{light_blue+bold+list(bssids[selected_net].keys())[0]} {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
+                                selected_bssids[str(list(bssids[selected_net].values())[0])] = list(bssids[selected_net].values())[1]
                         except KeyError as e:
                             print(e.args[0])
                             print(list(bssids.keys())[0])
