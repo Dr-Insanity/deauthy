@@ -57,7 +57,7 @@ class Terminal:
             d_huh = f"{Terminal.White}{Terminal.Bold}[{Terminal.Light_white}#{Terminal.White}]{Terminal.End}{Terminal.Light_white} "
         try:
             reply = input(Terminal.deAuThY + d_huh + f"{Terminal.Light_white}{question}{Terminal.Bold}>{Terminal.End} {ending_color}")
-            if f"{Terminal.Cyan+Terminal.Bold+Terminal.Underline}Select access points to blacklist for {Terminal.Red}1 {Terminal.Cyan}client" in question:
+            if allowed_replies[0].lower() == "any | ignore indexerror":
                 return reply
             if reply.split()[0].lower() in CommandHandler.Debian.supported_commands:
                 try:
