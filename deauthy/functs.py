@@ -164,7 +164,7 @@ class Functs:
                     Functs.switch(Interface(get_var('interface')), "managed")
                     return "stop"
                 except:
-                    Functs.BSSID_METHOD.deauth(_bssid=_bssid)
+                    Functs.BSSID_METHOD.deauth(_bssid=_bssid, spinner=spinner)
 
             for bssi, chan in _bssid.bssids.items():
                 status = ado_bssid_method(bssi, chan)
