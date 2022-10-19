@@ -341,8 +341,7 @@ It won't be me.{end}""")
                     selected_nets = selected_nets.split(", ")
                     selected_bssids = {}
                     nets = f""
-                    print(bssids)
-                    for selected_net in selected_nets:
+                    for selected_net in selected_nets.sort():
                         try:
                             if len(list(bssids[selected_net].keys())[0]) == 0:
                                 nets += f"""{light_blue+bold}<Hidden Network> {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
