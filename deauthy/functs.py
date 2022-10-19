@@ -163,7 +163,7 @@ class Functs:
                 except KeyboardInterrupt:
                     Functs.switch(Interface(get_var('interface')), "managed")
                     return "stop"
-                except:
+                else:
                     Functs.BSSID_METHOD.deauth(_bssid=_bssid, spinner=spinner)
 
             for bssi, chan in _bssid.bssids.items():
@@ -174,6 +174,7 @@ class Functs:
 
             if Functs.BSSID_METHOD.deauth(_bssid=_bssid) == "stop":
                 return
+            return
 
 
     class ESSID_METHOD:
