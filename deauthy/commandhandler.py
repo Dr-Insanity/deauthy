@@ -336,7 +336,8 @@ It won't be me.{end}""")
                     if file == "discovered_targets.json": os.remove(file)
                 def select_nets():
                     from deauthy.terminal import Terminal
-                    selected_nets = Terminal.prompt(f"{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client", ["any | ignore indexerror"], light_green)
+                    d_huh = Terminal.White + f""
+                    selected_nets = input(Terminal.deAuThY + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} " + f"{Terminal.Light_white}{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client{Terminal.Bold}>{Terminal.End} ")
                     if selected_nets is None: return
                     selected_nets = selected_nets.split(", ")
                     selected_bssids = {}
