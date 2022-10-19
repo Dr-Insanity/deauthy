@@ -310,7 +310,7 @@ It won't be me.{end}""")
                 cursor = 1
                 ssids: set[str] = set()
                 bssids: dict[str, dict[str, str]] = {}
-                for network in data.sort():
+                for network in data:
                     try:
                         ssids.add(network["_source"]["layers"]["wlan.ssid"][0])
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1], "channel":network["_source"]["layers"]["wlan.ds.current_channel"][0]}
@@ -324,7 +324,7 @@ It won't be me.{end}""")
                     if ssid.count(ssid) > charlength:
                         charlength = ssid.count(ssid)
                 print(f"{mag+bold}===========================[{yellow+bold}AVAILABLE NETWORKS{mag+bold}]==========================={end}")
-                for network in data.sort():
+                for network in data:
                     if len(network["_source"]["layers"]["wlan.ssid"][0]) > 0:
                         print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}{network["_source"]["layers"]["wlan.ssid"][0]} {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
                         pos += 1
