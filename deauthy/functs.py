@@ -178,6 +178,7 @@ class Functs:
                 status = ado_bssid_method(bssi, chan)
                 if status == "stop":
                     spinner.succeed(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
+                    stopped = True
                     return "stop"
 
             if Functs.BSSID_METHOD.deauth(_bssid=_bssid) == "stop":
