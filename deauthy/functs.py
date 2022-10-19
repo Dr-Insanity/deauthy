@@ -147,8 +147,12 @@ class Functs:
         def hopper(channel_number: int):
             """Hop to a different channel"""
             from deauthy.functs import get_var
-            if get_var("mon_method") == "airmon": check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
-            elif get_var("mon_method") == "iw": check_call(["iwconfig", get_var('interface'), "channel", channel_number])
+            if get_var("mon_method") == "airmon":
+                check_call(["airmon-ng", "start", f"{get_var('interface')}", f"{channel_number}"], stdout=DEVNULL, stderr=STDOUT)
+            elif get_var("mon_method") == "iw":
+                check_call(["iwconfig", get_var('interface'), "channel", channel_number])
+            Terminal.inform(f"Switched {Terminal.Light_blue}{get_var('interface')}{Terminal.Light_green+Terminal.Bold}'s channel to {Terminal.Cyan}{channel_number}", entire_color=f"{Terminal.Light_green+Terminal.Bold}")
+
     class BSSID_METHOD:
         def deauth(_bssid: BSSID, spinner):
             stopped = False
