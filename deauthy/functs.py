@@ -151,6 +151,7 @@ class Functs:
             elif get_var("mon_method") == "iw": check_call(["iwconfig", get_var('interface'), "channel", channel_number])
     class BSSID_METHOD:
         def deauth(_bssid: BSSID, spinner):
+            stopped = False
             from deauthy.functs import get_var
             from halo import Halo
             iface = get_var('interface')
@@ -172,6 +173,8 @@ class Functs:
                 Functs.BSSID_METHOD.deauth(_bssid=_bssid, spinner=spinner)
 
             for bssi, chan in _bssid.bssids.items():
+                if stopped:
+                    return
                 status = ado_bssid_method(bssi, chan)
                 if status == "stop":
                     spinner.succeed(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
