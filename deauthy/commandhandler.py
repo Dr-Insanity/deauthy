@@ -330,15 +330,15 @@ It won't be me.{end}""")
                     elif len(network["_source"]["layers"]["wlan.ssid"][0]) == 0:
                         print(f"""{mag}[{yellow}{bold}{pos}{end}{mag}] {light_blue}{bold}<Hidden Network> {white}{bold}| {end}{light_white}{network["_source"]["layers"]["wlan.addr"][1]}""")
                         pos += 1
-                print(f"{white+bold}Usage:{end}{light_white} Choose e.g. 1, 3, 5, 8, 16")
+                print(f"{white+bold}Usage:{end}{light_white} Choose e.g. 1 3 5 8 16 (No comma's, ONLY spaces)")
                 for file in os.listdir():
                     if file == "discovered_targets.json": os.remove(file)
                 def select_nets():
                     from deauthy.terminal import Terminal
                     selected_nets = input(f"{Terminal.deAuThY}{Terminal.Bold}[{Terminal.Light_blue}?{Terminal.White}]{Terminal.End}{Terminal.Light_white} " + f"{Terminal.Light_white}{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client{Terminal.Bold}>{Terminal.End} ")
                     print(selected_nets)
-                    print(selected_nets.split(", "))
-                    selected_netss = selected_nets.split(", ")
+                    print(selected_nets.split())
+                    selected_netss = selected_nets.split()
                     selected_bssids = {}
                     nets = f""
                     for selected_net in selected_netss.sort():
