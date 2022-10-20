@@ -316,7 +316,6 @@ It won't be me.{end}""")
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1], "channel":network["_source"]["layers"]["wlan.ds.current_channel"][0]}
                         cursor += 1
                     except KeyError as e:
-                        print(e.args)
                         bssids[str(cursor)] = {network["_source"]["layers"]["wlan.ssid"][0]: network["_source"]["layers"]["wlan.addr"][1]}
                         cursor += 1
                 charlength = 0
@@ -339,10 +338,10 @@ It won't be me.{end}""")
                     selected_nets = input(Terminal.deAuThY + f"{Terminal.Bold}[" + Terminal.Light_blue + "?" + Terminal.White + f"]{Terminal.End}{Terminal.Light_white} " + f"{Terminal.Light_white}{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client{Terminal.Bold}>{Terminal.End} ")
                     if selected_nets is None:
                         return
-                    selected_nets = selected_nets.split(", ")
+                    selected_netss = selected_nets.split(", ")
                     selected_bssids = {}
                     nets = f""
-                    for selected_net in selected_nets.sort():
+                    for selected_net in selected_netss.sort():
                         try:
                             if len(list(bssids[selected_net].keys())[0]) == 0:
                                 nets += f"""{light_blue+bold}<Hidden Network> {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
