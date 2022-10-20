@@ -180,6 +180,8 @@ class Functs:
                         spinner.succeed(f"{Terminal.Light_green+Terminal.Bold+Terminal.Underline}Attack stopped.")
                         stopped = True
                         return
+                    except CalledProcessError as e:
+                        print(e)
 
 
     class ESSID_METHOD:
