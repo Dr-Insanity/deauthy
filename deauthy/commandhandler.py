@@ -336,12 +336,9 @@ It won't be me.{end}""")
                 def select_nets():
                     from deauthy.terminal import Terminal
                     selected_nets = input(f"{Terminal.deAuThY}{Terminal.Bold}[{Terminal.Light_blue}?{Terminal.White}]{Terminal.End}{Terminal.Light_white} " + f"{Terminal.Light_white}{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client{Terminal.Bold}>{Terminal.End} ")
-                    print(selected_nets)
-                    print(selected_nets.split())
-                    selected_netss = selected_nets.split()
                     selected_bssids = {}
                     nets = f""
-                    for selected_net in selected_netss:
+                    for selected_net in selected_nets.split():
                         try:
                             if len(list(bssids[selected_net].keys())[0]) == 0:
                                 nets += f"""{light_blue+bold}<Hidden Network> {white+bold}({end+light_white+list(bssids[selected_net].values())[0]}{white+bold}){end}\n"""
