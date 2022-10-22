@@ -275,8 +275,7 @@ It won't be me.{end}""")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
-            answ = Terminal.prompt(question=f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?", allowed_replies=["any"])
-            if answ is None: return
+            answ = input(f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?")
             Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_green+bold}lay back")
             Terminal.inform(f"{yellow+bold}2{white+bold}.) {light_blue+bold}take a breather")
             Terminal.inform(f"{yellow+bold}3{white+bold}.) {red+bold}take some coffee")
