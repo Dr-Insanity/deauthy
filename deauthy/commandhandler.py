@@ -275,7 +275,7 @@ It won't be me.{end}""")
                 Terminal.inform(f"{red}{bold}Tell me what interface I should be using with the '!interface' command")
                 return
             print(f"{cyan}{bold}INTERFACE{white}: {end}{iface}")
-            answ = input(f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?")
+            answ = input(f"{white}We're going to do discovery for targets {underline}that can be seen within your interface's range{end}. {light_green}{bold}OK{end}{white}?\n{Terminal.End}Press Enter to continue...")
             Terminal.inform(f"{yellow+bold}1{white+bold}.) {light_green+bold}lay back")
             Terminal.inform(f"{yellow+bold}2{white+bold}.) {light_blue+bold}take a breather")
             Terminal.inform(f"{yellow+bold}3{white+bold}.) {red+bold}take some coffee")
@@ -334,7 +334,7 @@ It won't be me.{end}""")
                     if file == "discovered_targets.json": os.remove(file)
                 def select_nets():
                     from deauthy.terminal import Terminal
-                    selected_nets = input(f"{Terminal.deAuThY}{Terminal.Bold}[{Terminal.Light_blue}?{Terminal.White}]{Terminal.End}{Terminal.Light_white} " + f"{Terminal.Light_white}{cyan+bold+underline}Select access points to blacklist for {red}1 {cyan}client{Terminal.Bold}>{Terminal.End} ")
+                    selected_nets = input("Select access points to blacklist for 1 client> ")
                     selected_bssids = {}
                     nets = f""
                     for selected_net in selected_nets.split():
